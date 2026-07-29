@@ -1,7 +1,7 @@
 # 续接说明 ·「老田的 AI 实战笔记」静态知识库
 
 > 用途：上下文已满、重新开会话时使用。本文件自包含，新会话直接读它即可无缝接续。
-> 更新时间：2026-07-29 19:40
+> 更新时间：2026-07-29 21:41
 
 ---
 
@@ -29,10 +29,14 @@
    - 技能卡片网格，带「热门」标签与分类标签；
    - 点击卡片弹出详情面板，含：技能概述、部署方法、使用步骤、示例指令、应用场景；
    - 支持 URL hash 直接访问：`skills.html#skill-<id>`。
+8. **部署到公网（GitHub Pages）准备就绪**：
+   - 站点代码已推送至 `github.com/winston9868/shizhan-biji`（public 仓库），全部 9 页 + wechat-qr.png 入库；
+   - 本机已生成 ed25519 SSH 密钥，remote 改为 SSH 方式，公钥已加入 GitHub，**`git push` 免密通道已验证可用**；
+   - GitHub Pages 待老田在仓库 Settings → Pages 开启（Source 选 `main` 分支 /(root)），约 1-2 分钟出公网链接。
 
 ### ⏳ 待办（老田可选方向）
 - A. 把**示例占位内容**替换成老田真实实战内容（企微手册目前是 3 个"建设中"占位章，未瞎编）。
-- B. 部署到公网（CloudStudio 出可访问链接，或按 README 走 GitHub Pages）。
+- B. **开启 GitHub Pages**：进仓库 Settings → Pages → Source 选 `main` /(root) → Save，等待 1-2 分钟，链接即 `https://winston9868.github.io/shizhan-biji/`。
 - C. 微调（如某个栏目色太跳、培训方案案例的归属、Hero 标语）。
 
 ---
@@ -108,3 +112,33 @@
 - 导航「笔记」跳转首页 `#notebooks`；首页「笔记类别」6 张卡顺序为 WB 在前、企微在后
 - Skills 页分类筛选、卡片网格、详情弹窗、URL hash 访问均正常
 - 旧青蓝配色零残留
+
+---
+
+## 八、部署与持续更新（GitHub Pages + SSH 免密）
+
+### 公网链接（Pages 开启后）
+- 首页：`https://winston9868.github.io/shizhan-biji/`
+- 各页：`https://winston9868.github.io/shizhan-biji/manual-wecom.html` 等
+
+### SSH 免密 push 配置（已就绪）
+- 本机密钥：`~/.ssh/id_ed25519`（私钥，空密码）+ `id_ed25519.pub`（公钥已加入 GitHub）
+- remote：`git@github.com:winston9868/shizhan-biji.git`（SSH 方式）
+- 验证：`ssh -T git@github.com` 返回 `Hi winston9868! You've successfully authenticated` 即通
+
+### 以后更新站点的标准流程
+1. 只改 `build_site.py`
+2. 运行生成脚本（见第四节第 1 条）
+3. 提交并推送：
+   ```
+   git add -A
+   git commit -m "更新：xxx"
+   git push        # 走 SSH，免密
+   ```
+4. GitHub Pages 自动重新构建（通常 1 分钟内生效）
+
+### 开启 Pages（一次性，需老田网页操作）
+仓库 → Settings → Pages → Build and deployment → Source 选 **Deploy from a branch** → Branch 选 **main** / **/(root)** → Save。
+
+### 备选：CloudStudio 一键部署
+若不想走 GitHub，可改走 CloudStudio 部署（个人免费额度），生成公网链接 `https://xxx.cloudstudio.dev/`，无需 GitHub 凭据。
