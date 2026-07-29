@@ -815,7 +815,7 @@ def doc_sidebar(active_name):
     for name, chs, color, href in parts:
         is_active = (name == active_name)
         chapters = "".join(
-            '<a class="sidebar-chapter" href="' + href + '#' + c[0] + '">' + c[1] + ' ' + c[2] + '</a>'
+            '<a class="sidebar-chapter" href="' + href + '#' + c[0] + '">' + c[2] + '</a>'
             for c in chs)
         out += ('<div class="sidebar-part ' + ('expanded active' if is_active else '') + '">'
                 '<div class="sidebar-part-header" onclick="toggleSidebarPart(this)">'
@@ -835,7 +835,7 @@ def doc_sidebar(active_name):
 def doc_toc(chs):
     items = ""
     for c in chs:
-        items += '<a class="toc-heading" href="#' + c[0] + '">' + c[1] + ' ' + c[2] + '</a>'
+        items += '<a class="toc-heading" href="#' + c[0] + '">' + c[2] + '</a>'
     return ('<aside class="toc"><div class="toc-title">本页目录</div>' + items +
             '<div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill" id="tocFill"></div></div>'
             '<div class="toc-progress-label">阅读进度</div>'
@@ -847,7 +847,7 @@ def reading_page(title, sub, chs):
     for c in chs:
         body += ('<section class="chapter" id="' + c[0] + '">'
                  '<div class="chapter-header"><span class="chapter-badge">' + c[3] + '</span>'
-                 '<span class="chapter-title">' + c[1] + ' ' + c[2] + '</span></div>'
+                 '<span class="chapter-title">' + c[2] + '</span></div>'
                  '<div class="chapter-body">' + c[4] + '</div></section>')
     body += '</div>'
     return body
