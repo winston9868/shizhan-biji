@@ -158,20 +158,30 @@ img{max-width:100%;height:auto}
 .chapter-body ul,.chapter-body ol{margin:12px 0;padding-left:22px;color:var(--text-secondary)}
 .chapter-body li{margin:6px 0}
 .chapter-body strong{color:var(--text-primary)}
-.chapter-body code{font-family:var(--font-mono);font-size:13px;background:var(--bg-soft);
+.chapter-body :not(pre) > code{font-family:var(--font-mono);font-size:13px;background:var(--bg-soft);
   padding:2px 6px;border-radius:5px;color:#047857}
 .callout{margin:16px 0;padding:14px 16px;border-radius:var(--radius-md);font-size:13.5px;line-height:1.8;
   border-left:4px solid var(--c-teal);background:rgba(16,185,129,.07)}
 .callout.warn{border-left-color:var(--c-coral);background:rgba(245,158,11,.08)}
 .callout.info{border-left-color:var(--c-blue);background:rgba(6,182,212,.08)}
 .callout .ttl{font-weight:600;display:block;margin-bottom:4px}
-pre{margin:16px 0;background:#1E293B;color:#E2E8F0;border-radius:var(--radius-md);padding:16px 18px;
+pre{margin:16px 0;background:#1E293B;color:#E2E8F0;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px;
   overflow-x:auto;font-size:13px;line-height:1.7}
 pre code{font-family:var(--font-mono);color:inherit;background:none;padding:0}
 table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px}
 th,td{border:1px solid var(--border);padding:10px 12px;text-align:left}
 th{background:var(--bg-soft);font-weight:600;color:var(--text-primary)}
 td{color:var(--text-secondary)}
+.chapter-body h2{font-size:18px;font-weight:700;margin:26px 0 12px;padding-bottom:8px;
+  border-bottom:1px solid var(--border);color:var(--text-primary)}
+.chapter-body img{max-width:100%;height:auto;display:block;margin:16px auto;
+  border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg-soft)}
+.chapter-body figure{margin:16px 0;padding:12px 14px;border:1px solid var(--border);
+  border-radius:var(--radius-md);background:var(--bg-soft)}
+.chapter-body figure pre{margin:0}
+.img-missing{margin:16px auto;padding:18px;text-align:center;font-size:13px;color:var(--text-tertiary);
+  border:1px dashed var(--border);border-radius:var(--radius-md);background:var(--bg-soft)}
+
 
 /* ===== TOC (right) ===== */
 .toc{position:sticky;top:calc(var(--topbar-h) + 24px);align-self:start;font-size:13px}

@@ -10,7 +10,7 @@
 
 运行：python build_site.py  -> 在当前目录生成 8 个 html + README.md
 """
-import os
+import os, json
 
 # ============================ 站点配置 ============================
 SITE_TITLE = "老田的 AI 实战笔记"
@@ -204,20 +204,30 @@ img{max-width:100%;height:auto}
 .chapter-body ul,.chapter-body ol{margin:12px 0;padding-left:22px;color:var(--text-secondary)}
 .chapter-body li{margin:6px 0}
 .chapter-body strong{color:var(--text-primary)}
-.chapter-body code{font-family:var(--font-mono);font-size:13px;background:var(--bg-soft);
+.chapter-body :not(pre) > code{font-family:var(--font-mono);font-size:13px;background:var(--bg-soft);
   padding:2px 6px;border-radius:5px;color:#047857}
 .callout{margin:16px 0;padding:14px 16px;border-radius:var(--radius-md);font-size:13.5px;line-height:1.8;
   border-left:4px solid var(--c-teal);background:rgba(16,185,129,.07)}
 .callout.warn{border-left-color:var(--c-coral);background:rgba(245,158,11,.08)}
 .callout.info{border-left-color:var(--c-blue);background:rgba(6,182,212,.08)}
 .callout .ttl{font-weight:600;display:block;margin-bottom:4px}
-pre{margin:16px 0;background:#1E293B;color:#E2E8F0;border-radius:var(--radius-md);padding:16px 18px;
+pre{margin:16px 0;background:#1E293B;color:#E2E8F0;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px;
   overflow-x:auto;font-size:13px;line-height:1.7}
 pre code{font-family:var(--font-mono);color:inherit;background:none;padding:0}
 table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px}
 th,td{border:1px solid var(--border);padding:10px 12px;text-align:left}
 th{background:var(--bg-soft);font-weight:600;color:var(--text-primary)}
 td{color:var(--text-secondary)}
+.chapter-body h2{font-size:18px;font-weight:700;margin:26px 0 12px;padding-bottom:8px;
+  border-bottom:1px solid var(--border);color:var(--text-primary)}
+.chapter-body img{max-width:100%;height:auto;display:block;margin:16px auto;
+  border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg-soft)}
+.chapter-body figure{margin:16px 0;padding:12px 14px;border:1px solid var(--border);
+  border-radius:var(--radius-md);background:var(--bg-soft)}
+.chapter-body figure pre{margin:0}
+.img-missing{margin:16px auto;padding:18px;text-align:center;font-size:13px;color:var(--text-tertiary);
+  border:1px dashed var(--border);border-radius:var(--radius-md);background:var(--bg-soft)}
+
 
 /* ===== TOC (right) ===== */
 .toc{position:sticky;top:calc(var(--topbar-h) + 24px);align-self:start;font-size:13px}
@@ -495,34 +505,12 @@ def ch_body(intro, blocks):
         elif t == 'table': out += c
     return out
 
-# ---------- WorkBuddy 使用手册（原 MANUAL 全量） ----------
-MANUAL_WB = [
- ("chapter-1","01","WorkBuddy 是什么", "WB手册",
-  ch_body("WorkBuddy 是腾讯推出的全场景职场 AI 智能体工作台。它不是一个单纯聊天机器人，而是能读文件、跑命令、连连接器、调 Skill、建自动化的「数字员工」。",
-   [('h3','核心定位'),
-    ('ul',['理解任务并拆解执行，而非只回答','内置文件系统与命令行，能直接操作你的资料','通过 Skill 与连接器扩展能力边界','支持自动化任务，把重复活交给它定时跑']),
-    ('callout-info','本笔记定位：把老田在企业微信 / WorkBuddy 落地服务中的实战经验沉淀成可复用的手册、案例与 Skill。')])),
- ("chapter-2","02","下载、安装与登录", "WB手册",
-  ch_body("从官方地址下载客户端，按系统安装并登录。这里以 Windows 为例。",
-   [('h3','步骤'),
-    ('ul',['访问官方地址下载安装包','双击安装，按向导完成','用企业微信 / 微信扫码登录','首次使用建议在「演练目录」先试手']),
-    ('callout-warn','公司电脑若禁止安装软件，请联系 IT 走白名单；不要绕开安全策略。')])),
- ("chapter-3","03","任务、工作区与连接器", "WB手册",
-  ch_body("WorkBuddy 以「文件夹即工作区」的方式授权，处理真实业务数据前要明确授权范围。",
-   [('h3','三个关键概念'),
-    ('ul',['任务：一次完整的工作请求','工作区：被授权读写的文件夹','连接器：打通外部系统（企业微信、腾讯文档等）的桥']),
-    ('callout','WorkBuddy 采用文件夹级授权与高危拦截，首次操作请先在演练目录进行、留意授权范围。')])),
- ("chapter-4","04","加载你的第一个 Skill", "WB手册",
-  ch_body("Skill 是一组可复用的说明、脚本与参考资料，告诉 Agent 怎么把某类活干好。",
-   [('h3','怎么用'),
-    ('ul',['在技能市场搜索需要的 Skill','一键加载到当前任务','复杂任务优先交给专用 Skill']),
-    ('code','/skill 加载 tianwei-word-formatter')])),
- ("chapter-5","05","自动化任务入门", "WB手册",
-  ch_body("真正消耗人的，往往是每天都要打开同样的页面、收集相似信息、整理成同一种格式再发出去。自动化就是把这些活固化下来。",
-   [('h3','适合自动化的信号'),
-    ('ul',['频率固定（每天 / 每周 / 每月）','步骤可描述、产出有稳定格式','不需要人做主观判断']),
-    ('callout-info','示例：老田的「每日资讯简报」已配置为每天 9:00 自动推送长沙天气、AI 动态与重点新闻。')])),
-]
+# ---------- WorkBuddy 使用手册（复刻自「小饭的 AI 实战笔记」使用手册，共 11 章） ----------
+def _load_manual_wb():
+    _p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "wb_manual.json")
+    with open(_p, encoding="utf-8") as _f:
+        return json.load(_f)["chapters"]
+MANUAL_WB = _load_manual_wb()
 
 # ---------- 企业微信使用手册（占位，待补充） ----------
 MANUAL_WECOM = [
@@ -621,9 +609,17 @@ INDUSTRY = [
 HOME_ARTICLES = [
  ("企业微信","01","客户跟进纪要整理","聊天记录转结构化纪要","cases-wecom.html#chapter-12",C_WECOM,"企微案例"),
  ("企业微信","02","企业微信消息汇总","多群信息聚合每日摘要","cases-wecom.html#chapter-14",C_WECOM,"企微案例"),
- ("WorkBuddy","01","WorkBuddy 是什么","全场景 AI 智能体工作台","manual-wb.html#chapter-1",C_WB,"WB手册"),
- ("WorkBuddy","02","下载、安装与登录","官方下载到扫码登录","manual-wb.html#chapter-2",C_WB,"WB手册"),
- ("WorkBuddy","04","加载你的第一个 Skill","用 /skill 加载专用能力","manual-wb.html#chapter-4",C_WB,"WB手册"),
+ ("WorkBuddy","01","初识 WorkBuddy","从回答到交付的 AI 工作台","manual-wb.html#chapter-1",C_WB,"WB手册"),
+ ("WorkBuddy","02","下载、安装、登录与更新","多端安装与常见问题","manual-wb.html#chapter-2",C_WB,"WB手册"),
+ ("WorkBuddy","03","主界面、任务与工作区","三区域/三模式/模型选择","manual-wb.html#chapter-3",C_WB,"WB手册"),
+ ("WorkBuddy","04","快速完成第一个任务","任务说明怎么写","manual-wb.html#chapter-4",C_WB,"WB手册"),
+ ("WorkBuddy","05","加载一个真正用得上的 Skill","Skill 原理与使用","manual-wb.html#chapter-5",C_WB,"WB手册"),
+ ("WorkBuddy","06","专家和专家团","召唤/创建专家与专家团","manual-wb.html#chapter-6",C_WB,"WB手册"),
+ ("WorkBuddy","07","使用连接器","MCP 与连接器加载","manual-wb.html#chapter-7",C_WB,"WB手册"),
+ ("WorkBuddy","08","接入小程序与 IM 助理","微信/飞书/钉钉接入","manual-wb.html#chapter-8",C_WB,"WB手册"),
+ ("WorkBuddy","09","如何接入外部 API","开放能力扩展","manual-wb.html#chapter-9",C_WB,"WB手册"),
+ ("WorkBuddy","10","自动化任务","从想法到定时任务","manual-wb.html#chapter-10",C_WB,"WB手册"),
+ ("WorkBuddy","11","办公三件套：Word、Excel、PPT","三件套联动实战","manual-wb.html#chapter-11",C_WB,"WB手册"),
  ("WorkBuddy","01","月度工作汇报自动生成","日报聚合月报并自动推送","cases-wb.html#chapter-11",C_WB,"WB案例"),
  ("WorkBuddy","05","销售数据透视分析","明细表出透视与趋势","cases-wb.html#chapter-15",C_WB,"WB案例"),
  ("WorkBuddy","03","培训方案一键成文","公文标准排版出 Word","cases-wb.html#chapter-13",C_WB,"WB案例"),
@@ -884,7 +880,7 @@ def build_index():
             '<span class="hero-tag purple">Skill 沉淀</span></div></section>')
     # 板块卡片（笔记类别）：WB 在前，企微在后
     cards = [
-        ("📘","WB手册","从 0 到 1，把 WorkBuddy 用起来","5 篇：定位/安装/工作区/Skill/自动化","manual-wb.html",C_WB),
+        ("📘","WB手册","从 0 到 1，把 WorkBuddy 用起来","11 章：初识/安装/界面/Skill/专家/连接器/小程序/API/自动化/办公三件套","manual-wb.html",C_WB),
         ("📂","WB案例","真实任务的完整复现","月报/透视/培训方案","cases-wb.html",C_WB),
         ("🚀","进阶篇","从案例到系统，构建你的工作流","4 篇：Skill/多Agent/可靠性/双备份","advanced.html",C_WB),
         ("🎯","岗位与行业落地","按岗位 / 行业视角组织实战内容","销售/外贸/零售/制造 · 建设中","industry.html",C_INDUSTRY),
