@@ -1139,8 +1139,8 @@ def build_doc(active_name, title, sub, chs, fname, pcolor):
 
 # ============================ WB 手册：单页单章切换阅读器 ============================
 # 体验：打开 manual-wb.html 直接是第 1 章，一页只显示一章；
-# 右下角悬浮按钮带章节名，点「下一章：XXX →」或滚到底点底部按钮手动切换；
-# 左侧边栏点击章节不刷新页面直接切换；URL 保持 #chapter-N 可单章分享。
+# 底部「下一章」按钮手动切换；左侧边栏点击章节不刷新页面直接切换；
+# URL 保持 #chapter-N 可单章分享。
 READER_CSS = """
 .reading-header{display:flex;flex-direction:column;gap:10px;margin:0 0 26px}
 .reading-header h1{font-size:24px;margin:0;color:var(--text-primary);font-weight:700}
@@ -1154,14 +1154,8 @@ READER_CSS = """
 .chapter-end-action{padding:14px 32px;border-radius:10px;background:var(--accent);color:#fff;font-weight:700;font-size:15px;text-decoration:none;transition:.15s;box-shadow:0 4px 14px var(--accent-soft)}
 .chapter-end-action:hover{opacity:.92;transform:translateY(-1px)}
 .chapter-end-finish{color:var(--text-tertiary);font-size:15px}
-.float-nav{position:fixed;right:24px;bottom:24px;display:flex;gap:10px;z-index:90;background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
-.float-nav button{padding:11px 18px;border:1px solid var(--border);border-radius:8px;background:#fff;color:var(--text-primary);font-size:13px;font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap}
-.float-nav button:hover:not(:disabled){background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
-.float-nav button:disabled{color:var(--text-tertiary);background:#f8fafc;cursor:not-allowed;border-color:var(--border)}
 .sidebar-chapter.active{color:var(--accent);font-weight:700;background:var(--accent-soft);border-radius:6px}
 @media (max-width:900px){
-  .float-nav{right:12px;bottom:12px;flex-direction:column;gap:8px}
-  .float-nav button{padding:10px 14px;font-size:12px}
   .progress-bar{max-width:200px}
 }
 """
@@ -1180,8 +1174,6 @@ READER_JS = """
   var titleEl = document.getElementById('chapter-title');
   var progressText = document.getElementById('progress-text');
   var progressFill = document.getElementById('progress-fill');
-  var prevBtn = document.getElementById('float-prev');
-  var nextBtn = document.getElementById('float-next');
   var endNext = document.getElementById('chapter-end-next');
   var endFinish = document.getElementById('chapter-end-finish');
 
@@ -1212,22 +1204,6 @@ READER_JS = """
       endFinish.style.display = 'block';
     }
 
-    // 右下角悬浮按钮：带章节名
-    if (idx > 0){
-      prevBtn.disabled = false;
-      prevBtn.textContent = '← ' + chapters[idx - 1].title;
-    } else {
-      prevBtn.disabled = true;
-      prevBtn.textContent = '← 上一章';
-    }
-    if (idx < total - 1){
-      nextBtn.disabled = false;
-      nextBtn.textContent = '下一章：' + chapters[idx + 1].title + ' →';
-    } else {
-      nextBtn.disabled = true;
-      nextBtn.textContent = '下一章';
-    }
-
     // 侧边栏高亮
     document.querySelectorAll('.sidebar-chapter').forEach(function(a, i){
       if (i === idx) a.classList.add('active');
@@ -1245,9 +1221,6 @@ READER_JS = """
 
   function go(idx){ render(idx, true); }
 
-  prevBtn.addEventListener('click', function(){ var idx = getIdxFromHash(); if (idx > 0) go(idx - 1); });
-  nextBtn.addEventListener('click', function(){ var idx = getIdxFromHash(); if (idx < total - 1) go(idx + 1); });
-
   // 侧边栏 hash 链接点击切换（不刷新页面）
   document.querySelectorAll('.sidebar-chapter').forEach(function(a){
     a.addEventListener('click', function(e){
@@ -1259,7 +1232,7 @@ READER_JS = """
     });
   });
 
-  // 注意：已去掉「滚动到底自动切换」，改为底部按钮 / 右下角按钮手动点（避免误触）
+  // 注意：已去掉「滚动到底自动切换」与右下角浮窗，改为底部「下一章」按钮手动点（避免误触）
 
   window.addEventListener('popstate', function(e){
     render(getIdxFromHash(), false);
@@ -1282,11 +1255,7 @@ def build_manual_reader():
             '<div class="chapter-end">'
             '<a class="chapter-end-action" id="chapter-end-next" href="javascript:;">下一章 →</a>'
             '<p class="chapter-end-finish" id="chapter-end-finish" style="display:none">🎉 已读完最后一章</p>'
-            '<p>滚到底部或点击右下角按钮，手动切换到下一章</p></div>'
-            '<nav class="float-nav" aria-label="章节切换">'
-            '<button id="float-prev" type="button">← 上一章</button>'
-            '<button id="float-next" type="button">下一章 →</button>'
-            '</nav></div>')
+            '<p>读完本章，点击下方按钮手动切换到下一章</p></div></div>')
     html = ('<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1">'
             '<meta name="description" content="' + SITE_DESC + '">'
