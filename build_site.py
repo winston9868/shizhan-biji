@@ -58,7 +58,7 @@ CSS = """
   --shadow-md:0 4px 16px rgba(0,0,0,.05),0 2px 8px rgba(0,0,0,.03);
   --shadow-lg:0 12px 40px rgba(16,185,129,.08),0 4px 16px rgba(0,0,0,.04);
   --shadow-hover:0 8px 28px rgba(16,185,129,.12),0 4px 12px rgba(0,0,0,.05);
-  --sidebar-w:240px; --toc-w:210px; --reading-w:760px; --topbar-h:56px;
+  --sidebar-w:240px; --reading-w:760px; --topbar-h:56px;
   --font-serif:Georgia,'Noto Serif SC','Songti SC',serif;
   --font-sans:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;
   --font-mono:'JetBrains Mono','Fira Code',Consolas,monospace;
@@ -167,7 +167,7 @@ img{max-width:100%;height:auto}
 
 /* ===== Doc layout (manual/cases/advanced) ===== */
 .layout{max-width:1280px;margin:0 auto;padding:calc(var(--topbar-h) + 28px) 24px 80px;
-  display:grid;grid-template-columns:var(--sidebar-w) minmax(0,1fr) var(--toc-w);gap:34px}
+  display:grid;grid-template-columns:var(--sidebar-w) minmax(0,1fr);gap:34px}
 .sidebar{position:sticky;top:calc(var(--topbar-h) + 24px);align-self:start;max-height:calc(100vh - var(--topbar-h) - 48px);overflow-y:auto}
 .sidebar-header{font-size:12px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;
   letter-spacing:1px;margin-bottom:12px;padding-left:6px}
@@ -229,21 +229,7 @@ td{color:var(--text-secondary)}
   border:1px dashed var(--border);border-radius:var(--radius-md);background:var(--bg-soft)}
 
 
-/* ===== TOC (right) ===== */
-.toc{position:sticky;top:calc(var(--topbar-h) + 24px);align-self:start;font-size:13px}
-.toc-title{font-size:12px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;
-  letter-spacing:1px;margin-bottom:12px}
-.toc-heading{display:block;padding:5px 0 5px 12px;border-left:2px solid var(--border);
-  color:var(--text-secondary);transition:all .18s;cursor:pointer}
-.toc-heading:hover{color:var(--text-primary)}
-.toc-heading.active{color:var(--accent);border-left-color:var(--accent);font-weight:500}
-.toc-heading.level-3{padding-left:26px;font-size:12.5px;color:var(--text-tertiary)}
-.toc-progress{margin-top:22px;padding-top:16px;border-top:1px solid var(--border)}
-.toc-progress-bar{height:5px;background:var(--bg-soft);border-radius:4px;overflow:hidden}
-.toc-progress-fill{height:100%;width:0;background:var(--accent-grad);transition:width .15s}
-.toc-progress-label{font-size:11px;color:var(--text-tertiary);margin-top:6px}
-.toc-back-top{margin-top:16px;font-size:12px;color:var(--text-tertiary);cursor:pointer;display:inline-block}
-.toc-back-top:hover{color:var(--accent)}
+
 
 /* ===== Skills page ===== */
 .skill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
@@ -357,7 +343,7 @@ td{color:var(--text-secondary)}
 
 /* ===== Responsive ===== */
 @media(max-width:1100px){.layout{grid-template-columns:var(--sidebar-w) minmax(0,1fr)}
-  .toc{display:none}}
+  }
 @media(max-width:768px){.topbar-nav{display:none}.menu-btn{display:block}
   .layout{grid-template-columns:1fr;padding-left:16px;padding-right:16px}
   .sidebar{position:static;max-height:none;display:none}
@@ -381,33 +367,7 @@ window.addEventListener('scroll',function(){
   var bt=document.getElementById('backTop');
   if(bt) bt.classList.toggle('show', window.scrollY>400);
 });
-// 阅读进度 + TOC 高亮（仅文档页）
-(function(){
-  var fill=document.getElementById('tocFill');
-  var sec=document.querySelector('.reading-section');
-  var headings=Array.prototype.slice.call(document.querySelectorAll('.toc-heading'));
-  var chapters=Array.prototype.slice.call(document.querySelectorAll('.chapter'));
-  if(!sec) return;
-  function onScroll(){
-    var h=sec.scrollHeight-window.innerHeight;
-    var p=h>0?Math.min(100,Math.max(0,window.scrollY/h*100)):0;
-    if(fill) fill.style.width=p+'%';
-  }
-  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
-  if('IntersectionObserver' in window && chapters.length){
-    var obs=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          var id=e.target.id;
-          headings.forEach(function(h){h.classList.toggle('active',h.getAttribute('href')==='#'+id);});
-          document.querySelectorAll('.sidebar-chapter').forEach(function(c){
-            c.classList.toggle('active',c.getAttribute('href')==='#'+id);});
-        }
-      });
-    },{rootMargin:'-20% 0px -70% 0px'});
-    chapters.forEach(function(c){if(c.id) obs.observe(c);});
-  }
-})();
+
 function toggleMenu(){
   var sb=document.getElementById('sidebar');
   if(sb) sb.classList.toggle('open');
@@ -1141,13 +1101,7 @@ def doc_sidebar(active_name):
             '<a class="sidebar-back" href="index.html">← 返回首页</a>' + out + others + '</aside>')
 
 def doc_toc(chs):
-    items = ""
-    for c in chs:
-        items += '<a class="toc-heading" href="#' + c[0] + '">' + c[2] + '</a>'
-    return ('<aside class="toc"><div class="toc-title">本页目录</div>' + items +
-            '<div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill" id="tocFill"></div></div>'
-            '<div class="toc-progress-label">阅读进度</div>'
-            '<span class="toc-back-top" onclick="goTop()">↑ 回到顶部</span></div></aside>')
+    return '' 
 
 def reading_page(title, sub, chs):
     body = '<div class="reading-page"><div class="page-title">' + title + '</div>' \
