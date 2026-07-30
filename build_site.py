@@ -127,6 +127,7 @@ img{max-width:100%;height:auto}
 
 /* ===== Cards grid (home sections) ===== */
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+@media(min-width:1100px){.cards{grid-template-columns:repeat(4,1fr)}}
 .card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);
   padding:24px;box-shadow:var(--shadow-sm);transition:all .25s;position:relative;overflow:hidden}
 .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);
