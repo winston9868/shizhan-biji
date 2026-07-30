@@ -1137,6 +1137,170 @@ def build_doc(active_name, title, sub, chs, fname, pcolor):
         f.write(html)
     print("生成:", fname)
 
+# ============================ WB 手册：单页单章切换阅读器 ============================
+# 体验：打开 manual-wb.html 直接是第 1 章，一页只显示一章；
+# 右下角悬浮按钮带章节名，点「下一章：XXX →」或滚到底点底部按钮手动切换；
+# 左侧边栏点击章节不刷新页面直接切换；URL 保持 #chapter-N 可单章分享。
+READER_CSS = """
+.reading-header{display:flex;flex-direction:column;gap:10px;margin:0 0 26px}
+.reading-header h1{font-size:24px;margin:0;color:var(--text-primary);font-weight:700}
+.reading-progress{display:flex;align-items:center;gap:14px;font-size:14px;color:var(--text-tertiary);font-weight:600}
+.progress-bar{flex:1;height:10px;background:var(--border);border-radius:6px;overflow:hidden;max-width:420px}
+.progress-fill{height:100%;background:var(--accent);border-radius:6px;transition:width .3s ease}
+.chapter-content{min-height:60vh}
+.chapter-content .chapter-header{margin-bottom:18px}
+.chapter-end{min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;margin:48px 0 0;padding:44px 0;border-top:1px dashed var(--border);text-align:center}
+.chapter-end p{color:var(--text-tertiary);margin:0;font-size:14px}
+.chapter-end-action{padding:14px 32px;border-radius:10px;background:var(--accent);color:#fff;font-weight:700;font-size:15px;text-decoration:none;transition:.15s;box-shadow:0 4px 14px var(--accent-soft)}
+.chapter-end-action:hover{opacity:.92;transform:translateY(-1px)}
+.chapter-end-finish{color:var(--text-tertiary);font-size:15px}
+.float-nav{position:fixed;right:24px;bottom:24px;display:flex;gap:10px;z-index:90;background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px;box-shadow:0 10px 30px rgba(0,0,0,.12)}
+.float-nav button{padding:11px 18px;border:1px solid var(--border);border-radius:8px;background:#fff;color:var(--text-primary);font-size:13px;font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap}
+.float-nav button:hover:not(:disabled){background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.float-nav button:disabled{color:var(--text-tertiary);background:#f8fafc;cursor:not-allowed;border-color:var(--border)}
+.sidebar-chapter.active{color:var(--accent);font-weight:700;background:var(--accent-soft);border-radius:6px}
+@media (max-width:900px){
+  .float-nav{right:12px;bottom:12px;flex-direction:column;gap:8px}
+  .float-nav button{padding:10px 14px;font-size:12px}
+  .progress-bar{max-width:200px}
+}
+"""
+
+CHAPTERS_JS = json.dumps([
+    {"id": c[0], "num": c[1], "title": c[2], "cat": c[3], "html": c[4]}
+    for c in MANUAL_WB
+], ensure_ascii=False, separators=(',', ':'))
+
+READER_JS = """
+(function(){
+  var chapters = __CHAPTERS__;
+  var total = chapters.length;
+  var contentEl = document.getElementById('chapter-content');
+  if (!contentEl) return;            // 仅 manual-wb.html 执行，其他页面忽略
+  var titleEl = document.getElementById('chapter-title');
+  var progressText = document.getElementById('progress-text');
+  var progressFill = document.getElementById('progress-fill');
+  var prevBtn = document.getElementById('float-prev');
+  var nextBtn = document.getElementById('float-next');
+  var endNext = document.getElementById('chapter-end-next');
+  var endFinish = document.getElementById('chapter-end-finish');
+
+  function getIdxFromHash(){
+    var m = location.hash.match(/chapter-(\\d+)/);
+    var idx = m ? parseInt(m[1], 10) - 1 : 0;
+    return Math.max(0, Math.min(total - 1, idx));
+  }
+
+  function render(idx, pushState){
+    var ch = chapters[idx];
+    titleEl.textContent = ch.title;
+    progressText.textContent = '第 ' + (idx + 1) + ' / ' + total + ' 章';
+    progressFill.style.width = ((idx + 1) / total * 100) + '%';
+    contentEl.innerHTML = '<section class="chapter" id="' + ch.id + '">' +
+      '<div class="chapter-header"><span class="chapter-badge">' + ch.cat + '</span>' +
+      '<span class="chapter-title">' + ch.title + '</span></div>' +
+      '<div class="chapter-body">' + ch.html + '</div></section>';
+
+    // 章节底部「下一章」按钮（手动点）
+    if (idx < total - 1){
+      endNext.style.display = 'inline-flex';
+      endNext.textContent = '下一章：' + chapters[idx + 1].title + ' →';
+      endNext.onclick = function(){ go(idx + 1); };
+      endFinish.style.display = 'none';
+    } else {
+      endNext.style.display = 'none';
+      endFinish.style.display = 'block';
+    }
+
+    // 右下角悬浮按钮：带章节名
+    if (idx > 0){
+      prevBtn.disabled = false;
+      prevBtn.textContent = '← ' + chapters[idx - 1].title;
+    } else {
+      prevBtn.disabled = true;
+      prevBtn.textContent = '← 上一章';
+    }
+    if (idx < total - 1){
+      nextBtn.disabled = false;
+      nextBtn.textContent = '下一章：' + chapters[idx + 1].title + ' →';
+    } else {
+      nextBtn.disabled = true;
+      nextBtn.textContent = '下一章';
+    }
+
+    // 侧边栏高亮
+    document.querySelectorAll('.sidebar-chapter').forEach(function(a, i){
+      if (i === idx) a.classList.add('active');
+      else a.classList.remove('active');
+    });
+
+    if (pushState !== false){
+      var newHash = '#chapter-' + (idx + 1);
+      if (location.hash !== newHash){
+        history.pushState({idx: idx}, '', newHash);
+      }
+    }
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  function go(idx){ render(idx, true); }
+
+  prevBtn.addEventListener('click', function(){ var idx = getIdxFromHash(); if (idx > 0) go(idx - 1); });
+  nextBtn.addEventListener('click', function(){ var idx = getIdxFromHash(); if (idx < total - 1) go(idx + 1); });
+
+  // 侧边栏 hash 链接点击切换（不刷新页面）
+  document.querySelectorAll('.sidebar-chapter').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var m = a.getAttribute('href').match(/chapter-(\\d+)/);
+      if (m){
+        e.preventDefault();
+        go(parseInt(m[1], 10) - 1);
+      }
+    });
+  });
+
+  // 注意：已去掉「滚动到底自动切换」，改为底部按钮 / 右下角按钮手动点（避免误触）
+
+  window.addEventListener('popstate', function(e){
+    render(getIdxFromHash(), false);
+  });
+
+  render(getIdxFromHash(), false);
+})();
+""".replace('__CHAPTERS__', CHAPTERS_JS)
+
+def build_manual_reader():
+    accent = ('<style>:root{--accent:' + C_WB + ';--accent-soft:'
+              + hex_rgba(C_WB, .12) + ';--accent-grad:' + C_WB + '}</style>')
+    sidebar = doc_sidebar("WB手册")
+    body = ('<div class="reading-page">'
+            '<div class="reading-header">'
+            '<h1 id="chapter-title">WorkBuddy 使用手册</h1>'
+            '<div class="reading-progress"><span id="progress-text">第 1 / ' + str(len(MANUAL_WB)) + ' 章</span>'
+            '<div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div></div></div>'
+            '<div class="chapter-content" id="chapter-content"></div>'
+            '<div class="chapter-end">'
+            '<a class="chapter-end-action" id="chapter-end-next" href="javascript:;">下一章 →</a>'
+            '<p class="chapter-end-finish" id="chapter-end-finish" style="display:none">🎉 已读完最后一章</p>'
+            '<p>滚到底部或点击右下角按钮，手动切换到下一章</p></div>'
+            '<nav class="float-nav" aria-label="章节切换">'
+            '<button id="float-prev" type="button">← 上一章</button>'
+            '<button id="float-next" type="button">下一章 →</button>'
+            '</nav></div>')
+    html = ('<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">'
+            '<meta name="viewport" content="width=device-width,initial-scale=1">'
+            '<meta name="description" content="' + SITE_DESC + '">'
+            '<title>WorkBuddy 使用手册 · ' + SITE_TITLE + '</title>'
+            '<style>' + CSS + READER_CSS + '</style>' + accent + '</head>'
+            '<body>' + topbar("WB手册") +
+            '<div class="layout">' + sidebar +
+            '<main class="reading-section">' + body + '</main></div>' + footer() +
+            '<script>' + JS + '</script>'
+            '<script>' + READER_JS + '</script></body></html>')
+    with open("manual-wb.html", 'w', encoding='utf-8') as f:
+        f.write(html)
+    print("生成:", "manual-wb.html")
+
 def build_index():
     # Hero
     hero = ('<section class="hero"><div class="hero-name">老田的 AI 实战笔记</div>'
@@ -1280,7 +1444,7 @@ def wrap_page(title, body, active="首页"):
 if __name__ == "__main__":
     build_index()
     build_doc("企微手册","企业微信使用手册","账号体系、客户联系与协作实战",MANUAL_WECOM,"manual-wecom.html",C_WECOM)
-    build_doc("WB手册","WorkBuddy 使用手册","从 0 到 1，把 WorkBuddy 用起来",MANUAL_WB,"manual-wb.html",C_WB)
+    build_manual_reader()
     build_doc("企微案例","企业微信案例","真实企微场景的落地打法",CASES_WECOM,"cases-wecom.html",C_WECOM)
     build_doc("WB案例","WorkBuddy 案例","真实任务的完整复现",CASES_WB,"cases-wb.html",C_WB)
     build_doc("进阶篇","进阶篇","从案例到系统，构建你的工作流",ADVANCED,"advanced.html",C_WB)

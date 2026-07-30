@@ -1,1 +1,6 @@
 preview-*.png
+reader-*.png
+draft-*.png
+_preview/
+__pycache__/
+_draft_build*.py
