@@ -39,12 +39,11 @@ img{max-width:100%;height:auto}
   color:#fff;font-size:12px;font-weight:700;letter-spacing:.5px;font-family:var(--font-sans);
   box-shadow:0 2px 8px rgba(16,185,129,.3)}
 .topbar-nav{display:flex;align-items:center;gap:2px;flex-wrap:wrap;justify-content:flex-end}
-.topbar-nav a{padding:6px 11px;border-radius:var(--radius-xl);font-size:13px;
+.topbar-nav a{padding:6px 11px;border-radius:var(--radius-xl);font-size:14px;font-weight:600;
   color:var(--text-secondary);text-decoration:none;transition:all .2s;display:inline-flex;align-items:center}
 .topbar-nav a:hover{background:var(--bg-soft);color:var(--text-primary)}
 .topbar-nav a.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
 .nav-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:6px;flex-shrink:0}
-.topbar-nav a .nav-ico{margin-right:4px}
 .menu-btn{display:none;background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-secondary)}
 
 /* ===== Nav dropdown ===== */
@@ -88,9 +87,10 @@ img{max-width:100%;height:auto}
   padding:24px;box-shadow:var(--shadow-sm);transition:all .25s;position:relative;overflow:hidden}
 .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);
   border-color:var(--border-hover)}
-.card-ico{width:46px;height:46px;border-radius:var(--radius-md);display:flex;align-items:center;
-  justify-content:center;font-size:22px;margin-bottom:14px}
-.card h3{font-size:17px;font-weight:600;margin-bottom:8px}
+.card-ico{width:42px;height:42px;border-radius:var(--radius-md);display:flex;align-items:center;
+  justify-content:center;font-size:20px;margin-bottom:0}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.card h3{font-size:17px;font-weight:600;margin-bottom:0}
 .card p{color:var(--text-secondary);font-size:13.5px;line-height:1.8}
 .card .meta{margin-top:14px;font-size:12px;color:var(--text-tertiary)}
 .card .arrow{position:absolute;right:20px;bottom:18px;font-size:18px;color:var(--text-tertiary);
@@ -135,11 +135,11 @@ img{max-width:100%;height:auto}
 .sidebar-part-chevron{transition:transform .25s;color:var(--text-tertiary)}
 .sidebar-part.expanded .sidebar-part-chevron{transform:rotate(90deg)}
 .sidebar-chapters{max-height:0;overflow:hidden;transition:max-height .3s ease}
-.sidebar-part.expanded .sidebar-chapters,.sidebar-part.active .sidebar-chapters{max-height:1000px}
+.sidebar-part.expanded .sidebar-chapters{max-height:1000px}
 .sidebar-chapter{display:block;padding:6px 10px 6px 27px;font-size:13px;color:var(--text-secondary);
-  border-radius:var(--radius-sm);transition:all .18s;border-left:2px solid transparent}
-.sidebar-chapter:hover{background:var(--bg-soft);color:var(--text-primary)}
-.sidebar-chapter.active{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft);font-weight:500}
+  border-radius:var(--radius-sm);transition:all .18s;border-left:2px solid transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(var(--sidebar-w) - 20px)}
+.sidebar-chapter:hover{background:rgba(16,185,129,.10);color:var(--text-primary)}
+.sidebar-chapter.active{color:#059669;border-left-color:var(--accent);background:rgba(16,185,129,.15);font-weight:600}
 
 .reading-section{min-width:0}
 .reading-page{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);
@@ -152,7 +152,9 @@ img{max-width:100%;height:auto}
 .chapter-badge{font-size:12px;font-weight:600;padding:3px 11px;border-radius:var(--radius-xl);
   background:var(--accent-soft);color:var(--accent);white-space:nowrap}
 .chapter-title{font-size:20px;font-weight:700}
+.chapter:not(:last-child){border-bottom:1px solid var(--border);padding-bottom:36px;margin-bottom:36px}
 .chapter-body{color:var(--text-primary);font-size:14.5px;line-height:1.95}
+.chapter-body img{border-radius:var(--radius-md);box-shadow:var(--shadow-sm);max-width:100%;margin:18px 0}
 .chapter-body h3{font-size:16px;font-weight:600;margin:22px 0 10px}
 .chapter-body p{margin:12px 0;color:var(--text-secondary)}
 .chapter-body ul,.chapter-body ol{margin:12px 0;padding-left:22px;color:var(--text-secondary)}
@@ -165,6 +167,10 @@ img{max-width:100%;height:auto}
 .callout.warn{border-left-color:var(--c-coral);background:rgba(245,158,11,.08)}
 .callout.info{border-left-color:var(--c-blue);background:rgba(6,182,212,.08)}
 .callout .ttl{font-weight:600;display:block;margin-bottom:4px}
+.callout.key{border-left:4px solid var(--c-teal);background:linear-gradient(90deg,rgba(16,185,129,.16),rgba(16,185,129,.04));
+  padding:16px 18px;font-weight:500}
+.callout.key .ttl{color:#047857;margin-bottom:6px}
+.callout.key p{margin:0}
 pre{margin:16px 0;background:#1E293B;color:#E2E8F0;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px;
   overflow-x:auto;font-size:13px;line-height:1.7}
 pre code{font-family:var(--font-mono);color:inherit;background:none;padding:0}
@@ -182,7 +188,8 @@ td{color:var(--text-secondary)}
 .img-missing{margin:16px auto;padding:18px;text-align:center;font-size:13px;color:var(--text-tertiary);
   border:1px dashed var(--border);border-radius:var(--radius-md);background:var(--bg-soft)}
 
-/* ===== TOC (right) ===== */
+
+
 
 /* ===== Skills page ===== */
 .skill-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
@@ -303,7 +310,7 @@ td{color:var(--text-secondary)}
   .sidebar.open{display:block}
   .reading-page{padding:24px 18px}
   .hero-name{font-size:30px}.section{padding:40px 16px}}
-</style></head><body><header class="topbar"><div class="topbar-inner"><a class="blog-logo" href="index.html"><span class="blog-logo-icon">TW</span>老田的 AI 实战笔记</a><button class="menu-btn" onclick="toggleMenu()">☰</button><nav class="topbar-nav"><a class="" href="index.html"><span class="nav-ico">🏠</span>首页</a><a class="" href="index.html#notebooks"><span class="nav-dot" style="background:#10B981"></span><span class="nav-ico">📝</span>笔记</a><a class="" href="advanced.html"><span class="nav-dot" style="background:#10B981"></span><span class="nav-ico">🚀</span>进阶篇</a><a class="" href="industry.html"><span class="nav-dot" style="background:#0EA5E9"></span><span class="nav-ico">🎯</span>岗位与行业落地</a><a class="" href="skills.html"><span class="nav-dot" style="background:#A855F7"></span><span class="nav-ico">🧩</span>Skills</a><a class="active" href="community.html"><span class="nav-dot" style="background:#64748B"></span><span class="nav-ico">💬</span>交流</a></nav></div></header><section class="section" style="padding-bottom:24px"><div class="profile"><div class="ava">田</div><div class="pinfo"><h2>田伟</h2><div class="role">腾讯产品商务顾问 · 长沙</div><p>5 年企业用户腾讯产品落地服务经验，专注企业微信与 WorkBuddy 的培训、落地与销售。这个站点用于把一线实战经验沉淀下来，也方便分享给同事和客户。</p></div></div></section><section class="section" style="padding-top:0"><div class="section-head"><h2><span class="bar"></span>联系方式</h2><p>以下为公开可联系的渠道</p></div><div class="cols"><div class="info-card"><div class="ic-ico">📞</div><h3>联系电话</h3><p style="color:var(--c-teal);font-weight:500">17752848966</p><p>可直接拨打或短信沟通。</p><ul></ul></div><div class="info-card"><div class="ic-ico">📧</div><h3>企业邮箱</h3><p style="color:var(--c-teal);font-weight:500"><a href="mailto:tianwei@qqhn.net">tianwei@qqhn.net</a></p><p>正式交付与商务沟通。</p><ul></ul></div><div class="info-card"><div class="ic-ico">💬</div><h3>企业微信</h3><p style="color:var(--c-teal);font-weight:500"><img src="wechat-qr.png" alt="企业微信二维码" style="width:140px;border-radius:8px;margin-top:4px"></p><p>扫码添加，日常协作与通知主阵地。</p><ul></ul></div></div></section><section class="section"><div class="section-head"><h2><span class="bar"></span>交流 & 反馈</h2><p>欢迎就内容准确性、案例补全、Skill 共建进行交流。</p></div><div class="cols"><div class="info-card"><div class="ic-ico">💡</div><h3>内容共建</h3><p>发现错漏或有更好的实战做法，直接在企业微信找我，或提 PR 到本站仓库。</p></div><div class="info-card"><div class="ic-ico">🔔</div><h3>更新节奏</h3><p>随项目推进持续补充；每月末由月报自动化汇总一次。</p></div><div class="info-card"><div class="ic-ico">⚠️</div><h3>数据安全</h3><p>客户与业务敏感信息不入库；处理前确认授权范围，不外泄。</p></div></div></section><footer class="footer"><div class="footer-inner"><span>© 2026 田伟 · 长沙 · 用 WorkBuddy 沉淀</span><div class="links"><a href="index.html">首页</a><a href="manual-wecom.html">企微手册</a><a href="manual-wb.html">WB手册</a><a href="cases-wecom.html">企微案例</a><a href="cases-wb.html">WB案例</a><a href="advanced.html">进阶篇</a><a href="industry.html">岗位与行业落地</a><a href="skills.html">Skills</a><a href="community.html">交流</a></div></div></footer><button id="backTop" onclick="goTop()" title="回到顶部">↑</button><script>
+</style></head><body><header class="topbar"><div class="topbar-inner"><a class="blog-logo" href="index.html"><span class="blog-logo-icon">TW</span>老田的 AI 实战笔记</a><button class="menu-btn" onclick="toggleMenu()">☰</button><nav class="topbar-nav"><a class="" href="index.html">首页</a><a class="" href="index.html#notebooks"><span class="nav-dot" style="background:#10B981"></span>笔记</a><a class="" href="advanced.html"><span class="nav-dot" style="background:#10B981"></span>进阶篇</a><a class="" href="industry.html"><span class="nav-dot" style="background:#0EA5E9"></span>岗位与行业落地</a><a class="" href="skills.html"><span class="nav-dot" style="background:#A855F7"></span>Skills</a><a class="active" href="community.html"><span class="nav-dot" style="background:#64748B"></span>交流</a></nav></div></header><section class="section" style="padding-bottom:24px"><div class="profile"><div class="ava">田</div><div class="pinfo"><h2>田伟</h2><div class="role">腾讯产品商务顾问 · 长沙</div><p>5 年企业用户腾讯产品落地服务经验，专注企业微信与 WorkBuddy 的培训、落地与销售。这个站点用于把一线实战经验沉淀下来，也方便分享给同事和客户。</p></div></div></section><section class="section" style="padding-top:0"><div class="section-head"><h2><span class="bar"></span>联系方式</h2><p>以下为公开可联系的渠道</p></div><div class="cols"><div class="info-card"><div class="ic-ico">📞</div><h3>联系电话</h3><p style="color:var(--c-teal);font-weight:500">17752848966</p><p>可直接拨打或短信沟通。</p><ul></ul></div><div class="info-card"><div class="ic-ico">📧</div><h3>企业邮箱</h3><p style="color:var(--c-teal);font-weight:500"><a href="mailto:tianwei@qqhn.net">tianwei@qqhn.net</a></p><p>正式交付与商务沟通。</p><ul></ul></div><div class="info-card"><div class="ic-ico">💬</div><h3>企业微信</h3><p style="color:var(--c-teal);font-weight:500"><img src="wechat-qr.png" alt="企业微信二维码" style="width:140px;border-radius:8px;margin-top:4px"></p><p>扫码添加，日常协作与通知主阵地。</p><ul></ul></div></div></section><section class="section"><div class="section-head"><h2><span class="bar"></span>交流 & 反馈</h2><p>欢迎就内容准确性、案例补全、Skill 共建进行交流。</p></div><div class="cols"><div class="info-card"><div class="ic-ico">💡</div><h3>内容共建</h3><p>发现错漏或有更好的实战做法，直接在企业微信找我，或提 PR 到本站仓库。</p></div><div class="info-card"><div class="ic-ico">🔔</div><h3>更新节奏</h3><p>随项目推进持续补充；每月末由月报自动化汇总一次。</p></div><div class="info-card"><div class="ic-ico">⚠️</div><h3>数据安全</h3><p>客户与业务敏感信息不入库；处理前确认授权范围，不外泄。</p></div></div></section><footer class="footer"><div class="footer-inner"><span>© 2026 田伟 · 长沙 · 用 WorkBuddy 沉淀</span><div class="links"><a href="index.html">首页</a><a href="manual-wecom.html">企微手册</a><a href="manual-wb.html">WB手册</a><a href="cases-wecom.html">企微案例</a><a href="cases-wb.html">WB案例</a><a href="advanced.html">进阶篇</a><a href="industry.html">岗位与行业落地</a><a href="skills.html">Skills</a><a href="community.html">交流</a></div></div></footer><button id="backTop" onclick="goTop()" title="回到顶部">↑</button><script>
 function toggleSidebarPart(el){el.parentElement.classList.toggle('expanded');}
 function filterArticles(part){
   document.querySelectorAll('.filter-pill').forEach(function(p){

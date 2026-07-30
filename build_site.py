@@ -85,12 +85,11 @@ img{max-width:100%;height:auto}
   color:#fff;font-size:12px;font-weight:700;letter-spacing:.5px;font-family:var(--font-sans);
   box-shadow:0 2px 8px rgba(16,185,129,.3)}
 .topbar-nav{display:flex;align-items:center;gap:2px;flex-wrap:wrap;justify-content:flex-end}
-.topbar-nav a{padding:6px 11px;border-radius:var(--radius-xl);font-size:13px;
+.topbar-nav a{padding:6px 11px;border-radius:var(--radius-xl);font-size:14px;font-weight:600;
   color:var(--text-secondary);text-decoration:none;transition:all .2s;display:inline-flex;align-items:center}
 .topbar-nav a:hover{background:var(--bg-soft);color:var(--text-primary)}
 .topbar-nav a.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
 .nav-dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:6px;flex-shrink:0}
-.topbar-nav a .nav-ico{margin-right:4px}
 .menu-btn{display:none;background:none;border:none;font-size:20px;cursor:pointer;color:var(--text-secondary)}
 
 /* ===== Nav dropdown ===== */
@@ -134,9 +133,10 @@ img{max-width:100%;height:auto}
   padding:24px;box-shadow:var(--shadow-sm);transition:all .25s;position:relative;overflow:hidden}
 .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);
   border-color:var(--border-hover)}
-.card-ico{width:46px;height:46px;border-radius:var(--radius-md);display:flex;align-items:center;
-  justify-content:center;font-size:22px;margin-bottom:14px}
-.card h3{font-size:17px;font-weight:600;margin-bottom:8px}
+.card-ico{width:42px;height:42px;border-radius:var(--radius-md);display:flex;align-items:center;
+  justify-content:center;font-size:20px;margin-bottom:0}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.card h3{font-size:17px;font-weight:600;margin-bottom:0}
 .card p{color:var(--text-secondary);font-size:13.5px;line-height:1.8}
 .card .meta{margin-top:14px;font-size:12px;color:var(--text-tertiary)}
 .card .arrow{position:absolute;right:20px;bottom:18px;font-size:18px;color:var(--text-tertiary);
@@ -181,11 +181,11 @@ img{max-width:100%;height:auto}
 .sidebar-part-chevron{transition:transform .25s;color:var(--text-tertiary)}
 .sidebar-part.expanded .sidebar-part-chevron{transform:rotate(90deg)}
 .sidebar-chapters{max-height:0;overflow:hidden;transition:max-height .3s ease}
-.sidebar-part.expanded .sidebar-chapters,.sidebar-part.active .sidebar-chapters{max-height:1000px}
+.sidebar-part.expanded .sidebar-chapters{max-height:1000px}
 .sidebar-chapter{display:block;padding:6px 10px 6px 27px;font-size:13px;color:var(--text-secondary);
-  border-radius:var(--radius-sm);transition:all .18s;border-left:2px solid transparent}
-.sidebar-chapter:hover{background:var(--bg-soft);color:var(--text-primary)}
-.sidebar-chapter.active{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft);font-weight:500}
+  border-radius:var(--radius-sm);transition:all .18s;border-left:2px solid transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:calc(var(--sidebar-w) - 20px)}
+.sidebar-chapter:hover{background:rgba(16,185,129,.10);color:var(--text-primary)}
+.sidebar-chapter.active{color:#059669;border-left-color:var(--accent);background:rgba(16,185,129,.15);font-weight:600}
 
 .reading-section{min-width:0}
 .reading-page{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);
@@ -198,7 +198,9 @@ img{max-width:100%;height:auto}
 .chapter-badge{font-size:12px;font-weight:600;padding:3px 11px;border-radius:var(--radius-xl);
   background:var(--accent-soft);color:var(--accent);white-space:nowrap}
 .chapter-title{font-size:20px;font-weight:700}
+.chapter:not(:last-child){border-bottom:1px solid var(--border);padding-bottom:36px;margin-bottom:36px}
 .chapter-body{color:var(--text-primary);font-size:14.5px;line-height:1.95}
+.chapter-body img{border-radius:var(--radius-md);box-shadow:var(--shadow-sm);max-width:100%;margin:18px 0}
 .chapter-body h3{font-size:16px;font-weight:600;margin:22px 0 10px}
 .chapter-body p{margin:12px 0;color:var(--text-secondary)}
 .chapter-body ul,.chapter-body ol{margin:12px 0;padding-left:22px;color:var(--text-secondary)}
@@ -211,6 +213,10 @@ img{max-width:100%;height:auto}
 .callout.warn{border-left-color:var(--c-coral);background:rgba(245,158,11,.08)}
 .callout.info{border-left-color:var(--c-blue);background:rgba(6,182,212,.08)}
 .callout .ttl{font-weight:600;display:block;margin-bottom:4px}
+.callout.key{border-left:4px solid var(--c-teal);background:linear-gradient(90deg,rgba(16,185,129,.16),rgba(16,185,129,.04));
+  padding:16px 18px;font-weight:500}
+.callout.key .ttl{color:#047857;margin-bottom:6px}
+.callout.key p{margin:0}
 pre{margin:16px 0;background:#1E293B;color:#E2E8F0;border:1px solid var(--border);border-radius:var(--radius-md);padding:16px 18px;
   overflow-x:auto;font-size:13px;line-height:1.7}
 pre code{font-family:var(--font-mono);color:inherit;background:none;padding:0}
@@ -419,10 +425,10 @@ def hex_rgba(h, a):
 def topbar(active):
     navs = ""
     for (name, href, ico, color, grp) in SECTIONS:
-        dot = '<span class="nav-dot" style="background:%s"></span>' % color if color else ''
+        dot = '<span class="nav-dot" style="background:%s"></span>' %  color if color else ''
         cls = "active" if name == active else ""
         navs += ('<a class="' + cls + '" href="' + href + '">' + dot +
-                 '<span class="nav-ico">' + ico + '</span>' + name + '</a>')
+                 name + '</a>')
     return ('<header class="topbar"><div class="topbar-inner">'
             '<a class="blog-logo" href="index.html">'
             '<span class="blog-logo-icon">TW</span>老田的 AI 实战笔记</a>'
@@ -461,6 +467,7 @@ def ch_body(intro, blocks):
         elif t == 'callout': out += '<div class="callout"><span class="ttl">提示</span>' + c + '</div>'
         elif t == 'callout-warn': out += '<div class="callout warn"><span class="ttl">注意</span>' + c + '</div>'
         elif t == 'callout-info': out += '<div class="callout info"><span class="ttl">说明</span>' + c + '</div>'
+        elif t == 'callout-key': out += '<div class="callout key"><span class="ttl">重点</span>' + c + '</div>'
         elif t == 'code': out += '<pre><code>' + c + '</code></pre>'
         elif t == 'table': out += c
     return out
@@ -1152,8 +1159,10 @@ def build_index():
     card_html = '<div class="cards">'
     for ico, name, desc, meta, href, color in cards:
         card_html += ('<a class="card" href="' + href + '">'
+                      '<div class="card-header">'
                       '<div class="card-ico" style="background:' + color + '22;color:' + color + '">' + ico + '</div>'
-                      '<h3>' + name + '</h3><p>' + desc + '</p>'
+                      '<h3>' + name + '</h3></div>'
+                      '<p>' + desc + '</p>'
                       '<div class="meta">' + meta + '</div><span class="arrow">→</span></a>')
     card_html += '</div>'
     # 最新文章 + 产品筛选
