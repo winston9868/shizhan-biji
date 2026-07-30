@@ -190,18 +190,7 @@ td{color:var(--text-secondary)}
 
 
 /* ===== TOC (right) ===== */
-.toc{position:sticky;top:calc(var(--topbar-h) + 24px);align-self:start;font-size:13px}
-.toc-title{font-size:12px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;
-  letter-spacing:1px;margin-bottom:12px}
-.toc-heading{display:block;padding:5px 0 5px 12px;border-left:2px solid var(--border);
-  color:var(--text-secondary);transition:all .18s;cursor:pointer}
-.toc-heading:hover{color:var(--text-primary)}
-.toc-heading.active{color:var(--accent);border-left-color:var(--accent);font-weight:500}
-.toc-heading.level-3{padding-left:26px;font-size:12.5px;color:var(--text-tertiary)}
-.toc-progress{margin-top:22px;padding-top:16px;border-top:1px solid var(--border)}
-.toc-progress-bar{height:5px;background:var(--bg-soft);border-radius:4px;overflow:hidden}
-.toc-progress-fill{height:100%;width:0;background:var(--accent-grad);transition:width .15s}
-.toc-progress-label{font-size:11px;color:var(--text-tertiary);margin-top:6px}
+
 .toc-back-top{margin-top:16px;font-size:12px;color:var(--text-tertiary);cursor:pointer;display:inline-block}
 .toc-back-top:hover{color:var(--accent)}
 
@@ -316,8 +305,7 @@ td{color:var(--text-secondary)}
   font-size:13px;line-height:1.7;color:var(--text-secondary);border-left:3px solid var(--c-purple)}
 
 /* ===== Responsive ===== */
-@media(max-width:1100px){.layout{grid-template-columns:var(--sidebar-w) minmax(0,1fr)}
-  .toc{display:none}}
+@media(max-width:1100px){.layout{grid-template-columns:var(--sidebar-w) minmax(0,1fr)}}
 @media(max-width:768px){.topbar-nav{display:none}.menu-btn{display:block}
   .layout{grid-template-columns:1fr;padding-left:16px;padding-right:16px}
   .sidebar{position:static;max-height:none;display:none}
@@ -477,7 +465,7 @@ td{color:var(--text-secondary)}
 <span class="line"><span>- 会议中没有明确确认的内容，不要写成既定结论；</span></span>
 <span class="line"><span>- 人名、日期、功能范围必须保留来源；</span></span>
 <span class="line"><span>- 如果缺少负责人或时间，请标为待确认；</span></span>
-<span class="line"><span>- 先输出大纲和任务表字段预览，等我确认后再生成文件。</span></span></code></pre></div><h2  id="ch11-常见错误与修正方式">常见错误与修正方式 </h2><table tabindex="0"><thead><tr><th>常见错误</th><th>为什么会发生</th><th>更好的写法</th></tr></thead><tbody><tr><td>“帮我做个 PPT，要高级一点”</td><td>没有受众、目标和材料约束。</td><td>说明受众、汇报时长、页数、决策目标、参考模板和必须保留的数据。</td></tr><tr><td>“分析一下这个 Excel”</td><td>没有业务问题，模型只能泛泛总结。</td><td>说明要回答什么问题、统计哪些指标、按什么维度比较。</td></tr><tr><td>“写一份报告”</td><td>没有文档类型和语气要求。</td><td>说明是方案、总结、申请、纪要还是 PRD，并指定读者。</td></tr><tr><td>“全部自动完成，不用问我”</td><td>关键口径没确认，风险会被放大。</td><td>先让 WorkBuddy 输出材料清单、风险清单和大纲，确认后再生成。</td></tr><tr><td>“把这堆材料合成一个文件”</td><td>没有区分事实、参考和待确认。</td><td>指定唯一数据源、参考文件和不能编造的字段。</td></tr></tbody></table></div></div></section></div></main><aside class="toc"><div class="toc-title">本页目录</div><a class="toc-heading" href="#chapter-1">第 1 章 初识 WorkBuddy</a><a class="toc-heading" href="#chapter-2">第 2 章 WorkBuddy的下载、安装、登录与更新</a><a class="toc-heading" href="#chapter-3">第 3 章 WorkBuddy 的主界面、任务与工作区</a><a class="toc-heading" href="#chapter-4">第 4 章 快速完成第一个 WorkBuddy 任务</a><a class="toc-heading" href="#chapter-5">第 5 章 WorkBuddy加载一个真正用得上的 Skill</a><a class="toc-heading" href="#chapter-6">第 6 章 WorkBuddy的专家和专家团</a><a class="toc-heading" href="#chapter-7">第 7 章 WorkBuddy 使用连接器</a><a class="toc-heading" href="#chapter-8">第 8 章 WorkBuddy 接入小程序与 IM 助理</a><a class="toc-heading" href="#chapter-9">第 9 章 如何接入外部 API</a><a class="toc-heading" href="#chapter-10">第 10 章 WorkBuddy 自动化任务</a><a class="toc-heading" href="#chapter-11">第 11 章 办公三件套：Word、Excel、PPT</a><div class="toc-progress"><div class="toc-progress-bar"><div class="toc-progress-fill" id="tocFill"></div></div><div class="toc-progress-label">阅读进度</div><span class="toc-back-top" onclick="goTop()">↑ 回到顶部</span></div></aside></div><footer class="footer"><div class="footer-inner"><span>© 2026 田伟 · 长沙 · 用 WorkBuddy 沉淀</span><div class="links"><a href="index.html">首页</a><a href="manual-wecom.html">企微手册</a><a href="manual-wb.html">WB手册</a><a href="cases-wecom.html">企微案例</a><a href="cases-wb.html">WB案例</a><a href="advanced.html">进阶篇</a><a href="industry.html">岗位与行业落地</a><a href="skills.html">Skills</a><a href="community.html">交流</a></div></div></footer><button id="backTop" onclick="goTop()" title="回到顶部">↑</button><script>
+<span class="line"><span>- 先输出大纲和任务表字段预览，等我确认后再生成文件。</span></span></code></pre></div><h2  id="ch11-常见错误与修正方式">常见错误与修正方式 </h2><table tabindex="0"><thead><tr><th>常见错误</th><th>为什么会发生</th><th>更好的写法</th></tr></thead><tbody><tr><td>“帮我做个 PPT，要高级一点”</td><td>没有受众、目标和材料约束。</td><td>说明受众、汇报时长、页数、决策目标、参考模板和必须保留的数据。</td></tr><tr><td>“分析一下这个 Excel”</td><td>没有业务问题，模型只能泛泛总结。</td><td>说明要回答什么问题、统计哪些指标、按什么维度比较。</td></tr><tr><td>“写一份报告”</td><td>没有文档类型和语气要求。</td><td>说明是方案、总结、申请、纪要还是 PRD，并指定读者。</td></tr><tr><td>“全部自动完成，不用问我”</td><td>关键口径没确认，风险会被放大。</td><td>先让 WorkBuddy 输出材料清单、风险清单和大纲，确认后再生成。</td></tr><tr><td>“把这堆材料合成一个文件”</td><td>没有区分事实、参考和待确认。</td><td>指定唯一数据源、参考文件和不能编造的字段。</td></tr></tbody></table></div></div></section></div></main></div><footer class="footer"><div class="footer-inner"><span>© 2026 田伟 · 长沙 · 用 WorkBuddy 沉淀</span><div class="links"><a href="index.html">首页</a><a href="manual-wecom.html">企微手册</a><a href="manual-wb.html">WB手册</a><a href="cases-wecom.html">企微案例</a><a href="cases-wb.html">WB案例</a><a href="advanced.html">进阶篇</a><a href="industry.html">岗位与行业落地</a><a href="skills.html">Skills</a><a href="community.html">交流</a></div></div></footer><button id="backTop" onclick="goTop()" title="回到顶部">↑</button><script>
 function toggleSidebarPart(el){el.parentElement.classList.toggle('expanded');}
 function filterArticles(part){
   document.querySelectorAll('.filter-pill').forEach(function(p){
@@ -491,33 +479,7 @@ window.addEventListener('scroll',function(){
   var bt=document.getElementById('backTop');
   if(bt) bt.classList.toggle('show', window.scrollY>400);
 });
-// 阅读进度 + TOC 高亮（仅文档页）
-(function(){
-  var fill=document.getElementById('tocFill');
-  var sec=document.querySelector('.reading-section');
-  var headings=Array.prototype.slice.call(document.querySelectorAll('.toc-heading'));
-  var chapters=Array.prototype.slice.call(document.querySelectorAll('.chapter'));
-  if(!sec) return;
-  function onScroll(){
-    var h=sec.scrollHeight-window.innerHeight;
-    var p=h>0?Math.min(100,Math.max(0,window.scrollY/h*100)):0;
-    if(fill) fill.style.width=p+'%';
-  }
-  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
-  if('IntersectionObserver' in window && chapters.length){
-    var obs=new IntersectionObserver(function(entries){
-      entries.forEach(function(e){
-        if(e.isIntersecting){
-          var id=e.target.id;
-          headings.forEach(function(h){h.classList.toggle('active',h.getAttribute('href')==='#'+id);});
-          document.querySelectorAll('.sidebar-chapter').forEach(function(c){
-            c.classList.toggle('active',c.getAttribute('href')==='#'+id);});
-        }
-      });
-    },{rootMargin:'-20% 0px -70% 0px'});
-    chapters.forEach(function(c){if(c.id) obs.observe(c);});
-  }
-})();
+
 function toggleMenu(){
   var sb=document.getElementById('sidebar');
   if(sb) sb.classList.toggle('open');
