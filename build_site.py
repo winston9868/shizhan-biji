@@ -1204,8 +1204,8 @@ READER_JS = """
       endFinish.style.display = 'block';
     }
 
-    // 侧边栏高亮
-    document.querySelectorAll('.sidebar-chapter').forEach(function(a, i){
+    // 侧边栏高亮：只匹配当前展开分类下的章节，避免跨分类索引错位
+    document.querySelectorAll('.sidebar-part.expanded .sidebar-chapter').forEach(function(a, i){
       if (i === idx) a.classList.add('active');
       else a.classList.remove('active');
     });
@@ -1222,7 +1222,7 @@ READER_JS = """
   function go(idx){ render(idx, true); }
 
   // 侧边栏 hash 链接点击切换（不刷新页面）
-  document.querySelectorAll('.sidebar-chapter').forEach(function(a){
+  document.querySelectorAll('.sidebar-part.expanded .sidebar-chapter').forEach(function(a){
     a.addEventListener('click', function(e){
       var m = a.getAttribute('href').match(/chapter-(\\d+)/);
       if (m){
