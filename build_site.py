@@ -346,6 +346,70 @@ td{color:var(--text-secondary)}
 .skill-modal-sec .scenario{background:var(--bg-soft);border-radius:var(--radius-md);padding:12px 14px;
   font-size:13px;line-height:1.7;color:var(--text-secondary);border-left:3px solid var(--c-purple)}
 
+/* ===== AI 提示词社区（参照 simouxuan.com 的 AI 提示词社区模块） ===== */
+.prompt-hero{margin:72px auto 8px;max-width:760px;text-align:center;padding:0 24px}
+.prompt-hero h2{font-family:var(--font-serif);font-size:30px;font-weight:700;letter-spacing:.5px;
+  background:linear-gradient(120deg,#047857,#10B981,#06B6D4);-webkit-background-clip:text;
+  background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+.prompt-hero p{color:var(--text-secondary);font-size:15px;line-height:1.9}
+.prompt-cats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:28px 0 32px}
+.prompt-cat{padding:7px 16px;border:1px solid var(--border);border-radius:var(--radius-xl);
+  background:var(--bg-card);color:var(--text-secondary);font-size:13px;cursor:pointer;transition:all .2s}
+.prompt-cat:hover{border-color:var(--border-hover);color:var(--c-teal)}
+.prompt-cat.active{background:linear-gradient(120deg,#10B981,#06B6D4);color:#fff;border-color:transparent;font-weight:600}
+.prompt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.prompt-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:22px;box-shadow:var(--shadow-sm);transition:all .25s;cursor:pointer;position:relative}
+.prompt-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-color:var(--border-hover)}
+.prompt-card.hidden{display:none}
+.prompt-card .top{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
+.prompt-card .ava{width:52px;height:52px;border-radius:var(--radius-md);display:flex;align-items:center;
+  justify-content:center;font-size:26px;background:linear-gradient(135deg,#4DEE9E,#D6E807);color:#fff;flex-shrink:0}
+.prompt-card .tit{flex:1}
+.prompt-card h3{font-size:16px;font-weight:600;margin-bottom:4px}
+.prompt-card .badges{display:flex;gap:6px;flex-wrap:wrap}
+.prompt-card .badge-cat{font-size:10px;padding:2px 8px;border-radius:var(--radius-xl);
+  background:var(--bg-soft);color:var(--text-tertiary)}
+.prompt-card .desc{color:var(--text-secondary);font-size:13px;line-height:1.8;margin-bottom:12px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.prompt-card .ex{font-size:12px;color:var(--text-tertiary);background:var(--bg-soft);
+  border-radius:var(--radius-md);padding:10px 12px;line-height:1.7;margin-bottom:12px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.prompt-card .foot{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--text-tertiary)}
+.prompt-card .foot .views{color:var(--c-teal);font-weight:500}
+
+/* Prompt detail modal */
+.prompt-modal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;display:none;
+  align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(4px)}
+.prompt-modal.show{display:flex}
+.prompt-modal-box{background:var(--bg-card);border-radius:var(--radius-lg);width:100%;max-width:760px;
+  max-height:calc(100vh - 48px);overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.2);position:relative}
+.prompt-modal-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;
+  border:none;background:var(--bg-soft);color:var(--text-secondary);font-size:20px;cursor:pointer;transition:all .2s}
+.prompt-modal-close:hover{background:var(--border);color:var(--text-primary)}
+.prompt-modal-head{padding:28px 32px 22px;border-bottom:1px solid var(--border);display:flex;gap:18px;align-items:flex-start}
+.prompt-modal-head .ava{width:64px;height:64px;border-radius:var(--radius-md);display:flex;align-items:center;
+  justify-content:center;font-size:32px;background:linear-gradient(135deg,#4DEE9E,#D6E807);color:#fff;flex-shrink:0}
+.prompt-modal-head .tit h2{font-size:22px;font-weight:700;margin-bottom:8px}
+.prompt-modal-head .badges{display:flex;gap:6px;flex-wrap:wrap}
+.prompt-modal-body{padding:28px 32px 32px}
+.prompt-modal-sec{margin-bottom:26px}
+.prompt-modal-sec:last-child{margin-bottom:0}
+.prompt-modal-sec .sec-title{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600;
+  color:var(--c-teal);margin-bottom:12px}
+.prompt-modal-sec .sec-ico{width:20px;height:20px;display:flex;align-items:center;justify-content:center;
+  font-size:14px;color:#fff;background:var(--c-teal);border-radius:50%}
+.prompt-modal-sec p,.prompt-modal-sec li{color:var(--text-secondary);font-size:13.5px;line-height:1.85}
+.prompt-modal-sec .example{background:var(--bg-soft);border-left:4px solid var(--c-teal);border-radius:var(--radius-md);
+  padding:14px 16px;font-size:13.5px;line-height:1.85;color:var(--text-secondary)}
+.prompt-box{background:#0F172A;border-radius:var(--radius-md);padding:18px 20px;position:relative}
+.prompt-box pre{color:#E2E8F0;font-family:var(--font-mono);font-size:12.5px;line-height:1.8;
+  white-space:pre-wrap;word-break:break-word;margin:0;padding-right:96px}
+.copy-btn{position:absolute;top:14px;right:14px;background:linear-gradient(120deg,#10B981,#06B6D4);
+  color:#fff;border:none;border-radius:var(--radius-xl);padding:7px 16px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.copy-btn:hover{opacity:.9}
+.copy-btn.copied{background:#047857}
+
 /* ===== Responsive ===== */
 @media(max-width:1100px){.layout{grid-template-columns:var(--sidebar-w) minmax(0,1fr)}
   }
@@ -413,6 +477,41 @@ window.addEventListener('hashchange',function(){
   if(hash.indexOf('#skill-')===0) openSkillModal(hash.replace('#skill-',''));
   else closeSkillModal();
 });
+
+// AI 提示词社区: 分类筛选 + 弹窗 + 一键复制
+function filterPrompts(cat){
+  document.querySelectorAll('.prompt-cat').forEach(function(p){
+    p.classList.toggle('active', p.getAttribute('data-cat')===cat);});
+  document.querySelectorAll('.prompt-card').forEach(function(c){
+    var show = cat==='全部' || c.getAttribute('data-cat')===cat;
+    c.classList.toggle('hidden', !show);});
+}
+function openPromptModal(id){
+  var m=document.getElementById('promptModal');
+  var c=document.getElementById('promptContent-' + id);
+  if(!m||!c) return;
+  document.getElementById('promptModalInner').innerHTML = c.innerHTML;
+  m.classList.add('show');
+  document.body.style.overflow='hidden';
+}
+function closePromptModal(){
+  var m=document.getElementById('promptModal');
+  if(m) m.classList.remove('show');
+  document.body.style.overflow='';
+}
+function copyPrompt(id, btn){
+  var el=document.getElementById('promptText-' + id);
+  if(!el) return;
+  var text=el.innerText || el.textContent;
+  function flash(){ if(!btn) return; var o=btn.textContent; btn.textContent='已复制 ✓'; btn.classList.add('copied'); setTimeout(function(){btn.textContent=o; btn.classList.remove('copied');},1800); }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(flash, function(){fallbackCopy(text); flash();});
+  } else { fallbackCopy(text); flash(); }
+}
+function fallbackCopy(text){
+  var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta);
+}
 """
 
 # ============================ 公共片段 ============================
@@ -559,6 +658,91 @@ HOME_ARTICLES = [
 ]
 
 SKILL_CATEGORIES = ["全部", "写作排版", "内容生产", "数据分析", "自动化", "企业微信", "销售获客", "文件与知识管理", "法务合规", "人力资源", "财务行政", "产品营销", "协作办公", "金融", "设计", "开发"]
+
+# ============================ AI 提示词社区（参照 simouxuan.com/skills.html 的「AI 提示词社区」模块） ============================
+PROMPT_CATEGORIES = ["全部", "内容创作", "开发", "教育", "效率工具", "AI绘画"]
+PROMPTS = [
+  {"id":"p1","ico":"📝","title":"公众号文章自动写作与发布","category":"内容创作",
+   "desc":"你是一位资深的公众号内容策划师和写手，具备10年以上新媒体运营经验，擅长商业深度、案例驱动的写作风格。\n\n你的任务是根据用户提供的主题，撰写一篇1500-3000字的公众号文章。要求：标题吸引眼球但不标题党，开头3秒抓住读者，正文逻辑清晰、案例丰富，结尾有行动号召。",
+   "example":"帮我写一篇关于AI提效工具的公众号文章，目标读者是中小企业老板",
+   "author":"老田·2026/07/15","views":892},
+  {"id":"p2","ico":"🛒","title":"小鹅通课程数据智能分析","category":"效率工具",
+   "desc":"你是一位小鹅通平台运营专家和数据分析师，精通课程销售数据解读、用户画像构建和推广策略优化。\n\n你的任务是分析小鹅通店铺的课程销售数据，生成包含以下内容的分析报告：1)销售趋势图表描述 2)TOP5热门课程排名 3)用户画像分析 4)改进建议和推广策略。",
+   "example":"帮我分析上个月的课程销售数据，看看哪些课程卖得好，用户主要是什么群体",
+   "author":"老田·2026/07/14","views":645},
+  {"id":"p3","ico":"🤖","title":"WorkBuddy Skill 技能搭建指南","category":"开发",
+   "desc":"你是一位WorkBuddy技能开发专家，精通SKILL.md编写、技能架构设计和部署流程。\n\n你的任务是指导用户从零搭建一个WorkBuddy Skill。包括：1)确定技能功能和适用场景 2)编写SKILL.md文件 3)设计技能目录结构 4)编写核心逻辑脚本 5)测试和部署上线。",
+   "example":"我想做一个自动生成周报的Skill，每周五下午自动收集本周工作内容并生成报告",
+   "author":"老田·2026/07/13","views":1203},
+  {"id":"p4","ico":"📚","title":"IMA 知识库智能问答搭建","category":"效率工具",
+   "desc":"你是一位知识管理专家，精通IMA OpenAPI的使用，能够将文档、网页、笔记等知识源整合到知识库中，实现基于内容的智能问答。\n\n你的任务是帮助用户搭建IMA知识库智能问答系统。步骤：1)获取IMA OpenAPI凭证 2)创建知识库 3)导入文档和网页 4)配置问答权限 5)测试智能搜索和问答效果。",
+   "example":"我有100多份行业报告PDF，想做一个可以随时提问的知识库",
+   "author":"老田·2026/07/12","views":534},
+  {"id":"p5","ico":"🎨","title":"AI 绘画提示词工程模板","category":"AI绘画",
+   "desc":"你是一位AI绘画提示词工程师，精通Midjourney、Stable Diffusion等主流AI绘画工具的提示词编写，擅长风格控制、构图设计和细节描述。\n\n你的任务是根据用户的需求描述，生成结构化的AI绘画提示词。输出格式：1)画面主体描述 2)风格设定 3)色彩方案 4)构图布局 5)光影效果 6)质量参数 7)负面提示词。",
+   "example":"帮我生成一张赛博朋克风格的城市夜景，要有霓虹灯和飞行器",
+   "author":"老田·2026/07/11","views":1567},
+  {"id":"p6","ico":"📊","title":"Excel 数据自动化处理专家","category":"效率工具",
+   "desc":"你是一位Excel数据处理专家，精通VBA、Power Query、数据透视表等高级功能，能够自动化处理各种复杂的数据清洗、转换和分析任务。\n\n你的任务是根据用户提供的数据处理需求，编写完整的自动化处理方案。包括：1)数据清洗规则 2)处理步骤说明 3)VBA/Python代码 4)输出格式设计 5)异常处理方案。",
+   "example":"我有一个包含5000行销售数据的Excel，需要按地区汇总、去重、生成图表",
+   "author":"老田·2026/07/10","views":789},
+  {"id":"p7","ico":"🗣️","title":"会议纪要自动生成与分发","category":"效率工具",
+   "desc":"你是一位会议管理专家，能够从会议录音转写文本中提取关键信息，生成结构化的会议纪要，并自动分发给参会人员。\n\n你的任务是处理会议转写文本，生成标准会议纪要。输出包含：1)会议基本信息 2)参会人员 3)议题摘要 4)决议事项 5)待办任务（含负责人和截止日期）6)下次会议安排。",
+   "example":"这是一场产品评审会的录音转写文本，帮我生成会议纪要并发送给相关人",
+   "author":"老田·2026/07/09","views":456},
+  {"id":"p8","ico":"💡","title":"商业计划书智能撰写","category":"内容创作",
+   "desc":"你是一位资深的商业计划书撰写顾问，具备投资银行和咨询公司背景，擅长从零开始构建完整的商业计划书。\n\n你的任务是根据用户的创业项目描述，撰写一份完整的商业计划书。包含：1)执行摘要 2)公司介绍 3)市场分析 4)产品/服务描述 5)商业模式 6)营销策略 7)团队介绍 8)财务预测 9)融资计划。",
+   "example":"我在做一个AI教育平台，面向K12学生，想融资500万，帮我写商业计划书",
+   "author":"老田·2026/07/08","views":1023},
+  {"id":"p9","ico":"🔧","title":"代码审查与优化助手","category":"开发",
+   "desc":"你是一位资深的全栈开发工程师，精通多种编程语言和框架，具备代码审查、性能优化、安全漏洞检测的专业能力。\n\n你的任务是对用户提供的代码进行全面审查。输出包含：1)代码质量评分 2)潜在Bug列表 3)安全漏洞检测 4)性能优化建议 5)代码规范检查 6)重构建议 7)优化后的代码。",
+   "example":"帮我审查这段Python爬虫代码，看看有什么问题和优化空间",
+   "author":"老田·2026/07/07","views":678},
+  {"id":"p10","ico":"🎓","title":"教育培训课程设计","category":"教育",
+   "desc":"你是一位教育培训课程设计师，具备10年以上课程开发经验，擅长将复杂知识体系化、模块化，设计互动性强的教学方案。\n\n你的任务是根据用户的教学主题和目标受众，设计完整的课程方案。包含：1)课程大纲 2)学习目标 3)教学模块划分 4)每个模块的教案 5)互动练习设计 6)考核评估方案 7)教学材料清单。",
+   "example":"我要给企业员工做一场AI工具提效培训，半天时间，50人参加",
+   "author":"老田·2026/07/06","views":412},
+  {"id":"p11","ico":"📱","title":"小红书爆款文案生成","category":"内容创作",
+   "desc":"你是一位小红书运营专家和爆款文案写手，深谙平台算法和用户心理，擅长写出高互动率的种草文案。\n\n你的任务是根据用户提供的产品或主题，生成小红书爆款文案。输出包含：1)吸引眼球的标题（20字以内）2)正文文案（含emoji和分段）3)话题标签（8-10个）4)配图建议 5)发布时间建议。",
+   "example":"帮我写一篇推荐AI写作工具的小红书文章，目标读者是自媒体创作者",
+   "author":"老田·2026/07/05","views":1342},
+  {"id":"p12","ico":"🔍","title":"SEO 优化策略生成器","category":"开发",
+   "desc":"你是一位SEO优化专家，精通搜索引擎算法、关键词策略、内容优化和技术SEO，能够为网站制定全面的搜索优化方案。\n\n你的任务是根据用户的网站信息和目标，生成完整的SEO优化策略。包含：1)关键词分析 2)竞品分析 3)站内优化建议 4)内容策略 5)外链建设方案 6)技术SEO检查清单 7)效果追踪指标。",
+   "example":"我的电商网站卖手工皮具，想在百度和Google上排名靠前",
+   "author":"老田·2026/07/04","views":389},
+  {"id":"p13","ico":"🎬","title":"短视频脚本分镜设计","category":"内容创作",
+   "desc":"你是一位短视频创作导演和编剧，精通抖音、B站等平台的视频内容策划，擅长设计节奏紧凑、情绪饱满的分镜脚本。\n\n你的任务是根据用户的视频主题，设计完整的分镜脚本。输出包含：1)视频风格设定 2)角色设定 3)逐镜头描述（含时间码、画面描述、镜头运动、旁白/台词）4)BGM建议 5)字幕样式 6)发布文案。",
+   "example":"帮我设计一个2分钟的AI科技产品开箱视频脚本",
+   "author":"老田·2026/07/03","views":967},
+  {"id":"p14","ico":"🌐","title":"多语言翻译与本地化","category":"效率工具",
+   "desc":"你是一位专业的翻译和本地化专家，精通中英日韩等多种语言，能够处理技术文档、营销文案、法律文件等不同类型的内容翻译。\n\n你的任务是将用户提供的原文翻译为目标语言，并进行本地化适配。输出包含：1)翻译文本 2)本地化调整说明 3)文化注意事项 4)专业术语对照表 5)翻译质量自检报告。",
+   "example":"帮我把这份产品说明书从中文翻译成英文和日文",
+   "author":"老田·2026/07/02","views":298},
+  {"id":"p15","ico":"📈","title":"社交媒体运营日历生成","category":"内容创作",
+   "desc":"你是一位社交媒体运营总监，精通多平台内容规划和排期管理，能够根据品牌调性和用户画像制定系统化的内容发布策略。\n\n你的任务是根据用户的品牌信息和目标，生成一个月的社交媒体运营日历。包含：1)内容主题规划 2)每日发布内容概要 3)平台适配建议 4)互动策略 5)热点借势计划 6)数据追踪指标。",
+   "example":"我的品牌是卖健康轻食的，需要一个月的小红书和抖音内容规划",
+   "author":"老田·2026/07/01","views":723},
+  {"id":"p16","ico":"🧪","title":"科研论文写作辅助","category":"教育",
+   "desc":"你是一位学术研究方法论专家和论文写作导师，具备丰富的SCI/SSCI论文发表经验，擅长指导研究设计、文献综述和论文结构优化。\n\n你的任务是辅助用户完成科研论文写作。包括：1)研究问题梳理 2)文献综述框架 3)研究方法设计 4)数据分析方案 5)论文结构大纲 6)摘要和关键词撰写 7)参考文献格式规范。",
+   "example":"我要写一篇关于AI在教育领域应用的综述论文，目标期刊是SSCI",
+   "author":"老田·2026/06/30","views":545},
+  {"id":"p17","ico":"🎯","title":"用户画像与需求分析","category":"开发",
+   "desc":"你是一位产品经理和用户研究专家，精通用户画像构建、需求挖掘和产品策略制定，擅长从数据中洞察用户行为模式。\n\n你的任务是根据用户提供的数据或描述，构建详细的用户画像。输出包含：1)人口统计特征 2)行为习惯分析 3)痛点与需求 4)使用场景 5)决策路径 6)用户分层建议 7)产品优化方向。",
+   "example":"我们的APP用户主要是25-35岁的城市白领，想了解他们的核心需求",
+   "author":"老田·2026/06/29","views":421},
+  {"id":"p18","ico":"🎪","title":"活动策划方案生成","category":"内容创作",
+   "desc":"你是一位资深活动策划师，拥有丰富的线上线下活动组织经验，擅长创意策划、流程设计和资源协调。\n\n你的任务是根据用户的活动需求，生成完整的活动策划方案。包含：1)活动主题和定位 2)目标人群分析 3)活动流程设计 4)场地和物料清单 5)预算预估 6)人员分工 7)宣传推广方案 8)应急预案。",
+   "example":"公司要办一场200人的年会，预算10万，主题是AI未来",
+   "author":"老田·2026/06/28","views":567},
+  {"id":"p19","ico":"💼","title":"简历优化与面试准备","category":"教育",
+   "desc":"你是一位资深HR和职业规划顾问，拥有500强企业招聘经验，精通简历优化、面试技巧培训和职业发展指导。\n\n你的任务是帮助用户优化简历并准备面试。输出包含：1)简历问题诊断 2)优化后的简历 3)面试常见问题预测 4)回答策略和话术 5)薪资谈判技巧 6)职业发展建议。",
+   "example":"我有5年产品经理经验，想跳槽到大厂，帮我优化简历和准备面试",
+   "author":"老田·2026/06/27","views":1189},
+  {"id":"p20","ico":"🏗️","title":"系统架构设计咨询","category":"开发",
+   "desc":"你是一位资深系统架构师，精通微服务、云原生、分布式系统设计，能够为不同规模的业务提供技术架构方案。\n\n你的任务是根据用户的业务需求，设计系统架构方案。包含：1)架构概述 2)技术选型 3)模块划分 4)数据流设计 5)接口定义 6)部署方案 7)性能和安全考量 8)扩展性规划。",
+   "example":"我们要开发一个日均10万DAU的电商小程序，需要设计后端架构",
+   "author":"老田·2026/06/26","views":503},
+]
 
 SKILLS = [
 {
@@ -2201,10 +2385,54 @@ def build_skills():
 
     body = (hero +
             '<section class="section"><div class="skill-cats">' + cats + '</div>' + grid + '</section>' +
-            modal + details)
+            modal + details +
+            build_prompts_section())
     html = wrap_page("Skills", body, active="Skills")
     with open("skills.html","w",encoding="utf-8") as f: f.write(html)
     print("生成: skills.html")
+
+def build_prompts_section():
+    """生成「AI 提示词社区」区块 HTML 片段（嵌入 skills.html，样式/内容参照 simouxuan.com 的 AI 提示词社区模块）"""
+    cats = "".join(
+        '<span class="prompt-cat ' + ('active' if c == '全部' else '') + '" data-cat="' + c + '" onclick="filterPrompts(\'' + c + '\')">' + c + '</span>'
+        for c in PROMPT_CATEGORIES
+    )
+    hero = ('<section class="prompt-hero"><h2>AI 提示词社区</h2>'
+            '<p>20 个精选 AI 提示词模板，覆盖内容创作、开发、教育、效率工具等场景。'
+            '点击卡片查看完整提示词，支持一键复制。</p></section>')
+    grid = '<div class="prompt-grid">'
+    details = ""
+    for p in PROMPTS:
+        views = format(p['views'], ',')
+        grid += ('<div class="prompt-card" data-cat="' + p['category'] + '" onclick="openPromptModal(\'' + p['id'] + '\')">'
+                 '<div class="top"><div class="ava">' + p['ico'] + '</div>'
+                 '<div class="tit"><h3>' + p['title'] + '</h3>'
+                 '<div class="badges"><span class="badge-cat">' + p['category'] + '</span></div></div></div>'
+                 '<p class="desc">' + p['desc'] + '</p>'
+                 '<div class="ex">示例：' + p['example'] + '</div>'
+                 '<div class="foot"><span>' + p['author'] + '</span><span class="views">👁 ' + views + '</span></div></div>')
+        prompt_text = "【角色设定】\n" + p['desc'] + "\n\n【示例指令】\n" + p['example']
+        details += ('<div id="promptContent-' + p['id'] + '" style="display:none">'
+                    '<div class="prompt-modal-head">'
+                    '<div class="ava">' + p['ico'] + '</div>'
+                    '<div class="tit"><h2>' + p['title'] + '</h2>'
+                    '<div class="badges"><span class="badge-cat">' + p['category'] + '</span>'
+                    '<span class="badge-cat">' + p['author'] + '</span></div></div></div>'
+                    '<div class="prompt-modal-body">'
+                    '<div class="prompt-modal-sec"><div class="sec-title"><span class="sec-ico">①</span>角色设定</div><p>' + p['desc'] + '</p></div>'
+                    '<div class="prompt-modal-sec"><div class="sec-title"><span class="sec-ico">②</span>示例指令</div><div class="example">' + p['example'] + '</div></div>'
+                    '<div class="prompt-modal-sec"><div class="sec-title"><span class="sec-ico">③</span>完整提示词（可复制）</div>'
+                    '<div class="prompt-box"><pre id="promptText-' + p['id'] + '">' + prompt_text + '</pre>'
+                    '<button class="copy-btn" onclick="copyPrompt(\'' + p['id'] + '\',this)">一键复制</button></div></div>'
+                    '</div></div>')
+    grid += '</div>'
+    modal = ('<div class="prompt-modal" id="promptModal" onclick="if(event.target===this)closePromptModal()">'
+             '<div class="prompt-modal-box" onclick="event.stopPropagation()">'
+             '<button class="prompt-modal-close" onclick="closePromptModal()">×</button>'
+             '<div id="promptModalInner"></div></div></div>')
+    return ('<section class="section prompt-section"><div class="prompt-cats">' + cats + '</div>'
+            + grid + '</section>' + modal + details)
+
 
 def build_community():
     profile = ('<div class="profile"><div class="ava">田</div><div class="pinfo">'
