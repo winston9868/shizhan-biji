@@ -143,26 +143,26 @@ img{max-width:100%;height:auto}
 .card:hover .arrow{transform:translateX(4px);color:var(--c-teal)}
 
 /* ===== Filter pills (home articles) ===== */
+/* ===== Filter pills (home articles) · 青色柔和版（B 方案） ===== */
 .filter-pills{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
 .filter-pill{padding:7px 18px;border:1px solid var(--border);border-radius:var(--radius-xl);
   background:var(--bg-card);color:var(--text-secondary);font-size:13px;cursor:pointer;transition:all .2s}
-.filter-pill:hover{border-color:var(--border-hover);color:var(--c-teal)}
-.filter-pill.active{background:linear-gradient(120deg,#10B981,#84CC16);color:#fff;border-color:transparent;font-weight:600}
+.filter-pill:hover{border-color:#7DD3E8;color:#0891B2}
+.filter-pill.active{background:#0891B2;color:#fff;border-color:transparent;font-weight:600}
 
-/* ===== Article list ===== */
+/* ===== Article list · 图2 风格 / 青色柔和版（B 方案） ===== */
 .article-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
-.article-card{display:flex;gap:14px;background:var(--bg-card);border:1px solid var(--border);
-  border-radius:var(--radius-md);padding:18px;box-shadow:var(--shadow-sm);transition:all .22s}
-.article-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--border-hover)}
-.article-badge{flex-shrink:0;width:54px;height:54px;border-radius:var(--radius-sm);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:600}
-.article-badge .ch{font-size:11px;opacity:.85}
-.article-badge .num{font-size:18px;line-height:1}
-.article-card .body h4{font-size:15px;font-weight:600;margin-bottom:5px}
-.article-card .body p{font-size:12.5px;color:var(--text-secondary);line-height:1.7;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.article-card .tag{display:inline-block;margin-top:8px;font-size:11px;padding:2px 10px;
-  border-radius:var(--radius-xl);background:var(--bg-soft);color:var(--text-tertiary)}
+.article-card{display:block;background:var(--bg-card);border:1px solid var(--border);
+  border-left:4px solid #7DD3E8;border-radius:var(--radius-md);padding:18px 20px;
+  box-shadow:var(--shadow-sm);transition:all .22s;text-decoration:none}
+.article-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:#7DD3E8;border-left-color:#0891B2;color:inherit}
+.article-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.article-cat{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;
+  border-radius:var(--radius-xl);background:rgba(6,182,212,.12);color:#0891B2}
+.article-ch{font-size:12px;color:var(--text-tertiary);font-weight:500}
+.article-card h4{font-size:15.5px;font-weight:700;color:var(--text-primary);margin:0 0 6px;line-height:1.45}
+.article-card p{font-size:13px;color:var(--text-secondary);line-height:1.75;margin:0;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 
 /* ===== Doc layout (manual/cases/advanced) ===== */
 .layout{max-width:1280px;margin:0 auto;padding:calc(var(--topbar-h) + 28px) 24px 80px;
@@ -243,7 +243,7 @@ td{color:var(--text-secondary)}
 .skill-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--border-hover)}
 .skill-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
 .skill-ava{width:44px;height:44px;border-radius:var(--radius-md);display:flex;align-items:center;
-  justify-content:center;font-size:22px;background:linear-gradient(135deg,#4DEE9E,#D6E807);color:#fff;flex-shrink:0}
+  justify-content:center;font-size:22px;background:rgba(16,185,129,.08);color:var(--c-teal);flex-shrink:0}
 .skill-card h3{font-size:16px;font-weight:600}
 .skill-card .ver{font-size:11px;color:var(--text-tertiary);margin-top:2px}
 .skill-card p{color:var(--text-secondary);font-size:13px;line-height:1.8;flex:1}
@@ -265,8 +265,8 @@ td{color:var(--text-secondary)}
 .info-card a{font-weight:500}
 .profile{display:flex;gap:24px;align-items:center;background:var(--bg-card);border:1px solid var(--border);
   border-radius:var(--radius-lg);padding:28px;box-shadow:var(--shadow-sm);margin-bottom:28px;flex-wrap:wrap}
-.profile .ava{width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,#4DEE9E,#D6E807);
-  display:flex;align-items:center;justify-content:center;color:#fff;font-size:30px;font-weight:600;flex-shrink:0}
+.profile .ava{width:84px;height:84px;border-radius:50%;background:rgba(16,185,129,.08);
+  display:flex;align-items:center;justify-content:center;color:var(--c-teal);font-size:30px;font-weight:600;flex-shrink:0}
 .profile .pinfo h2{font-size:22px;font-weight:700}
 .profile .pinfo .role{color:var(--c-teal);font-weight:500;margin:4px 0}
 .profile .pinfo p{color:var(--text-secondary);font-size:13.5px;margin-top:6px;max-width:560px}
@@ -303,7 +303,7 @@ td{color:var(--text-secondary)}
 .skill-card-v2.hidden{display:none}
 .skill-card-v2 .top{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
 .skill-card-v2 .ava{width:52px;height:52px;border-radius:var(--radius-md);display:flex;align-items:center;
-  justify-content:center;font-size:26px;background:linear-gradient(135deg,#4DEE9E,#D6E807);color:#fff;flex-shrink:0}
+  justify-content:center;font-size:26px;background:rgba(16,185,129,.08);color:var(--c-teal);flex-shrink:0}
 .skill-card-v2 .tit{flex:1}
 .skill-card-v2 h3{font-size:16px;font-weight:600;margin-bottom:4px}
 .skill-card-v2 .badges{display:flex;gap:6px;flex-wrap:wrap}
@@ -327,7 +327,7 @@ td{color:var(--text-secondary)}
 .skill-modal-close:hover{background:var(--border);color:var(--text-primary)}
 .skill-modal-head{padding:28px 32px 22px;border-bottom:1px solid var(--border);display:flex;gap:18px;align-items:flex-start}
 .skill-modal-head .ava{width:64px;height:64px;border-radius:var(--radius-md);display:flex;align-items:center;
-  justify-content:center;font-size:32px;background:linear-gradient(135deg,#4DEE9E,#D6E807);color:#fff;flex-shrink:0}
+  justify-content:center;font-size:32px;background:rgba(16,185,129,.08);color:var(--c-teal);flex-shrink:0}
 .skill-modal-head .tit h2{font-size:22px;font-weight:700;margin-bottom:8px}
 .skill-modal-head .badges{display:flex;gap:6px;flex-wrap:wrap}
 .skill-modal-body{padding:28px 32px 32px}
@@ -372,7 +372,7 @@ td{color:var(--text-secondary)}
 .prompt-card.hidden{display:none}
 .prompt-card .top{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
 .prompt-card .ava{width:52px;height:52px;border-radius:var(--radius-md);display:flex;align-items:center;
-  justify-content:center;font-size:26px;background:linear-gradient(135deg,#4DEE9E,#D6E807);color:#fff;flex-shrink:0}
+  justify-content:center;font-size:26px;background:rgba(16,185,129,.08);color:var(--c-teal);flex-shrink:0}
 .prompt-card .tit{flex:1}
 .prompt-card h3{font-size:16px;font-weight:600;margin-bottom:4px}
 .prompt-card .badges{display:flex;gap:6px;flex-wrap:wrap}
@@ -397,7 +397,7 @@ td{color:var(--text-secondary)}
 .prompt-modal-close:hover{background:var(--border);color:var(--text-primary)}
 .prompt-modal-head{padding:28px 32px 22px;border-bottom:1px solid var(--border);display:flex;gap:18px;align-items:flex-start}
 .prompt-modal-head .ava{width:64px;height:64px;border-radius:var(--radius-md);display:flex;align-items:center;
-  justify-content:center;font-size:32px;background:linear-gradient(135deg,#4DEE9E,#D6E807);color:#fff;flex-shrink:0}
+  justify-content:center;font-size:32px;background:rgba(16,185,129,.08);color:var(--c-teal);flex-shrink:0}
 .prompt-modal-head .tit h2{font-size:22px;font-weight:700;margin-bottom:8px}
 .prompt-modal-head .badges{display:flex;gap:6px;flex-wrap:wrap}
 .prompt-modal-body{padding:28px 32px 32px}
@@ -568,13 +568,16 @@ def footer():
             '<div class="links">' + links + '</div></div></footer>'
             '<button id="backTop" onclick="goTop()" title="回到顶部">↑</button>')
 
-def article_wrap(product, num, title, desc, href, color, tag):
+def article_wrap(product, num, title, desc, href, cat=None):
+    if cat is None: cat = product
     return ('<div class="article-card-wrap" data-part="' + product + '">'
             '<a class="article-card" href="' + href + '">'
-            '<div class="article-badge" style="background:' + color + '">'
-            '<span class="ch">CH</span><span class="num">' + num + '</span></div>'
-            '<div class="body"><h4>' + title + '</h4><p>' + desc + '</p>'
-            '<span class="tag">' + tag + '</span></div></a></div>')
+            '<div class="article-card-top">'
+            '<span class="article-cat">' + cat + '</span>'
+            '<span class="article-ch">CH.' + num + '</span></div>'
+            '<h4>' + title + '</h4>'
+            '<p>' + desc + '</p>'
+            '</a></div>')
 
 # ============================ 内容数据 ============================
 # 每个文档页：章节列表 (id, num, title, badge, body_html)
@@ -664,20 +667,28 @@ INDUSTRY = [
 
 # Home 文章卡片数据（product 用于筛选与色标）
 HOME_ARTICLES = [
-    ("WorkBuddy","01","初识 WorkBuddy","从回答到交付的 AI 工作台","manual-wb.html#chapter-1",C_WB,"WB手册"),
- ("WorkBuddy","02","下载、安装、登录与更新","多端安装与常见问题","manual-wb.html#chapter-2",C_WB,"WB手册"),
- ("WorkBuddy","03","主界面、任务与工作区","三区域/三模式/模型选择","manual-wb.html#chapter-3",C_WB,"WB手册"),
- ("WorkBuddy","04","快速完成第一个任务","任务说明怎么写","manual-wb.html#chapter-4",C_WB,"WB手册"),
- ("WorkBuddy","05","加载一个真正用得上的 Skill","Skill 原理与使用","manual-wb.html#chapter-5",C_WB,"WB手册"),
- ("WorkBuddy","06","专家和专家团","召唤/创建专家与专家团","manual-wb.html#chapter-6",C_WB,"WB手册"),
- ("WorkBuddy","07","使用连接器","MCP 与连接器加载","manual-wb.html#chapter-7",C_WB,"WB手册"),
- ("WorkBuddy","08","接入小程序与 IM 助理","微信/飞书/钉钉接入","manual-wb.html#chapter-8",C_WB,"WB手册"),
- ("WorkBuddy","09","如何接入外部 API","开放能力扩展","manual-wb.html#chapter-9",C_WB,"WB手册"),
- ("WorkBuddy","10","自动化任务","从想法到定时任务","manual-wb.html#chapter-10",C_WB,"WB手册"),
- ("WorkBuddy","01","办公三件套：Word、Excel、PPT","三件套联动实战","cases-wb.html#chapter-2",C_WB,"WB案例"),
- ("WorkBuddy","02","从整理桌面文件这些小事做起","桌面发票扫描与台账生成","cases-wb.html#chapter-1",C_WB,"WB案例"),
- ("WorkBuddy","01","把 SOP 沉淀为 Skill","把反复干的活固化成技能","advanced.html#chapter-22",C_WB,"进阶篇"),
- ("WorkBuddy","03","自动化可靠性实践","失败通知而非静默","advanced.html#chapter-24",C_WB,"进阶篇"),
+    # 使用手册（WB手册 1-10 章）
+    ("使用手册","01","第 1 章 初识 WorkBuddy","从回答到交付的 AI 工作台","manual-wb.html#chapter-1"),
+    ("使用手册","02","第 2 章 下载、安装、登录与更新","多端安装与常见问题","manual-wb.html#chapter-2"),
+    ("使用手册","03","第 3 章 主界面、任务与工作区","三区域/三模式/模型选择","manual-wb.html#chapter-3"),
+    ("使用手册","04","第 4 章 快速完成第一个任务","任务说明怎么写","manual-wb.html#chapter-4"),
+    ("使用手册","05","第 5 章 加载一个真正用得上的 Skill","Skill 原理与使用","manual-wb.html#chapter-5"),
+    ("使用手册","06","第 6 章 专家和专家团","召唤/创建专家与专家团","manual-wb.html#chapter-6"),
+    ("使用手册","07","第 7 章 使用连接器","MCP 与连接器加载","manual-wb.html#chapter-7"),
+    ("使用手册","08","第 8 章 接入小程序与 IM 助理","微信/飞书/钉钉接入","manual-wb.html#chapter-8"),
+    ("使用手册","09","第 9 章 如何接入外部 API","开放能力扩展","manual-wb.html#chapter-9"),
+    ("使用手册","10","第 10 章 自动化任务","从想法到定时任务","manual-wb.html#chapter-10"),
+    # 案例篇（WB案例）
+    ("案例篇","01","第 1 章 从整理桌面文件这些小事做起","桌面发票扫描与台账生成","cases-wb.html#chapter-1"),
+    ("案例篇","02","第 2 章 办公三件套：Word、Excel、PPT","三件套联动实战","cases-wb.html#chapter-2"),
+    # 进阶篇
+    ("进阶篇","01","把 SOP 沉淀为 Skill","把反复干的活固化成技能","advanced.html#chapter-22"),
+    ("进阶篇","03","自动化可靠性实践","失败通知而非静默","advanced.html#chapter-24"),
+    # 岗位与行业落地（industry 4 章）
+    ("岗位与行业落地","01","销售岗位落地","客户拜访纪要、销售日报、需求跟踪","industry.html#industry-1"),
+    ("岗位与行业落地","02","外贸岗位落地","询盘提取、报价测算、多语言沟通","industry.html#industry-2"),
+    ("岗位与行业落地","03","零售行业落地","会员运营、门店日报、资讯简报","industry.html#industry-3"),
+    ("岗位与行业落地","04","制造行业落地","生产日报、订单对接、维保知识库","industry.html#industry-4"),
 ]
 
 SKILL_CATEGORIES = ["全部", "写作排版", "内容生产", "数据分析", "自动化", "企业微信", "销售获客", "文件与知识管理", "法务合规", "人力资源", "财务行政", "产品营销", "协作办公", "金融", "设计", "开发"]
@@ -2341,19 +2352,21 @@ def build_index():
                       '<p>' + desc + '</p>'
                       '<div class="meta">' + meta + '</div><span class="arrow">→</span></a>')
     card_html += '</div>'
-    # 最新文章 + 产品筛选
+    # 全部文章 + 类别筛选（图2 风格）
     pills = ('<div class="filter-pills">'
              '<span class="filter-pill active" data-part="" onclick="filterArticles(\'\')">全部</span>'
-             '<span class="filter-pill" data-part="企业微信" onclick="filterArticles(\'企业微信\')">企业微信</span>'
-             '<span class="filter-pill" data-part="WorkBuddy" onclick="filterArticles(\'WorkBuddy\')">WorkBuddy</span>'
+             '<span class="filter-pill" data-part="使用手册" onclick="filterArticles(\'使用手册\')">使用手册</span>'
+             '<span class="filter-pill" data-part="案例篇" onclick="filterArticles(\'案例篇\')">案例篇</span>'
+             '<span class="filter-pill" data-part="进阶篇" onclick="filterArticles(\'进阶篇\')">进阶篇</span>'
+             '<span class="filter-pill" data-part="岗位与行业落地" onclick="filterArticles(\'岗位与行业落地\')">岗位与行业落地</span>'
              '</div>')
-    wraps = "".join(article_wrap(p[0],p[1],p[2],p[3],p[4],p[5],p[6]) for p in HOME_ARTICLES)
+    wraps = "".join(article_wrap(p[0],p[1],p[2],p[3],p[4]) for p in HOME_ARTICLES)
     list_html = '<div class="article-list">' + wraps + '</div>'
     body = ('<div>' + hero +
             '<section class="section" id="notebooks"><div class="section-head"><h2><span class="bar"></span>笔记类别</h2>'
             '<p>手册、案例、进阶、岗位与行业落地，按类别快速进入，内容持续补充中</p></div>' + card_html + '</section>'
-            '<section class="section" style="padding-top:0"><div class="section-head"><h2><span class="bar"></span>最新文章</h2>'
-            '<p>点击产品快速筛选</p></div>' + pills + list_html + '</section></div>')
+            '<section class="section" style="padding-top:0"><div class="section-head"><h2>全部文章</h2>'
+            '<p>点击任意文章跳转到对应篇章阅读</p></div>' + pills + list_html + '</section></div>')
     html = wrap_page("首页", body)
     with open("index.html","w",encoding="utf-8") as f: f.write(html)
     print("生成: index.html")
