@@ -308,6 +308,14 @@ td{color:var(--text-secondary)}
   background:linear-gradient(120deg,#047857,#10B981,#06B6D4);-webkit-background-clip:text;
   background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
 .prompt-hero p{color:var(--text-secondary);font-size:15px;line-height:1.9}
+.prompt-search{margin:24px auto 0;max-width:560px;position:relative}
+.prompt-search input{width:100%;padding:12px 16px 12px 42px;border:1.5px solid var(--border);
+  border-radius:var(--radius-xl);background:var(--bg-card);color:var(--text-primary);
+  font-size:14px;outline:none;transition:border-color .2s,box-shadow .2s;box-sizing:border-box}
+.prompt-search input::placeholder{color:var(--text-muted)}
+.prompt-search input:focus{border-color:var(--c-teal);box-shadow:0 0 0 3px rgba(16,185,129,.15)}
+.prompt-search .search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);
+  color:var(--text-muted);font-size:16px;pointer-events:none}
 .prompt-cats{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:28px 0 32px}
 .prompt-cat{padding:7px 16px;border:1px solid var(--border);border-radius:var(--radius-xl);
   background:var(--bg-card);color:var(--text-secondary);font-size:13px;cursor:pointer;transition:all .2s}
@@ -435,9 +443,24 @@ window.addEventListener('hashchange',function(){
 function filterPrompts(cat){
   document.querySelectorAll('.prompt-cat').forEach(function(p){
     p.classList.toggle('active', p.getAttribute('data-cat')===cat);});
+  applyPromptFilter(cat);
+}
+function searchPrompts(q){
+  var activeCat = '';
+  document.querySelectorAll('.prompt-cat.active').forEach(function(p){activeCat = p.getAttribute('data-cat');});
+  applyPromptFilter(activeCat, q);
+}
+function applyPromptFilter(cat, q){
+  q = (q || '').toLowerCase().trim();
   document.querySelectorAll('.prompt-card').forEach(function(c){
-    var show = cat==='全部' || c.getAttribute('data-cat')===cat;
-    c.classList.toggle('hidden', !show);});
+    var matchCat = cat==='全部' || c.getAttribute('data-cat')===cat;
+    var matchQ = !q;
+    if(q && !matchQ){
+      var txt = (c.textContent || '').toLowerCase();
+      matchQ = txt.indexOf(q) !== -1;
+    }
+    c.classList.toggle('hidden', !(matchCat && matchQ));
+  });
 }
 function openPromptModal(id){
   var m=document.getElementById('promptModal');
