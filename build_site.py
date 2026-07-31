@@ -159,6 +159,9 @@ img{max-width:100%;height:auto}
 .article-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .article-cat{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;
   border-radius:var(--radius-xl);background:rgba(6,182,212,.12);color:#0891B2}
+.article-cat.cat-case{background:rgba(168,85,247,.12);color:#9333EA}
+.article-cat.cat-advanced{background:rgba(37,99,235,.12);color:#1D4ED8}
+.article-cat.cat-industry{background:rgba(217,119,6,.12);color:#B45309}
 .article-ch{font-size:12px;color:var(--text-tertiary);font-weight:500}
 .article-card h4{font-size:15.5px;font-weight:700;color:var(--text-primary);margin:0 0 6px;line-height:1.45}
 .article-card p{font-size:13px;color:var(--text-secondary);line-height:1.75;margin:0;
@@ -570,10 +573,11 @@ def footer():
 
 def article_wrap(product, num, title, desc, href, cat=None):
     if cat is None: cat = product
+    _cat_cls = {"使用手册":"","案例篇":"cat-case","进阶篇":"cat-advanced","岗位与行业落地":"cat-industry"}.get(cat,"")
     return ('<div class="article-card-wrap" data-part="' + product + '">'
             '<a class="article-card" href="' + href + '">'
             '<div class="article-card-top">'
-            '<span class="article-cat">' + cat + '</span>'
+            '<span class="article-cat' + (' '+_cat_cls if _cat_cls else '') + '">' + cat + '</span>'
             '<span class="article-ch">CH.' + num + '</span></div>'
             '<h4>' + title + '</h4>'
             '<p>' + desc + '</p>'
