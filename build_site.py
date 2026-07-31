@@ -2333,10 +2333,9 @@ def build_reader(active_name, page_title, chs, fname, pcolor):
 def build_index():
     # Hero
     hero = ('<section class="hero"><div class="hero-name">老田的 AI 实战笔记</div>'
-            '<p class="hero-tagline">腾讯产品商务顾问的一线实战沉淀 —— 关于 WorkBuddy 与企业微信的'
-            '使用手册、真实案例、进阶心法与可复用 Skill。边用边记，持续更新。</p>'
+            '<p class="hero-tagline">WorkBuddy 一线实战沉淀 —— 使用手册、真实案例、'
+            '进阶心法与可复用 Skill。边用边记，持续更新。</p>'
             '<div class="hero-tags">'
-            '<span class="hero-tag wecom">企业微信</span>'
             '<span class="hero-tag teal">WorkBuddy</span>'
             '<span class="hero-tag coral">实战案例</span>'
             '<span class="hero-tag purple">Skill 沉淀</span></div></section>')
