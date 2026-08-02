@@ -18,27 +18,42 @@ SITE_DESC = "腾讯产品商务顾问的 WorkBuddy / 企业微信 实战沉淀�
 AUTHOR = "田伟"
 CITY = "长沙"
 
-# 顶部导航栏目（name, href, icon, 产品色, 产品分组）
-SECTIONS = [
-    ("首页",   "index.html",              "🏠", "",         ""),
-    ("笔记",   "index.html#notebooks",    "📝", "#10B981",  ""),
-    ("进阶篇", "advanced.html",           "🚀", "#10B981", "WorkBuddy"),
-    ("岗位与行业落地", "industry.html",   "🎯", "#0EA5E9", ""),
-    ("Skills", "skills.html",             "🧩", "#A855F7", ""),
-    ("交流",   "community.html",          "💬", "#64748B", ""),
-]
-
 # 产品色板
 C_WECOM = "#07C160"   # 企业微信绿
 C_WB    = "#10B981"   # WorkBuddy 翡翠绿
 C_WECOM_SOFT = "rgba(7,192,96,.12)"
 C_WB_SOFT    = "rgba(16,185,129,.12)"
 C_INDUSTRY   = "#0EA5E9"  # 岗位与行业落地（天蓝）
+C_TOOLS      = "#06B6D4"  # AI 工具评测（青）
+C_LLM        = "#A855F7"  # 大模型横评（紫）
+C_AGENT      = "#F59E0B"  # AI 案例（琥珀）
 
 # 笔记类别（首页卡片与下拉菜单共用）
 NOTEBOOK_SECTIONS = [
     ("WB手册",  "manual-wb.html",    "📘", C_WB,    "从 0 到 1，把 WorkBuddy 用起来"),
     ("WB案例",  "cases-wb.html",     "📂", C_WB,    "真实任务的完整复现"),
+]
+
+# AI 生态栏目（顶部导航下拉 + 首页文章系列卡片共用）
+ECOSYSTEM_SECTIONS = [
+    ("AI 工具评测", "ai-tools.html",       "🛠", C_TOOLS,    "6 款主流 AI 工具深度横评"),
+    ("大模型横评",  "llm-compare.html",    "🧠", C_LLM,      "跑分、定价与选型指南"),
+    ("行业落地拆解", "ai-industry.html",   "🏭", C_INDUSTRY, "AI 在 6 大行业怎么落地"),
+    ("AI 案例",     "ai-agent-cases.html", "⚡", C_AGENT,    "自己跑通的真实项目复盘"),
+]
+
+# 顶部导航栏目（name, href, icon, 产品色, 产品分组, 下拉项）
+# 下拉项格式：[(名称, 链接, 颜色), ...]，为 None 时是普通链接
+SECTIONS = [
+    ("首页",   "index.html",              "🏠", "",         "", None),
+    ("笔记",   "index.html#notebooks",    "📝", "#10B981",  "",
+        [(n, h, c) for (n, h, i, c, d) in NOTEBOOK_SECTIONS]),
+    ("进阶篇", "advanced.html",           "🚀", "#10B981", "WorkBuddy", None),
+    ("岗位与行业落地", "industry.html",   "🎯", "#0EA5E9", "", None),
+    ("AI 生态", "ai-tools.html",          "🌐", C_TOOLS,   "",
+        [(n, h, c) for (n, h, i, c, d) in ECOSYSTEM_SECTIONS]),
+    ("Skills", "skills.html",             "🧩", "#A855F7", "", None),
+    ("交流",   "community.html",          "💬", "#64748B", "", None),
 ]
 
 # ============================ 共享 CSS ============================
@@ -99,6 +114,8 @@ img{max-width:100%;height:auto}
 .nav-dropdown-menu a{display:flex;align-items:center;padding:8px 14px;font-size:13px;color:var(--text-secondary);white-space:nowrap}
 .nav-dropdown-menu a:hover{background:var(--bg-soft);color:var(--text-primary)}
 .nav-dropdown-menu .nav-dot{width:7px;height:7px}
+.nav-dropdown-menu a.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.nav-dropdown>a.active .caret{color:var(--accent)}
 
 /* ===== Hero (home) ===== */
 .hero{margin-top:var(--topbar-h);padding:72px 24px 56px;
@@ -430,6 +447,104 @@ td{color:var(--text-secondary)}
   .sidebar.open{display:block}
   .reading-page{padding:24px 18px}
   .hero-name{font-size:30px}.section{padding:40px 16px}}
+  .news-grid,.eco-grid,.case-grid{grid-template-columns:1fr}}
+
+/* ===== Homepage: news hotspot ===== */
+.news-section{background:var(--bg-card)}
+.news-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
+.news-tab{padding:8px 18px;border:1px solid var(--border);border-radius:var(--radius-xl);
+  background:var(--bg-card);color:var(--text-secondary);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+.news-tab:hover{border-color:var(--tc);color:var(--tc)}
+.news-tab.active{background:var(--tc);color:#fff;border-color:transparent}
+.news-panel{display:none}
+.news-panel.active{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.news-card{background:var(--bg-soft);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;
+  text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:10px;transition:all .2s}
+.news-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);border-color:var(--border-hover)}
+.news-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:var(--radius-xl);align-self:flex-start}
+.news-card h4{font-size:15px;font-weight:600;line-height:1.5}
+.news-card p{font-size:13px;color:var(--text-secondary);line-height:1.7;flex:1}
+.news-go{font-size:12px;color:var(--tc);font-weight:600}
+
+/* ===== Homepage: AI ecosystem showcase ===== */
+.eco-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+.eco-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;
+  text-decoration:none;color:inherit;position:relative;transition:all .25s;overflow:hidden}
+.eco-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-color:var(--ec)}
+.eco-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--ec)}
+.eco-ico{width:48px;height:48px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin-bottom:14px}
+.eco-card h4{font-size:17px;font-weight:600;margin-bottom:8px}
+.eco-card p{font-size:13px;color:var(--text-secondary);line-height:1.7}
+.eco-card .arrow{position:absolute;right:22px;bottom:22px;color:var(--ec);font-weight:700;font-size:18px}
+
+/* ===== Homepage: case showcase ===== */
+.case-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.case-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;
+  text-decoration:none;color:inherit;position:relative;transition:all .25s}
+.case-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-color:var(--cc)}
+.case-ico{width:48px;height:48px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin-bottom:14px}
+.case-card h4{font-size:17px;font-weight:600;margin-bottom:8px}
+.case-card p{font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:10px}
+.case-card .meta{font-size:12px;color:var(--text-tertiary);margin-bottom:6px}
+.case-card .arrow{color:var(--cc);font-weight:700;font-size:18px}
+
+/* ===== Ecosystem detail page ===== */
+.eco-hero{margin-top:var(--topbar-h);padding:64px 24px 52px;text-align:center;border-bottom:1px solid var(--border)}
+.eco-hero .eco-badge{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;
+  padding:6px 16px;border-radius:var(--radius-xl);margin-bottom:18px}
+.eco-hero h1{font-family:var(--font-serif);font-size:38px;font-weight:700;letter-spacing:.5px}
+.eco-hero p{max-width:680px;margin:18px auto 0;color:var(--text-secondary);font-size:15px;line-height:1.9}
+.eco-layout{max-width:1100px;margin:0 auto;padding:40px 24px 80px;display:grid;
+  grid-template-columns:200px minmax(0,1fr);gap:40px;align-items:start}
+.eco-toc{position:sticky;top:calc(var(--topbar-h) + 20px);display:flex;flex-direction:column;gap:4px}
+.eco-toc a{font-size:13px;color:var(--text-secondary);text-decoration:none;padding:8px 12px;border-radius:8px;
+  border-left:3px solid transparent;transition:all .2s}
+.eco-toc a:hover{background:var(--bg-soft);color:var(--text-primary)}
+.eco-toc a.active{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.eco-main{min-width:0}
+.eco-section{margin-bottom:48px;scroll-margin-top:calc(var(--topbar-h) + 20px)}
+.eco-section-head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.eco-section-head .si{font-size:22px}
+.eco-section-head h2{font-size:24px;font-weight:700}
+.eco-section .intro{color:var(--text-secondary);font-size:14px;line-height:1.8;margin:6px 0 18px}
+.eco-subgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.eco-subcard{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px}
+.eco-subhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.eco-subhead h4{font-size:15px;font-weight:600}
+.eco-tag{font-size:11px;padding:2px 10px;border-radius:var(--radius-xl);background:var(--bg-soft);color:var(--text-tertiary)}
+.eco-subcard p{font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pc-col.pro{background:rgba(16,185,129,.06)}
+.pc-col.con{background:rgba(239,68,68,.06)}
+.pc-col{border-radius:10px;padding:10px 12px}
+.pc-h{font-size:12px;font-weight:600;display:block;margin-bottom:6px}
+.pc-col.pro .pc-h{color:var(--c-teal)}
+.pc-col.con .pc-h{color:#EF4444}
+.pc-col ul{margin:0;padding-left:18px}
+.pc-col li{font-size:12px;color:var(--text-secondary);line-height:1.7}
+.cmp{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0;background:var(--bg-card);
+  border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.cmp th,.cmp td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+.cmp th{background:var(--bg-soft);font-weight:600;color:var(--text-primary)}
+.cmp tr:last-child td{border-bottom:none}
+.cmp tbody tr:hover{background:var(--bg-soft)}
+.eco-conclusion{background:var(--bg-card);border:1px solid var(--border);border-left:4px solid var(--accent);
+  border-radius:var(--radius-lg);padding:22px 26px}
+.eco-conclusion h3{font-size:18px;font-weight:700;margin-bottom:10px}
+.eco-conclusion p,.eco-conclusion div{font-size:14px;color:var(--text-secondary);line-height:1.9}
+.eco-todo{background:rgba(245,158,11,.08);border:1px dashed #F59E0B;border-radius:10px;padding:14px 16px;
+  font-size:13px;color:#B45309;line-height:1.7}
+.eco-cta{text-align:center;margin-top:40px;padding:32px;background:var(--bg-soft);border-radius:var(--radius-lg)}
+.eco-cta h3{font-size:20px;font-weight:700;margin-bottom:10px}
+.eco-cta a{display:inline-block;margin:6px;padding:10px 22px;border-radius:var(--radius-xl);text-decoration:none;
+  font-weight:600;font-size:14px;background:var(--accent);color:#fff}
+.eco-cta a.ghost{background:var(--bg-card);color:var(--accent);border:1px solid var(--accent)}
+@media(max-width:768px){.eco-layout{grid-template-columns:1fr;padding:24px 16px}.eco-toc{display:none}
+  .pc{grid-template-columns:1fr}}
 """
 
 # ============================ 共享 JS ============================
@@ -538,6 +653,29 @@ function fallbackCopy(text){
   var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
   document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta);
 }
+
+// Homepage: news hotspot tab switch
+function switchNews(key){
+  document.querySelectorAll('.news-tab').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-tab')===key);});
+  document.querySelectorAll('.news-panel').forEach(function(p){
+    p.classList.toggle('active', p.id==='news-'+key);});
+}
+
+// Ecosystem detail page: TOC scroll-spy
+function initEcoToc(){
+  var links=document.querySelectorAll('.eco-toc a');
+  if(!links.length) return;
+  var secs=[].map.call(links, function(a){
+    return document.getElementById(a.getAttribute('href').slice(1));}).filter(Boolean);
+  function onScroll(){
+    var pos=window.scrollY+130, cur=secs[0];
+    secs.forEach(function(s){ if(s.offsetTop<=pos) cur=s; });
+    links.forEach(function(a){ a.classList.toggle('active', cur && a.getAttribute('href')==='#'+cur.id); });
+  }
+  window.addEventListener('scroll', onScroll); onScroll();
+}
+if(document.querySelector('.eco-layout')) initEcoToc();
 """
 
 # ============================ 公共片段 ============================
@@ -548,11 +686,26 @@ def hex_rgba(h, a):
 
 def topbar(active):
     navs = ""
-    for (name, href, ico, color, grp) in SECTIONS:
+    for (name, href, ico, color, grp, dropdown) in SECTIONS:
         dot = '<span class="nav-dot" style="background:%s"></span>' %  color if color else ''
-        cls = "active" if name == active else ""
-        navs += ('<a class="' + cls + '" href="' + href + '">' + dot +
-                 name + '</a>')
+        if dropdown is None:
+            cls = "active" if name == active else ""
+            navs += ('<a class="' + cls + '" href="' + href + '">' + dot +
+                     name + '</a>')
+        else:
+            # 下拉菜单：父项高亮 = 父名匹配 或 任一子项匹配
+            child_active = any(ch == active for (_, ch, _) in dropdown)
+            cls = "active" if (name == active or child_active) else ""
+            menu = '<div class="nav-dropdown' + (' open' if cls else '') + '">'
+            menu += ('<a class="' + cls + '" href="' + href + '">' + dot + name +
+                     '<span class="caret">▼</span></a>')
+            menu += '<div class="nav-dropdown-menu">'
+            for (cn, ch, cc) in dropdown:
+                ccls = "active" if ch == active else ""
+                cdot = '<span class="nav-dot" style="background:%s"></span>' % cc if cc else ''
+                menu += ('<a class="' + ccls + '" href="' + ch + '">' + cdot + cn + '</a>')
+            menu += '</div></div>'
+            navs += menu
     return ('<header class="topbar"><div class="topbar-inner">'
             '<a class="blog-logo" href="index.html">'
             '<span class="blog-logo-icon">TW</span>老田的 AI 实战笔记</a>'
@@ -2366,10 +2519,13 @@ def build_index():
     wraps = "".join(article_wrap(p[0],p[1],p[2],p[3],p[4]) for p in HOME_ARTICLES)
     list_html = '<div class="article-list">' + wraps + '</div>'
     body = ('<div>' + hero +
+            build_news_section() +
             '<section class="section" id="notebooks"><div class="section-head"><h2><span class="bar"></span>笔记类别</h2>'
             '<p>手册、案例、进阶、岗位与行业落地，按类别快速进入，内容持续补充中</p></div>' + card_html + '</section>'
+            + build_ecosystem_showcase() +
             '<section class="section" style="padding-top:0"><div class="section-head"><h2>全部文章</h2>'
-            '<p>点击任意文章跳转到对应篇章阅读</p></div>' + pills + list_html + '</section></div>')
+            '<p>点击任意文章跳转到对应篇章阅读</p></div>' + pills + list_html + '</section>'
+            + build_case_showcase() + '</div>')
     html = wrap_page("首页", body)
     with open("index.html","w",encoding="utf-8") as f: f.write(html)
     print("生成: index.html")
@@ -2516,6 +2672,240 @@ def wrap_page(title, body, active="首页"):
             '<body>' + topbar(active) + body + footer() + '<script>' + JS + '</script></body></html>')
 
 # ============================ 执行 ============================
+# ============================ 首页新增板块：新闻热点 / AI 生态专栏 / 实战案例 ============================
+def _load_news():
+    try:
+        with open("content/news.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {"updated": "", "tabs": []}
+
+def build_news_section():
+    data = _load_news()
+    tabs = data.get("tabs", [])
+    if not tabs:
+        return ""
+    head = '<div class="news-tabs">'
+    panels = ""
+    for i, t in enumerate(tabs):
+        key = t["key"]; name = t["name"]; ico = t.get("ico", ""); color = t.get("color", "#10B981")
+        active = " active" if i == 0 else ""
+        head += ('<button class="news-tab' + active + '" data-tab="' + key + '" style="--tc:' + color +
+                 '" onclick="switchNews(\'' + key + '\')">' + ico + ' ' + name + '</button>')
+        cards = ""
+        for it in t.get("items", []):
+            cards += ('<a class="news-card" href="' + it["url"] + '" target="_blank" rel="noopener">'
+                      '<span class="news-tag" style="background:' + color + '1a;color:' + color + '">' +
+                      t.get("tag", name) + '</span>'
+                      '<h4>' + it["title"] + '</h4><p>' + it["desc"] + '</p>'
+                      '<span class="news-go">阅读原文 →</span></a>')
+        panels += ('<div class="news-panel' + active + '" id="news-' + key + '"><div class="news-grid">' +
+                   cards + '</div></div>')
+    head += '</div>'
+    return ('<section class="section news-section" id="news"><div class="section-head"><h2><span class="bar"></span>新闻热点</h2>'
+            '<p>实时追踪 WorkBuddy、AI 办公与前沿模型动态 · 更新于 ' + data.get("updated", "") + '</p></div>'
+            + head + panels + '</section>')
+
+def build_ecosystem_showcase():
+    cards = ""
+    for (n, h, ico, c, d) in ECOSYSTEM_SECTIONS:
+        cards += ('<a class="eco-card" href="' + h + '" style="--ec:' + c + '">'
+                  '<div class="eco-ico" style="background:' + c + '1a;color:' + c + '">' + ico + '</div>'
+                  '<h4>' + n + '</h4><p>' + d + '</p><span class="arrow">→</span></a>')
+    return ('<section class="section" id="ecosystem"><div class="section-head"><h2><span class="bar"></span>AI 生态专栏</h2>'
+            '<p>工具横评、模型选型、行业拆解与真实案例 —— 边测边写，持续更新</p></div>'
+            '<div class="eco-grid">' + cards + '</div></section>')
+
+def build_case_showcase():
+    cols = [
+        ("⚡", "AI 实战案例", "自己跑通的真实项目复盘", "ai-agent-cases.html", C_AGENT,
+         "需求拆解 → 工具选型 → 落地步骤 → 复盘"),
+        ("📂", "WorkBuddy 案例", "一线任务完整复现", "cases-wb.html", C_WB,
+         "月报 / 透视表 / 培训方案 / 发票处理"),
+    ]
+    html = '<div class="case-grid">'
+    for ico, t, desc, h, color, meta in cols:
+        html += ('<a class="case-card" href="' + h + '" style="--cc:' + color + '">'
+                 '<div class="case-ico" style="background:' + color + '1a;color:' + color + '">' + ico + '</div>'
+                 '<h4>' + t + '</h4><p>' + desc + '</p><div class="meta">' + meta + '</div>'
+                 '<span class="arrow">→</span></a>')
+    html += '</div>'
+    return ('<section class="section" id="cases"><div class="section-head"><h2><span class="bar"></span>实战案例展示</h2>'
+            '<p>不是 PPT 方案，是真正跑通过的活儿</p></div>' + html + '</section>')
+
+# ============================ AI 生态详情页（框架，内容待老田填充） ============================
+# 每个页面：hero + 目录 + 若干 section（含子卡片优劣双栏）+ 横向对比总表 + 结论 + CTA
+# subs 格式：(名称, 标签, 描述, [优势], [不足])；优势/不足留空则渲染「待补充」
+ECOSYSTEM_PAGE_DATA = {
+    "ai-tools": {
+        "fname": "ai-tools.html", "color": C_TOOLS, "ico": "🛠",
+        "title": "AI 工具评测",
+        "tagline": "6 款主流 AI 工具深度横评 —— 从对话写作、图像设计到办公效率，告诉你哪个真的好用、哪个是智商税。",
+        "sections": [
+            {"id": "method", "icon": "📐", "title": "评测方法论",
+             "intro": "先定标准再测工具，避免「凭感觉打分」。",
+             "body": '<div class="eco-todo">【待老田补充：评测维度（易用性 / 准确性 / 中文能力 / 价格 / 生态）、打分权重、测试任务清单】</div>'},
+            {"id": "chat", "icon": "💬", "title": "对话与写作类",
+             "intro": "日常用得最多的品类，重点看中文表达与长文能力。",
+             "subs": [("WorkBuddy", "主力", "腾讯出品，本地+云端双形态", [], []),
+                      ("Kimi", "长文本", "超长上下文，论文/合同友好", [], []),
+                      ("豆包", "免费", "字节系，日常问答够用", [], []),
+                      ("文心一言", "百度", "中文知识问答", [], [])]},
+            {"id": "image", "icon": "🎨", "title": "图像与设计类",
+             "intro": "出图、做图、做海报，谁更稳。",
+             "subs": [("即梦", "字节", "中文 prompt 友好", [], []),
+                      ("Midjourney", "海外", "质感天花板", [], []),
+                      ("Canva AI", "模板", "套模板出图快", [], [])]},
+            {"id": "office", "icon": "🏢", "title": "办公与效率类",
+             "intro": "和微信 / 文档打通的才真省事。",
+             "subs": [("腾讯文档 AI", "协作", "人机双写", [], []),
+                      ("飞书", "字节", "All-in-one", [], []),
+                      ("Notion AI", "海外", "知识库强", [], [])]},
+        ],
+        "compare": ('<table class="cmp"><thead><tr><th>工具</th><th>品类</th><th>中文能力</th><th>价格</th><th>一句话</th></tr></thead><tbody>'
+                    '<tr><td>WorkBuddy</td><td>综合</td><td>优</td><td>待补充</td><td>本地+云端，商务场景强</td></tr>'
+                    '<tr><td>Kimi</td><td>长文本</td><td>优</td><td>待补充</td><td>超长上下文</td></tr>'
+                    '<tr><td>即梦</td><td>图像</td><td>优</td><td>待补充</td><td>中文出图首选</td></tr>'
+                    '<tr><td>Midjourney</td><td>图像</td><td>中</td><td>待补充</td><td>质感强但英文为主</td></tr>'
+                    '<tr><td>腾讯文档 AI</td><td>办公</td><td>优</td><td>待补充</td><td>协作流畅</td></tr>'
+                    '<tr><td>Notion AI</td><td>知识库</td><td>中</td><td>待补充</td><td>结构化强</td></tr>'
+                    '</tbody></table>'),
+        "conclusion": '<div class="eco-todo">【待老田补充：综合结论 + 按人群选型建议（商务顾问 / 学生 / 设计师）】</div>',
+    },
+    "llm-compare": {
+        "fname": "llm-compare.html", "color": C_LLM, "ico": "🧠",
+        "title": "大模型横评",
+        "tagline": "跑分、定价与选型指南 —— 把国内外主流大模型拉到同一张桌子上比，帮你在「够用」和「省钱」之间做对选择。",
+        "sections": [
+            {"id": "dims", "icon": "📏", "title": "评测维度",
+             "intro": "看什么，决定了你信什么。",
+             "body": '<div class="eco-todo">【待老田补充：评测维度（综合跑分 / 价格 / 上下文长度 / 中文能力 / 工具调用 / 速度）与数据来源】</div>'},
+            {"id": "oversea", "icon": "🌐", "title": "国际厂商",
+             "intro": "旗舰密集发布的七月，几家都交了新卷。",
+             "subs": [("GPT-5.6", "OpenAI", "综合能力标杆", [], []),
+                      ("Claude Opus 5", "Anthropic", "长文与代码强", [], []),
+                      ("Gemini 3.6 Flash", "Google", "速度与多模态", [], [])]},
+            {"id": "domestic", "icon": "🇨🇳", "title": "国内厂商",
+             "intro": "国产阵营今年明显提速，性价比是杀手锏。",
+             "subs": [("DeepSeek V4", "深度求索", "开源 + 低价", [], []),
+                      ("Qwen3.8", "阿里", "生态完整", [], []),
+                      ("Kimi K3", "月之暗面", "超长上下文", [], []),
+                      ("智谱 GLM", "智谱", "政务/企业友好", [], [])]},
+        ],
+        "compare": ('<table class="cmp"><thead><tr><th>模型</th><th>厂商</th><th>上下文</th><th>输入价(每M tok)</th><th>亮点</th></tr></thead><tbody>'
+                    '<tr><td>GPT-5.6</td><td>OpenAI</td><td>待补充</td><td>待补充</td><td>综合最强</td></tr>'
+                    '<tr><td>Claude Opus 5</td><td>Anthropic</td><td>待补充</td><td>待补充</td><td>长文/代码</td></tr>'
+                    '<tr><td>Gemini 3.6 Flash</td><td>Google</td><td>待补充</td><td>待补充</td><td>速度/多模态</td></tr>'
+                    '<tr><td>DeepSeek V4</td><td>深度求索</td><td>待补充</td><td>待补充</td><td>开源低价</td></tr>'
+                    '<tr><td>Qwen3.8</td><td>阿里</td><td>待补充</td><td>待补充</td><td>生态全</td></tr>'
+                    '<tr><td>Kimi K3</td><td>月之暗面</td><td>待补充</td><td>待补充</td><td>超长上下文</td></tr>'
+                    '</tbody></table>'),
+        "conclusion": '<div class="eco-todo">【待老田补充：选型指南（按预算 / 场景 / 合规要求推荐）】</div>',
+    },
+    "ai-industry": {
+        "fname": "ai-industry.html", "color": C_INDUSTRY, "ico": "🏭",
+        "title": "行业落地拆解",
+        "tagline": "AI 在 6 大行业怎么落地 —— 不谈概念，只拆真实场景、数据闭环与 ROI，让「能不能用」变成「怎么用」。",
+        "sections": [
+            {"id": "method", "icon": "🔧", "title": "落地方法论",
+             "intro": "别从「上 AI」开始，从「痛点」开始。",
+             "body": '<div class="eco-todo">【待老田补充：落地四步（找场景 / 接数据 / 定指标 / 跑闭环）+ ROI 测算模板】</div>'},
+            {"id": "mfg", "icon": "🏭", "title": "制造业", "intro": "质检、排产、设备运维是高频场景。",
+             "body": '<div class="eco-todo">【待老田补充：典型场景 + 案例 + 工具组合】</div>'},
+            {"id": "retail", "icon": "🛒", "title": "零售", "intro": "导购、客服、选品是 AI 最先啃下的骨头。",
+             "body": '<div class="eco-todo">【待老田补充：典型场景 + 案例 + 工具组合】</div>'},
+            {"id": "trade", "icon": "🌏", "title": "外贸", "intro": "多语言客服与邮件是刚需。",
+             "body": '<div class="eco-todo">【待老田补充：典型场景 + 案例 + 工具组合】</div>'},
+            {"id": "edu", "icon": "🎓", "title": "教育", "intro": "个性化辅导与批改提效明显。",
+             "body": '<div class="eco-todo">【待老田补充：典型场景 + 案例 + 工具组合】</div>'},
+            {"id": "medical", "icon": "🏥", "title": "医疗", "intro": "合规是前提，辅助诊断与文书是切口。",
+             "body": '<div class="eco-todo">【待老田补充：典型场景 + 案例 + 工具组合】</div>'},
+            {"id": "finance", "icon": "💰", "title": "金融", "intro": "风控、研报、投顾是重点场景。",
+             "body": '<div class="eco-todo">【待老田补充：典型场景 + 案例 + 工具组合】</div>'},
+        ],
+        "compare": ('<table class="cmp"><thead><tr><th>行业</th><th>首选场景</th><th>关键数据</th><th>合规要点</th></tr></thead><tbody>'
+                    '<tr><td>制造业</td><td>质检/排产</td><td>待补充</td><td>待补充</td></tr>'
+                    '<tr><td>零售</td><td>导购/客服</td><td>待补充</td><td>待补充</td></tr>'
+                    '<tr><td>外贸</td><td>多语言客服</td><td>待补充</td><td>待补充</td></tr>'
+                    '<tr><td>教育</td><td>个性辅导</td><td>待补充</td><td>待补充</td></tr>'
+                    '<tr><td>医疗</td><td>辅助诊断</td><td>待补充</td><td>待补充</td></tr>'
+                    '<tr><td>金融</td><td>风控/研报</td><td>待补充</td><td>待补充</td></tr>'
+                    '</tbody></table>'),
+        "conclusion": '<div class="eco-todo">【待老田补充：跨行业共性结论 + 落地避坑清单】</div>',
+    },
+    "ai-agent-cases": {
+        "fname": "ai-agent-cases.html", "color": C_AGENT, "ico": "⚡",
+        "title": "AI 案例",
+        "tagline": "自己跑通的真实项目复盘 —— 每个案例都拆到「需求 → 选型 → 步骤 → 复盘」，能抄作业的程度。",
+        "sections": [
+            {"id": "tpl", "icon": "📋", "title": "案例模板说明",
+             "intro": "统一格式，方便你对照自己的业务抄。",
+             "body": '<div class="eco-todo">【待老田补充：每个案例固定结构说明（背景 / 目标 / 工具 / 步骤 / 成本 / 复盘）】</div>'},
+            {"id": "case1", "icon": "①", "title": "案例一（待命名）",
+             "intro": "一句话说清这个案例解决什么问题。",
+             "body": '<div class="eco-todo">【待老田补充：案例一正文】</div>'},
+            {"id": "case2", "icon": "②", "title": "案例二（待命名）",
+             "intro": "一句话说清这个案例解决什么问题。",
+             "body": '<div class="eco-todo">【待老田补充：案例二正文】</div>'},
+            {"id": "case3", "icon": "③", "title": "案例三（待命名）",
+             "intro": "一句话说清这个案例解决什么问题。",
+             "body": '<div class="eco-todo">【待老田补充：案例三正文】</div>'},
+            {"id": "review", "icon": "🔁", "title": "复盘方法论",
+             "intro": "踩过的坑，才是真资产。",
+             "body": '<div class="eco-todo">【待老田补充：通用复盘框架（哪些该做 / 哪些别做）】</div>'},
+        ],
+        "compare": ('<table class="cmp"><thead><tr><th>案例</th><th>领域</th><th>核心工具</th><th>耗时</th><th>效果</th></tr></thead><tbody>'
+                    '<tr><td>案例一</td><td>待补充</td><td>待补充</td><td>待补充</td><td>待补充</td></tr>'
+                    '<tr><td>案例二</td><td>待补充</td><td>待补充</td><td>待补充</td><td>待补充</td></tr>'
+                    '<tr><td>案例三</td><td>待补充</td><td>待补充</td><td>待补充</td><td>待补充</td></tr>'
+                    '</tbody></table>'),
+        "conclusion": '<div class="eco-todo">【待老田补充：案例共性结论 + 什么业务适合用 AI 跑】</div>',
+    },
+}
+
+def eco_subcards(subs):
+    if not subs:
+        return ""
+    h = '<div class="eco-subgrid">'
+    for name, tag, desc, pros, cons in subs:
+        pros_li = "".join("<li>" + x + "</li>" for x in pros) or '<li style="color:#B45309">待补充</li>'
+        cons_li = "".join("<li>" + x + "</li>" for x in cons) or '<li style="color:#B45309">待补充</li>'
+        h += ('<div class="eco-subcard"><div class="eco-subhead"><h4>' + name + '</h4>'
+              '<span class="eco-tag">' + tag + '</span></div>'
+              '<p>' + desc + '</p>'
+              '<div class="pc"><div class="pc-col pro"><span class="pc-h">✓ 优势</span><ul>' + pros_li + '</ul></div>'
+              '<div class="pc-col con"><span class="pc-h">✗ 不足</span><ul>' + cons_li + '</ul></div></div></div>')
+    h += '</div>'
+    return h
+
+def build_ecosystem_page(key):
+    d = ECOSYSTEM_PAGE_DATA[key]
+    color, ico, title, tagline = d["color"], d["ico"], d["title"], d["tagline"]
+    toc = '<nav class="eco-toc">'
+    for s in d["sections"]:
+        toc += '<a href="#' + s["id"] + '">' + s["icon"] + ' ' + s["title"] + '</a>'
+    toc += '<a href="#compare">📊 横向对比</a><a href="#conclusion">✅ 结论</a></nav>'
+    main = ""
+    for s in d["sections"]:
+        inner = s.get("body", "") + (eco_subcards(s.get("subs")) if s.get("subs") else "")
+        main += ('<section class="eco-section" id="' + s["id"] + '">'
+                 '<div class="eco-section-head"><span class="si">' + s["icon"] + '</span><h2>' + s["title"] + '</h2></div>'
+                 '<p class="intro">' + s["intro"] + '</p>' + inner + '</section>')
+    compare = ('<section class="eco-section" id="compare"><div class="eco-section-head">'
+               '<span class="si">📊</span><h2>横向对比总表</h2></div>' + d["compare"] + '</section>')
+    conclusion = ('<section class="eco-section" id="conclusion"><div class="eco-section-head">'
+                  '<span class="si">✅</span><h2>结论与建议</h2></div>'
+                  '<div class="eco-conclusion">' + d["conclusion"] + '</div></section>')
+    cta = ('<div class="eco-cta"><h3>看完想试试？+ 老田的一线经验</h3>'
+           '<a href="index.html">回到首页</a><a class="ghost" href="community.html">和我交流</a></div>')
+    hero = ('<section class="eco-hero"><span class="eco-badge" style="background:' + color + '1a;color:' + color + '">'
+            + ico + ' ' + title + '</span><h1>' + title + '</h1><p>' + tagline + '</p></section>')
+    body = hero + '<div class="eco-layout">' + toc + '<div class="eco-main">' + main + compare + conclusion + cta + '</div></div>'
+    html = wrap_page(title, body, active="AI 生态")
+    with open(d["fname"], "w", encoding="utf-8") as f:
+        f.write(html)
+    print("生成:", d["fname"])
+
 if __name__ == "__main__":
     build_index()
     build_reader("WB手册", "WorkBuddy 使用手册", MANUAL_WB, "manual-wb.html", C_WB)
@@ -2524,4 +2914,8 @@ if __name__ == "__main__":
     build_doc("岗位与行业落地","岗位与行业落地","按岗位 / 行业视角组织实战内容",INDUSTRY,"industry.html",C_INDUSTRY)
     build_skills()
     build_community()
+    build_ecosystem_page("ai-tools")
+    build_ecosystem_page("llm-compare")
+    build_ecosystem_page("ai-industry")
+    build_ecosystem_page("ai-agent-cases")
     print("全部页面生成完成。")

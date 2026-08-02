@@ -55,6 +55,8 @@ img{max-width:100%;height:auto}
 .nav-dropdown-menu a{display:flex;align-items:center;padding:8px 14px;font-size:13px;color:var(--text-secondary);white-space:nowrap}
 .nav-dropdown-menu a:hover{background:var(--bg-soft);color:var(--text-primary)}
 .nav-dropdown-menu .nav-dot{width:7px;height:7px}
+.nav-dropdown-menu a.active{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.nav-dropdown>a.active .caret{color:var(--accent)}
 
 /* ===== Hero (home) ===== */
 .hero{margin-top:var(--topbar-h);padding:72px 24px 56px;
@@ -386,7 +388,105 @@ td{color:var(--text-secondary)}
   .sidebar.open{display:block}
   .reading-page{padding:24px 18px}
   .hero-name{font-size:30px}.section{padding:40px 16px}}
-</style><style>:root{--accent:#0EA5E9;--accent-soft:rgba(14,165,233,0.12);--accent-grad:#0EA5E9}</style></head><body><header class="topbar"><div class="topbar-inner"><a class="blog-logo" href="index.html"><span class="blog-logo-icon">TW</span>老田的 AI 实战笔记</a><button class="menu-btn" onclick="toggleMenu()">☰</button><nav class="topbar-nav"><a class="" href="index.html">首页</a><a class="" href="index.html#notebooks"><span class="nav-dot" style="background:#10B981"></span>笔记</a><a class="" href="advanced.html"><span class="nav-dot" style="background:#10B981"></span>进阶篇</a><a class="active" href="industry.html"><span class="nav-dot" style="background:#0EA5E9"></span>岗位与行业落地</a><a class="" href="skills.html"><span class="nav-dot" style="background:#A855F7"></span>Skills</a><a class="" href="community.html"><span class="nav-dot" style="background:#64748B"></span>交流</a></nav></div></header><div class="layout"><aside class="sidebar" id="sidebar"><div class="sidebar-header">导航</div><a class="sidebar-back" href="index.html">← 返回首页</a><div class="sidebar-part "><div class="sidebar-part-header" onclick="toggleSidebarPart(this)"><span class="sidebar-part-dot" style="background:#10B981"></span><span class="sidebar-part-name">WB手册</span><svg class="sidebar-part-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div><div class="sidebar-chapters"><a class="sidebar-chapter" href="manual-wb.html#chapter-1">第 1 章 初识 WorkBuddy</a><a class="sidebar-chapter" href="manual-wb.html#chapter-2">第 2 章 WorkBuddy的下载、安装、登录与更新</a><a class="sidebar-chapter" href="manual-wb.html#chapter-3">第 3 章 WorkBuddy 的主界面、任务与工作区</a><a class="sidebar-chapter" href="manual-wb.html#chapter-4">第 4 章 快速完成第一个 WorkBuddy 任务</a><a class="sidebar-chapter" href="manual-wb.html#chapter-5">第 5 章 WorkBuddy加载一个真正用得上的 Skill</a><a class="sidebar-chapter" href="manual-wb.html#chapter-6">第 6 章 WorkBuddy的专家和专家团</a><a class="sidebar-chapter" href="manual-wb.html#chapter-7">第 7 章 WorkBuddy 使用连接器</a><a class="sidebar-chapter" href="manual-wb.html#chapter-8">第 8 章 WorkBuddy 接入小程序与 IM 助理</a><a class="sidebar-chapter" href="manual-wb.html#chapter-9">第 9 章 如何接入外部 API</a><a class="sidebar-chapter" href="manual-wb.html#chapter-10">第 10 章 WorkBuddy 自动化任务</a></div></div><div class="sidebar-part "><div class="sidebar-part-header" onclick="toggleSidebarPart(this)"><span class="sidebar-part-dot" style="background:#10B981"></span><span class="sidebar-part-name">WB案例</span><svg class="sidebar-part-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div><div class="sidebar-chapters"><a class="sidebar-chapter" href="cases-wb.html#chapter-1">第 1 章 从整理桌面文件这些小事做起</a><a class="sidebar-chapter" href="cases-wb.html#chapter-2">第 2 章 办公三件套：Word、Excel、PPT</a></div></div><div class="sidebar-part "><div class="sidebar-part-header" onclick="toggleSidebarPart(this)"><span class="sidebar-part-dot" style="background:#10B981"></span><span class="sidebar-part-name">进阶篇</span><svg class="sidebar-part-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div><div class="sidebar-chapters"><a class="sidebar-chapter" href="advanced.html#chapter-22">把 SOP 沉淀为 Skill</a><a class="sidebar-chapter" href="advanced.html#chapter-23">多 Agent 协作工作流</a><a class="sidebar-chapter" href="advanced.html#chapter-24">自动化可靠性实践</a><a class="sidebar-chapter" href="advanced.html#chapter-25">知识库双备份体系</a></div></div><div class="sidebar-part expanded active"><div class="sidebar-part-header" onclick="toggleSidebarPart(this)"><span class="sidebar-part-dot" style="background:#0EA5E9"></span><span class="sidebar-part-name">岗位与行业落地</span><svg class="sidebar-part-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div><div class="sidebar-chapters"><a class="sidebar-chapter" href="industry.html#industry-1">销售岗位落地</a><a class="sidebar-chapter" href="industry.html#industry-2">外贸岗位落地</a><a class="sidebar-chapter" href="industry.html#industry-3">零售行业落地</a><a class="sidebar-chapter" href="industry.html#industry-4">制造行业落地</a></div></div><div class="sidebar-part"><div class="sidebar-part-header" onclick="location.href='skills.html'"><span class="sidebar-part-dot" style="background:#A855F7"></span><span class="sidebar-part-name">Skills</span></div></div><div class="sidebar-part"><div class="sidebar-part-header" onclick="location.href='community.html'"><span class="sidebar-part-dot" style="background:#64748B"></span><span class="sidebar-part-name">交流</span></div></div></aside><main class="reading-section"><div class="reading-page"><div class="page-title">岗位与行业落地</div><div class="page-sub">按岗位 / 行业视角组织实战内容</div><section class="chapter" id="industry-1"><div class="chapter-header"><span class="chapter-badge">岗位落地</span><span class="chapter-title">销售岗位落地</span></div><div class="chapter-body"><p>把企业微信与 WorkBuddy 用在销售日常工作流中，提升跟进效率与转化。</p><h3>典型场景</h3><ul><li>客户拜访纪要自动整理</li><li>销售日报与月报自动生成</li><li>客户需求跟踪与提醒</li></ul><div class="callout info"><span class="ttl">说明</span>本栏目建设中，后续补充真实客户场景与 SOP。</div></div></section><section class="chapter" id="industry-2"><div class="chapter-header"><span class="chapter-badge">岗位落地</span><span class="chapter-title">外贸岗位落地</span></div><div class="chapter-body"><p>面向外贸业务的询盘、报价、跟进与物流信息同步。</p><h3>典型场景</h3><ul><li>询盘信息结构化提取</li><li>报价单与利润测算</li><li>多语言客户沟通草稿</li></ul><div class="callout info"><span class="ttl">说明</span>以 Steinmann Metalltechnik GmbH 的 AlMg3 试单为例，逐步沉淀。</div></div></section><section class="chapter" id="industry-3"><div class="chapter-header"><span class="chapter-badge">行业落地</span><span class="chapter-title">零售行业落地</span></div><div class="chapter-body"><p>零售门店的会员运营、社群运营与每日资讯推送。</p><h3>典型场景</h3><ul><li>会员标签与分层运营</li><li>门店日报与数据汇总</li><li>鲜花/零售/政策资讯自动简报</li></ul><div class="callout info"><span class="ttl">说明</span>结合老田每日资讯简报自动化实践。</div></div></section><section class="chapter" id="industry-4"><div class="chapter-header"><span class="chapter-badge">行业落地</span><span class="chapter-title">制造行业落地</span></div><div class="chapter-body"><p>制造企业的内部协同、知识沉淀与订单数据对接。</p><h3>典型场景</h3><ul><li>生产日报与异常提醒</li><li>WorkBuddy 对接麦德邻云系统抓订单数据</li><li>设备维保知识库</li></ul><div class="callout warn"><span class="ttl">注意</span>客户数据与生产数据属敏感信息，处理前确认授权范围。</div></div></section></div></main></div><footer class="footer"><div class="footer-inner"><span>© 2026 田伟 · 长沙 · 用 WorkBuddy 沉淀</span><div class="links"><a href="index.html">首页</a><a href="manual-wb.html">WB手册</a><a href="cases-wb.html">WB案例</a><a href="advanced.html">进阶篇</a><a href="industry.html">岗位与行业落地</a><a href="skills.html">Skills</a><a href="community.html">交流</a></div></div></footer><button id="backTop" onclick="goTop()" title="回到顶部">↑</button><script>
+  .news-grid,.eco-grid,.case-grid{grid-template-columns:1fr}}
+
+/* ===== Homepage: news hotspot ===== */
+.news-section{background:var(--bg-card)}
+.news-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
+.news-tab{padding:8px 18px;border:1px solid var(--border);border-radius:var(--radius-xl);
+  background:var(--bg-card);color:var(--text-secondary);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+.news-tab:hover{border-color:var(--tc);color:var(--tc)}
+.news-tab.active{background:var(--tc);color:#fff;border-color:transparent}
+.news-panel{display:none}
+.news-panel.active{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.news-card{background:var(--bg-soft);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;
+  text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:10px;transition:all .2s}
+.news-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);border-color:var(--border-hover)}
+.news-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:var(--radius-xl);align-self:flex-start}
+.news-card h4{font-size:15px;font-weight:600;line-height:1.5}
+.news-card p{font-size:13px;color:var(--text-secondary);line-height:1.7;flex:1}
+.news-go{font-size:12px;color:var(--tc);font-weight:600}
+
+/* ===== Homepage: AI ecosystem showcase ===== */
+.eco-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+.eco-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;
+  text-decoration:none;color:inherit;position:relative;transition:all .25s;overflow:hidden}
+.eco-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-color:var(--ec)}
+.eco-card::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--ec)}
+.eco-ico{width:48px;height:48px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin-bottom:14px}
+.eco-card h4{font-size:17px;font-weight:600;margin-bottom:8px}
+.eco-card p{font-size:13px;color:var(--text-secondary);line-height:1.7}
+.eco-card .arrow{position:absolute;right:22px;bottom:22px;color:var(--ec);font-weight:700;font-size:18px}
+
+/* ===== Homepage: case showcase ===== */
+.case-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.case-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;
+  text-decoration:none;color:inherit;position:relative;transition:all .25s}
+.case-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-hover);border-color:var(--cc)}
+.case-ico{width:48px;height:48px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin-bottom:14px}
+.case-card h4{font-size:17px;font-weight:600;margin-bottom:8px}
+.case-card p{font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:10px}
+.case-card .meta{font-size:12px;color:var(--text-tertiary);margin-bottom:6px}
+.case-card .arrow{color:var(--cc);font-weight:700;font-size:18px}
+
+/* ===== Ecosystem detail page ===== */
+.eco-hero{margin-top:var(--topbar-h);padding:64px 24px 52px;text-align:center;border-bottom:1px solid var(--border)}
+.eco-hero .eco-badge{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;
+  padding:6px 16px;border-radius:var(--radius-xl);margin-bottom:18px}
+.eco-hero h1{font-family:var(--font-serif);font-size:38px;font-weight:700;letter-spacing:.5px}
+.eco-hero p{max-width:680px;margin:18px auto 0;color:var(--text-secondary);font-size:15px;line-height:1.9}
+.eco-layout{max-width:1100px;margin:0 auto;padding:40px 24px 80px;display:grid;
+  grid-template-columns:200px minmax(0,1fr);gap:40px;align-items:start}
+.eco-toc{position:sticky;top:calc(var(--topbar-h) + 20px);display:flex;flex-direction:column;gap:4px}
+.eco-toc a{font-size:13px;color:var(--text-secondary);text-decoration:none;padding:8px 12px;border-radius:8px;
+  border-left:3px solid transparent;transition:all .2s}
+.eco-toc a:hover{background:var(--bg-soft);color:var(--text-primary)}
+.eco-toc a.active{color:var(--accent);border-left-color:var(--accent);background:var(--accent-soft);font-weight:600}
+.eco-main{min-width:0}
+.eco-section{margin-bottom:48px;scroll-margin-top:calc(var(--topbar-h) + 20px)}
+.eco-section-head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.eco-section-head .si{font-size:22px}
+.eco-section-head h2{font-size:24px;font-weight:700}
+.eco-section .intro{color:var(--text-secondary);font-size:14px;line-height:1.8;margin:6px 0 18px}
+.eco-subgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.eco-subcard{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px}
+.eco-subhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.eco-subhead h4{font-size:15px;font-weight:600}
+.eco-tag{font-size:11px;padding:2px 10px;border-radius:var(--radius-xl);background:var(--bg-soft);color:var(--text-tertiary)}
+.eco-subcard p{font-size:13px;color:var(--text-secondary);line-height:1.7;margin-bottom:12px}
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pc-col.pro{background:rgba(16,185,129,.06)}
+.pc-col.con{background:rgba(239,68,68,.06)}
+.pc-col{border-radius:10px;padding:10px 12px}
+.pc-h{font-size:12px;font-weight:600;display:block;margin-bottom:6px}
+.pc-col.pro .pc-h{color:var(--c-teal)}
+.pc-col.con .pc-h{color:#EF4444}
+.pc-col ul{margin:0;padding-left:18px}
+.pc-col li{font-size:12px;color:var(--text-secondary);line-height:1.7}
+.cmp{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0;background:var(--bg-card);
+  border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.cmp th,.cmp td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+.cmp th{background:var(--bg-soft);font-weight:600;color:var(--text-primary)}
+.cmp tr:last-child td{border-bottom:none}
+.cmp tbody tr:hover{background:var(--bg-soft)}
+.eco-conclusion{background:var(--bg-card);border:1px solid var(--border);border-left:4px solid var(--accent);
+  border-radius:var(--radius-lg);padding:22px 26px}
+.eco-conclusion h3{font-size:18px;font-weight:700;margin-bottom:10px}
+.eco-conclusion p,.eco-conclusion div{font-size:14px;color:var(--text-secondary);line-height:1.9}
+.eco-todo{background:rgba(245,158,11,.08);border:1px dashed #F59E0B;border-radius:10px;padding:14px 16px;
+  font-size:13px;color:#B45309;line-height:1.7}
+.eco-cta{text-align:center;margin-top:40px;padding:32px;background:var(--bg-soft);border-radius:var(--radius-lg)}
+.eco-cta h3{font-size:20px;font-weight:700;margin-bottom:10px}
+.eco-cta a{display:inline-block;margin:6px;padding:10px 22px;border-radius:var(--radius-xl);text-decoration:none;
+  font-weight:600;font-size:14px;background:var(--accent);color:#fff}
+.eco-cta a.ghost{background:var(--bg-card);color:var(--accent);border:1px solid var(--accent)}
+@media(max-width:768px){.eco-layout{grid-template-columns:1fr;padding:24px 16px}.eco-toc{display:none}
+  .pc{grid-template-columns:1fr}}
+</style><style>:root{--accent:#0EA5E9;--accent-soft:rgba(14,165,233,0.12);--accent-grad:#0EA5E9}</style></head><body><header class="topbar"><div class="topbar-inner"><a class="blog-logo" href="index.html"><span class="blog-logo-icon">TW</span>老田的 AI 实战笔记</a><button class="menu-btn" onclick="toggleMenu()">☰</button><nav class="topbar-nav"><a class="" href="index.html">首页</a><div class="nav-dropdown"><a class="" href="index.html#notebooks"><span class="nav-dot" style="background:#10B981"></span>笔记<span class="caret">▼</span></a><div class="nav-dropdown-menu"><a class="" href="manual-wb.html"><span class="nav-dot" style="background:#10B981"></span>WB手册</a><a class="" href="cases-wb.html"><span class="nav-dot" style="background:#10B981"></span>WB案例</a></div></div><a class="" href="advanced.html"><span class="nav-dot" style="background:#10B981"></span>进阶篇</a><a class="active" href="industry.html"><span class="nav-dot" style="background:#0EA5E9"></span>岗位与行业落地</a><div class="nav-dropdown"><a class="" href="ai-tools.html"><span class="nav-dot" style="background:#06B6D4"></span>AI 生态<span class="caret">▼</span></a><div class="nav-dropdown-menu"><a class="" href="ai-tools.html"><span class="nav-dot" style="background:#06B6D4"></span>AI 工具评测</a><a class="" href="llm-compare.html"><span class="nav-dot" style="background:#A855F7"></span>大模型横评</a><a class="" href="ai-industry.html"><span class="nav-dot" style="background:#0EA5E9"></span>行业落地拆解</a><a class="" href="ai-agent-cases.html"><span class="nav-dot" style="background:#F59E0B"></span>AI 案例</a></div></div><a class="" href="skills.html"><span class="nav-dot" style="background:#A855F7"></span>Skills</a><a class="" href="community.html"><span class="nav-dot" style="background:#64748B"></span>交流</a></nav></div></header><div class="layout"><aside class="sidebar" id="sidebar"><div class="sidebar-header">导航</div><a class="sidebar-back" href="index.html">← 返回首页</a><div class="sidebar-part "><div class="sidebar-part-header" onclick="toggleSidebarPart(this)"><span class="sidebar-part-dot" style="background:#10B981"></span><span class="sidebar-part-name">WB手册</span><svg class="sidebar-part-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div><div class="sidebar-chapters"><a class="sidebar-chapter" href="manual-wb.html#chapter-1">第 1 章 初识 WorkBuddy</a><a class="sidebar-chapter" href="manual-wb.html#chapter-2">第 2 章 WorkBuddy的下载、安装、登录与更新</a><a class="sidebar-chapter" href="manual-wb.html#chapter-3">第 3 章 WorkBuddy 的主界面、任务与工作区</a><a class="sidebar-chapter" href="manual-wb.html#chapter-4">第 4 章 快速完成第一个 WorkBuddy 任务</a><a class="sidebar-chapter" href="manual-wb.html#chapter-5">第 5 章 WorkBuddy加载一个真正用得上的 Skill</a><a class="sidebar-chapter" href="manual-wb.html#chapter-6">第 6 章 WorkBuddy的专家和专家团</a><a class="sidebar-chapter" href="manual-wb.html#chapter-7">第 7 章 WorkBuddy 使用连接器</a><a class="sidebar-chapter" href="manual-wb.html#chapter-8">第 8 章 WorkBuddy 接入小程序与 IM 助理</a><a class="sidebar-chapter" href="manual-wb.html#chapter-9">第 9 章 如何接入外部 API</a><a class="sidebar-chapter" href="manual-wb.html#chapter-10">第 10 章 WorkBuddy 自动化任务</a></div></div><div class="sidebar-part "><div class="sidebar-part-header" onclick="toggleSidebarPart(this)"><span class="sidebar-part-dot" style="background:#10B981"></span><span class="sidebar-part-name">WB案例</span><svg class="sidebar-part-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div><div class="sidebar-chapters"><a class="sidebar-chapter" href="cases-wb.html#chapter-1">第 1 章 从整理桌面文件这些小事做起</a><a class="sidebar-chapter" href="cases-wb.html#chapter-2">第 2 章 办公三件套：Word、Excel、PPT</a></div></div><div class="sidebar-part "><div class="sidebar-part-header" onclick="toggleSidebarPart(this)"><span class="sidebar-part-dot" style="background:#10B981"></span><span class="sidebar-part-name">进阶篇</span><svg class="sidebar-part-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div><div class="sidebar-chapters"><a class="sidebar-chapter" href="advanced.html#chapter-22">把 SOP 沉淀为 Skill</a><a class="sidebar-chapter" href="advanced.html#chapter-23">多 Agent 协作工作流</a><a class="sidebar-chapter" href="advanced.html#chapter-24">自动化可靠性实践</a><a class="sidebar-chapter" href="advanced.html#chapter-25">知识库双备份体系</a></div></div><div class="sidebar-part expanded active"><div class="sidebar-part-header" onclick="toggleSidebarPart(this)"><span class="sidebar-part-dot" style="background:#0EA5E9"></span><span class="sidebar-part-name">岗位与行业落地</span><svg class="sidebar-part-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></div><div class="sidebar-chapters"><a class="sidebar-chapter" href="industry.html#industry-1">销售岗位落地</a><a class="sidebar-chapter" href="industry.html#industry-2">外贸岗位落地</a><a class="sidebar-chapter" href="industry.html#industry-3">零售行业落地</a><a class="sidebar-chapter" href="industry.html#industry-4">制造行业落地</a></div></div><div class="sidebar-part"><div class="sidebar-part-header" onclick="location.href='skills.html'"><span class="sidebar-part-dot" style="background:#A855F7"></span><span class="sidebar-part-name">Skills</span></div></div><div class="sidebar-part"><div class="sidebar-part-header" onclick="location.href='community.html'"><span class="sidebar-part-dot" style="background:#64748B"></span><span class="sidebar-part-name">交流</span></div></div></aside><main class="reading-section"><div class="reading-page"><div class="page-title">岗位与行业落地</div><div class="page-sub">按岗位 / 行业视角组织实战内容</div><section class="chapter" id="industry-1"><div class="chapter-header"><span class="chapter-badge">岗位落地</span><span class="chapter-title">销售岗位落地</span></div><div class="chapter-body"><p>把企业微信与 WorkBuddy 用在销售日常工作流中，提升跟进效率与转化。</p><h3>典型场景</h3><ul><li>客户拜访纪要自动整理</li><li>销售日报与月报自动生成</li><li>客户需求跟踪与提醒</li></ul><div class="callout info"><span class="ttl">说明</span>本栏目建设中，后续补充真实客户场景与 SOP。</div></div></section><section class="chapter" id="industry-2"><div class="chapter-header"><span class="chapter-badge">岗位落地</span><span class="chapter-title">外贸岗位落地</span></div><div class="chapter-body"><p>面向外贸业务的询盘、报价、跟进与物流信息同步。</p><h3>典型场景</h3><ul><li>询盘信息结构化提取</li><li>报价单与利润测算</li><li>多语言客户沟通草稿</li></ul><div class="callout info"><span class="ttl">说明</span>以 Steinmann Metalltechnik GmbH 的 AlMg3 试单为例，逐步沉淀。</div></div></section><section class="chapter" id="industry-3"><div class="chapter-header"><span class="chapter-badge">行业落地</span><span class="chapter-title">零售行业落地</span></div><div class="chapter-body"><p>零售门店的会员运营、社群运营与每日资讯推送。</p><h3>典型场景</h3><ul><li>会员标签与分层运营</li><li>门店日报与数据汇总</li><li>鲜花/零售/政策资讯自动简报</li></ul><div class="callout info"><span class="ttl">说明</span>结合老田每日资讯简报自动化实践。</div></div></section><section class="chapter" id="industry-4"><div class="chapter-header"><span class="chapter-badge">行业落地</span><span class="chapter-title">制造行业落地</span></div><div class="chapter-body"><p>制造企业的内部协同、知识沉淀与订单数据对接。</p><h3>典型场景</h3><ul><li>生产日报与异常提醒</li><li>WorkBuddy 对接麦德邻云系统抓订单数据</li><li>设备维保知识库</li></ul><div class="callout warn"><span class="ttl">注意</span>客户数据与生产数据属敏感信息，处理前确认授权范围。</div></div></section></div></main></div><footer class="footer"><div class="footer-inner"><span>© 2026 田伟 · 长沙 · 用 WorkBuddy 沉淀</span><div class="links"><a href="index.html">首页</a><a href="manual-wb.html">WB手册</a><a href="cases-wb.html">WB案例</a><a href="advanced.html">进阶篇</a><a href="industry.html">岗位与行业落地</a><a href="skills.html">Skills</a><a href="community.html">交流</a></div></div></footer><button id="backTop" onclick="goTop()" title="回到顶部">↑</button><script>
 function toggleSidebarPart(el){el.parentElement.classList.toggle('expanded');}
 function filterArticles(part){
   document.querySelectorAll('.filter-pill').forEach(function(p){
@@ -491,4 +591,27 @@ function fallbackCopy(text){
   var ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0';
   document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta);
 }
+
+// Homepage: news hotspot tab switch
+function switchNews(key){
+  document.querySelectorAll('.news-tab').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-tab')===key);});
+  document.querySelectorAll('.news-panel').forEach(function(p){
+    p.classList.toggle('active', p.id==='news-'+key);});
+}
+
+// Ecosystem detail page: TOC scroll-spy
+function initEcoToc(){
+  var links=document.querySelectorAll('.eco-toc a');
+  if(!links.length) return;
+  var secs=[].map.call(links, function(a){
+    return document.getElementById(a.getAttribute('href').slice(1));}).filter(Boolean);
+  function onScroll(){
+    var pos=window.scrollY+130, cur=secs[0];
+    secs.forEach(function(s){ if(s.offsetTop<=pos) cur=s; });
+    links.forEach(function(a){ a.classList.toggle('active', cur && a.getAttribute('href')==='#'+cur.id); });
+  }
+  window.addEventListener('scroll', onScroll); onScroll();
+}
+if(document.querySelector('.eco-layout')) initEcoToc();
 </script></body></html>
