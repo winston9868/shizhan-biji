@@ -2680,10 +2680,10 @@ def build_index():
             '<span class="hero-tag purple">Skill 沉淀</span></div></section>')
     # 板块卡片（笔记类别）：仅保留 WorkBuddy 相关内容
     cards = [
-        ("📘","WB手册","从 0 到 1，把 WorkBuddy 用起来","10 篇文章","manual-wb.html",C_WB),
-        ("📂","WB案例","真实任务的完整复现","2 篇文章","cases-wb.html",C_WB),
-        ("🚀","进阶篇","从案例到系统，构建你的工作流","4 篇文章","advanced.html",C_WB),
-        ("🎯","岗位与行业落地","按岗位 / 行业视角组织实战内容","4 篇文章","industry.html",C_INDUSTRY),
+        ("📘","WB手册","从 0 到 1，用好 WorkBuddy","📝 10 篇文章","manual-wb.html",C_WB),
+        ("📂","WB案例","真实任务的完整复现","📝 2 篇文章","cases-wb.html",C_WB),
+        ("🚀","进阶篇","从案例到系统，构建你的工作流","📝 4 篇文章","advanced.html",C_WB),
+        ("🎯","岗位与行业落地","按岗位 / 行业视角组织实战内容","📝 4 篇文章","industry.html",C_INDUSTRY),
     ]
     card_html = '<div class="cards">'
     for ico, name, desc, meta, href, color in cards:
