@@ -46,11 +46,9 @@ ECOSYSTEM_SECTIONS = [
 # 下拉项格式：[(名称, 链接, 颜色), ...]，为 None 时是普通链接
 SECTIONS = [
     ("首页",   "index.html",              "🏠", "",         "", None),
-    ("笔记",   "index.html#notebooks",    "📝", "#10B981",  "",
-        [(n, h, c) for (n, h, i, c, d) in NOTEBOOK_SECTIONS]),
-    ("进阶篇", "advanced.html",           "🚀", "#10B981", "WorkBuddy", None),
-    ("岗位与行业落地", "industry.html",   "🎯", "#0EA5E9", "", None),
-    ("AI 生态", "ai-tools.html",          "🌐", C_TOOLS,   "",
+    ("新闻动态", "index.html#news",       "📰", C_WB,      "", None),
+    ("笔记类别", "index.html#notebooks",  "📝", "#10B981",  "", None),
+    ("AI生态专栏", "ai-tools.html",       "🌐", C_TOOLS,   "",
         [(n, h, c) for (n, h, i, c, d) in ECOSYSTEM_SECTIONS]),
     ("Skills", "skills.html",             "🧩", "#A855F7", "", None),
     ("交流",   "community.html",          "💬", "#64748B", "", None),
@@ -447,18 +445,16 @@ td{color:var(--text-secondary)}
   .sidebar.open{display:block}
   .reading-page{padding:24px 18px}
   .hero-name{font-size:30px}.section{padding:40px 16px}}
-  .news-grid,.eco-grid,.case-grid{grid-template-columns:1fr}}
+  .news-grid,.eco-grid,.case-grid,.news-cols{grid-template-columns:1fr}}
 
 /* ===== Homepage: news hotspot ===== */
 .news-section{background:var(--bg-card)}
-.news-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
-.news-tab{padding:8px 18px;border:1px solid var(--border);border-radius:var(--radius-xl);
-  background:var(--bg-card);color:var(--text-secondary);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
-.news-tab:hover{border-color:var(--tc);color:var(--tc)}
-.news-tab.active{background:var(--tc);color:#fff;border-color:transparent}
-.news-panel{display:none}
-.news-panel.active{display:block;animation:fade .3s ease}
-@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.news-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.news-col{display:flex;flex-direction:column;gap:14px}
+.news-col-head{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;
+  color:var(--tc);padding-bottom:10px;border-bottom:2px solid var(--tc);margin-bottom:4px}
+.news-col-ico{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  background:var(--tc);color:#fff;font-size:14px}
 .news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
 .news-card{background:var(--bg-soft);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;
   text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:10px;transition:all .2s}
@@ -654,13 +650,7 @@ function fallbackCopy(text){
   document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta);
 }
 
-// Homepage: news hotspot tab switch
-function switchNews(key){
-  document.querySelectorAll('.news-tab').forEach(function(b){
-    b.classList.toggle('active', b.getAttribute('data-tab')===key);});
-  document.querySelectorAll('.news-panel').forEach(function(p){
-    p.classList.toggle('active', p.id==='news-'+key);});
-}
+// (news section switched to 4-column layout; no tab switching needed)
 
 // Ecosystem detail page: TOC scroll-spy
 function initEcoToc(){
@@ -2328,14 +2318,14 @@ def reading_page(title, sub, chs):
     body += '</div>'
     return body
 
-def build_doc(active_name, title, sub, chs, fname, pcolor):
+def build_doc(active_name, title, sub, chs, fname, pcolor, topbar_active=None):
     accent = ('<style>:root{--accent:' + pcolor + ';--accent-soft:' + hex_rgba(pcolor, .12) +
               ';--accent-grad:' + pcolor + '}</style>')
     html = ('<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8">'
             '<meta name="viewport" content="width=device-width,initial-scale=1">'
             '<meta name="description" content="' + SITE_DESC + '">'
             '<title>' + title + ' · ' + SITE_TITLE + '</title><style>' + CSS + '</style>' + accent + '</head>'
-            '<body>' + topbar(active_name) +
+            '<body>' + topbar(topbar_active if topbar_active is not None else active_name) +
             '<div class="layout">' + doc_sidebar(active_name) +
             '<main class="reading-section">' + reading_page(title, sub, chs) + '</main>' +
             doc_toc(chs) + '</div>' + footer() +
@@ -2449,7 +2439,7 @@ READER_JS = """
 })();
 """
 
-def build_reader(active_name, page_title, chs, fname, pcolor):
+def build_reader(active_name, page_title, chs, fname, pcolor, topbar_active=None):
     """单页单章切换阅读器：与 WB手册 完全一致的排版（目录/文章标题均为「第*章+标题」，
     底部「下一章」手动翻页，每页只显示一个章节）。cases-wb 与 manual-wb 共用此函数。"""
     chapters_js = json.dumps(
@@ -2474,7 +2464,7 @@ def build_reader(active_name, page_title, chs, fname, pcolor):
             '<meta name="description" content="' + SITE_DESC + '">'
             '<title>' + page_title + ' · ' + SITE_TITLE + '</title>'
             '<style>' + CSS + READER_CSS + '</style>' + accent + '</head>'
-            '<body>' + topbar(active_name) +
+            '<body>' + topbar(topbar_active if topbar_active is not None else active_name) +
             '<div class="layout">' + sidebar +
             '<main class="reading-section">' + body + '</main></div>' + footer() +
             '<script>' + JS + '</script>'
@@ -2685,13 +2675,9 @@ def build_news_section():
     tabs = data.get("tabs", [])
     if not tabs:
         return ""
-    head = '<div class="news-tabs">'
-    panels = ""
-    for i, t in enumerate(tabs):
+    cols = ""
+    for t in tabs:
         key = t["key"]; name = t["name"]; ico = t.get("ico", ""); color = t.get("color", "#10B981")
-        active = " active" if i == 0 else ""
-        head += ('<button class="news-tab' + active + '" data-tab="' + key + '" style="--tc:' + color +
-                 '" onclick="switchNews(\'' + key + '\')">' + ico + ' ' + name + '</button>')
         cards = ""
         for it in t.get("items", []):
             cards += ('<a class="news-card" href="' + it["url"] + '" target="_blank" rel="noopener">'
@@ -2699,12 +2685,12 @@ def build_news_section():
                       t.get("tag", name) + '</span>'
                       '<h4>' + it["title"] + '</h4><p>' + it["desc"] + '</p>'
                       '<span class="news-go">阅读原文 →</span></a>')
-        panels += ('<div class="news-panel' + active + '" id="news-' + key + '"><div class="news-grid">' +
-                   cards + '</div></div>')
-    head += '</div>'
-    return ('<section class="section news-section" id="news"><div class="section-head"><h2><span class="bar"></span>新闻热点</h2>'
+        cols += ('<div class="news-col" style="--tc:' + color + '">'
+                 '<div class="news-col-head"><span class="news-col-ico">' + ico + '</span>' + name + '</div>'
+                 + cards + '</div>')
+    return ('<section class="section news-section" id="news"><div class="section-head"><h2><span class="bar"></span>新闻动态</h2>'
             '<p>实时追踪 WorkBuddy、AI 办公与前沿模型动态 · 更新于 ' + data.get("updated", "") + '</p></div>'
-            + head + panels + '</section>')
+            '<div class="news-cols">' + cols + '</div></section>')
 
 def build_ecosystem_showcase():
     cards = ""
@@ -2901,17 +2887,17 @@ def build_ecosystem_page(key):
     hero = ('<section class="eco-hero"><span class="eco-badge" style="background:' + color + '1a;color:' + color + '">'
             + ico + ' ' + title + '</span><h1>' + title + '</h1><p>' + tagline + '</p></section>')
     body = hero + '<div class="eco-layout">' + toc + '<div class="eco-main">' + main + compare + conclusion + cta + '</div></div>'
-    html = wrap_page(title, body, active="AI 生态")
+    html = wrap_page(title, body, active="AI生态专栏")
     with open(d["fname"], "w", encoding="utf-8") as f:
         f.write(html)
     print("生成:", d["fname"])
 
 if __name__ == "__main__":
     build_index()
-    build_reader("WB手册", "WorkBuddy 使用手册", MANUAL_WB, "manual-wb.html", C_WB)
-    build_reader("WB案例", "WorkBuddy 案例", CASES_WB, "cases-wb.html", C_WB)
-    build_doc("进阶篇","进阶篇","从案例到系统，构建你的工作流",ADVANCED,"advanced.html",C_WB)
-    build_doc("岗位与行业落地","岗位与行业落地","按岗位 / 行业视角组织实战内容",INDUSTRY,"industry.html",C_INDUSTRY)
+    build_reader("WB手册", "WorkBuddy 使用手册", MANUAL_WB, "manual-wb.html", C_WB, topbar_active="笔记类别")
+    build_reader("WB案例", "WorkBuddy 案例", CASES_WB, "cases-wb.html", C_WB, topbar_active="笔记类别")
+    build_doc("进阶篇","进阶篇","从案例到系统，构建你的工作流",ADVANCED,"advanced.html",C_WB, topbar_active="笔记类别")
+    build_doc("岗位与行业落地","岗位与行业落地","按岗位 / 行业视角组织实战内容",INDUSTRY,"industry.html",C_INDUSTRY, topbar_active="笔记类别")
     build_skills()
     build_community()
     build_ecosystem_page("ai-tools")
