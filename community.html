@@ -17,12 +17,12 @@
   --paper-w:794px;          /* 纸面宽度 */
   --paper-pad-x:102px;      /* 左右页边距（公文 28mm/26mm 等比折算） */
   --paper-bg:#EDEBE7;       /* 纸张外的桌面底色 */
-  --doc-line:1.75;          /* 屏幕上等效 Word「1.5 倍行距」 */
+  --doc-line:1.7;           /* 长文网页标准行距：中文正文舒适区 1.6~1.8，取 1.7 */
   --doc-ink:#1F1F1F;        /* 公文正文墨色 */
   /* ===== 公文字体族（缺字时按顺序回退） ===== */
-  --font-fs:'FangSong_GB2312','仿宋_GB2312',FangSong,'仿宋',STFangsong,'Songti SC',serif;
-  --font-hei:SimHei,'黑体','Heiti SC','Microsoft YaHei',sans-serif;
-  --font-kai:'KaiTi_GB2312',KaiTi,'楷体','Kaiti SC',STKaiti,serif;
+  --font-fs:'Songti SC','SimSun','宋体','Source Han Serif SC','Noto Serif SC',serif;
+  --font-hei:'Microsoft YaHei','PingFang SC','Heiti SC',SimHei,sans-serif;
+  --font-kai:'Kaiti SC','KaiTi','楷体',STKaiti,serif;
   --font-xbs:'方正小标宋简体',FZXiaoBiaoSong-B05S,'Songti SC',SimSun,'宋体',serif;
   --font-serif:Georgia,'Noto Serif SC','Songti SC',serif;
   --font-sans:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;
@@ -30,11 +30,17 @@
   --radius-sm:8px; --radius-md:12px; --radius-lg:16px; --radius-xl:20px;
 }
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text-primary);font-family:var(--font-sans);
+body{background:var(--bg);color:var(--text-primary);font-family:var(--font-fs);
   font-size:14px;line-height:1.85;-webkit-font-smoothing:antialiased}
 a{color:var(--c-teal);text-decoration:none;transition:color .2s}
 a:hover{color:#047857}
 img{max-width:100%;height:auto}
+
+/* ===== 全站字体系统（2026-08-02 确立）：正文宋体 · 标题/导航/UI 控件黑体 · 大标题方正小标宋 ===== */
+h1,h2,h3,h4,h5,h6{font-family:var(--font-hei);font-weight:600}
+.topbar-nav a,.nav-dropdown-menu a,button,.btn,input,textarea,select,
+  .badge,.badge-hot,.badge-cat,.chapter-badge,.news-tab,.tag,.pill,.chip,
+  .search-input,.search-hint{font-family:var(--font-hei)}
 
 /* ===== Top Nav ===== */
 .topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar-h);
@@ -42,7 +48,7 @@ img{max-width:100%;height:auto}
   border-bottom:1px solid var(--border);z-index:100;display:flex;align-items:center;padding:0 24px}
 .topbar-inner{max-width:1320px;margin:0 auto;width:100%;display:flex;align-items:center;
   justify-content:space-between;gap:16px}
-.blog-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-serif);font-size:16px;
+.blog-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-xbs);font-size:16px;
   font-weight:500;color:var(--text-primary);text-decoration:none;white-space:nowrap}
 .blog-logo:hover{color:var(--c-teal)}
 .blog-logo-icon{width:30px;height:30px;background:linear-gradient(135deg,#4DEE9E,#D6E807);
@@ -72,7 +78,7 @@ img{max-width:100%;height:auto}
 /* ===== Hero (home) ===== */
 .hero{margin-top:var(--topbar-h);padding:72px 24px 56px;
   background:var(--bg-hero);border-bottom:1px solid var(--border);text-align:center}
-.hero-name{font-family:var(--font-serif);font-size:40px;font-weight:700;letter-spacing:.5px;
+.hero-name{font-family:var(--font-xbs);font-size:40px;font-weight:700;letter-spacing:.5px;
   background:linear-gradient(120deg,#047857,#10B981,#84CC16);-webkit-background-clip:text;
   background-clip:text;-webkit-text-fill-color:transparent}
 .hero-tagline{margin:18px auto 0;max-width:620px;color:var(--text-secondary);font-size:16px;line-height:1.9}
@@ -176,16 +182,16 @@ body.doc-body{background:var(--paper-bg)}
   background:var(--accent-soft);color:var(--accent);white-space:nowrap}
 .chapter-title{font-family:var(--font-hei);font-size:21px;font-weight:400;color:var(--doc-ink)}
 .chapter:not(:last-child){border-bottom:1px solid var(--border);padding-bottom:36px;margin-bottom:36px}
-/* ===== 正文：仿宋四号 · 1.5 倍行距 · 首行缩进 2 字符 · 两端对齐 ===== */
+/* ===== 正文：宋体（屏幕衬线）· 网页标准行距 CSS 1.7 · 首行缩进 2 字符 · 两端对齐 · 段间 0.8em 自然间距 ===== */
 .chapter-body{font-family:var(--font-fs);color:var(--doc-ink);font-size:16.5px;
   line-height:var(--doc-line);text-align:justify}
-.chapter-body p{margin:0 0 12px;color:var(--doc-ink);text-indent:2em}
+.chapter-body p{margin:0 0 0.8em;color:var(--doc-ink);text-indent:2em}
 .chapter-body p:has(> img),.chapter-body p:has(> .img-missing){text-indent:0}
 .chapter-body ul,.chapter-body ol{margin:12px 0;padding-left:2.4em;color:var(--doc-ink)}
 .chapter-body li{margin:5px 0;text-indent:0}
 .chapter-body li p{text-indent:0;margin:4px 0}
 .chapter-body strong,.chapter-body b{font-family:var(--font-hei);font-weight:600;color:#000}
-/* 标题分级：一级黑体（对应「一、」）· 二级楷体不加粗（对应「（一）」）· 三级仿宋加粗 */
+/* 标题分级：一级黑体（对应「一、」）· 二级楷体不加粗（对应「（一）」）· 三级宋体加粗 */
 .chapter-body h3{font-family:var(--font-kai);font-size:19px;font-weight:400;
   color:var(--doc-ink);margin:24px 0 10px;text-indent:0}
 .chapter-body h4{font-family:var(--font-fs);font-size:16.5px;font-weight:700;
@@ -283,7 +289,7 @@ td{color:var(--text-secondary)}
 /* ===== Skills page v2 ===== */
 .skills-hero{margin-top:var(--topbar-h);padding:80px 24px 60px;text-align:center;
   background:linear-gradient(135deg,#F0F9FF 0%,#FDF2F8 50%,#F5F3FF 100%);border-bottom:1px solid var(--border)}
-.skills-hero h1{font-family:var(--font-serif);font-size:40px;font-weight:700;
+.skills-hero h1{font-family:var(--font-xbs);font-size:40px;font-weight:700;
   background:linear-gradient(120deg,#0EA5E9,#8B5CF6,#EC4899);-webkit-background-clip:text;
   background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.5px}
 .skills-hero p{max-width:640px;margin:18px auto 0;color:var(--text-secondary);font-size:15px;line-height:1.9}
@@ -344,7 +350,7 @@ td{color:var(--text-secondary)}
 
 /* ===== AI 提示词社区（参照 simouxuan.com 的 AI 提示词社区模块） ===== */
 .prompt-hero{margin:72px auto 8px;max-width:760px;text-align:center;padding:0 24px}
-.prompt-hero h2{font-family:var(--font-serif);font-size:30px;font-weight:700;letter-spacing:.5px;
+.prompt-hero h2{font-family:var(--font-xbs);font-size:30px;font-weight:700;letter-spacing:.5px;
   background:linear-gradient(120deg,#047857,#10B981,#06B6D4);-webkit-background-clip:text;
   background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
 .prompt-hero p{color:var(--text-secondary);font-size:15px;line-height:1.9}
@@ -533,7 +539,7 @@ td{color:var(--text-secondary)}
 .eco-hero{margin-top:var(--topbar-h);padding:64px 24px 52px;text-align:center;border-bottom:1px solid var(--border)}
 .eco-hero .eco-badge{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;
   padding:6px 16px;border-radius:var(--radius-xl);margin-bottom:18px}
-.eco-hero h1{font-family:var(--font-serif);font-size:38px;font-weight:700;letter-spacing:.5px}
+.eco-hero h1{font-family:var(--font-xbs);font-size:38px;font-weight:700;letter-spacing:.5px}
 .eco-hero p{max-width:680px;margin:18px auto 0;color:var(--text-secondary);font-size:15px;line-height:1.9}
 .eco-layout{max-width:1100px;margin:0 auto;padding:40px 24px 80px;display:grid;
   grid-template-columns:200px minmax(0,1fr);gap:40px;align-items:start}
