@@ -448,6 +448,41 @@ td{color:var(--text-secondary)}
 
 /* ===== Homepage: news hotspot (4 sub-category tabs) ===== */
 .news-section{background:var(--bg-card)}
+/* ===== Homepage: global search ===== */
+.search-section{padding:32px 24px 24px;background:transparent;text-align:center}
+.search-box{position:relative;max-width:680px;margin:0 auto}
+.search-input{width:100%;padding:14px 48px 14px 48px;font-size:15px;font-family:var(--font-sans);
+  background:var(--bg-card);border:1.5px solid var(--border);border-radius:var(--radius-xl);
+  box-shadow:var(--shadow-sm);transition:all .2s;color:var(--text-primary)}
+.search-input:focus{outline:none;border-color:var(--c-teal);box-shadow:0 0 0 4px var(--accent-soft)}
+.search-icon{position:absolute;left:18px;top:50%;transform:translateY(-50%);color:var(--text-tertiary);font-size:18px;pointer-events:none}
+.search-clear{position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  width:24px;height:24px;border:none;border-radius:50%;background:var(--bg-soft);
+  color:var(--text-secondary);cursor:pointer;display:none;align-items:center;justify-content:center;font-size:14px}
+.search-clear.show{display:flex}
+.search-results{position:absolute;top:calc(100% + 8px);left:0;right:0;max-height:440px;overflow-y:auto;
+  background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-lg);z-index:50;display:none;text-align:left}
+.search-results.show{display:block}
+.search-result{padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;
+  display:flex;gap:12px;align-items:flex-start;transition:background .15s}
+.search-result:last-child{border-bottom:none}
+.search-result:hover,.search-result.focused{background:var(--bg-soft)}
+.search-result-ico{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;
+  justify-content:center;font-size:16px;flex-shrink:0;background:var(--accent-soft);color:var(--c-teal)}
+.search-result-body{flex:1;min-width:0}
+.search-result-title{font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.search-result-title mark{background:rgba(16,185,129,.2);color:var(--text-primary);padding:0 2px;border-radius:3px}
+.search-result-snippet{font-size:12px;color:var(--text-tertiary);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.5}
+.search-result-snippet mark{background:rgba(16,185,129,.18);color:var(--text-secondary);padding:0 2px;border-radius:3px}
+.search-result-cat{display:inline-block;font-size:11px;padding:2px 8px;border-radius:var(--radius-xl);
+  background:var(--bg-soft);color:var(--text-secondary);margin-right:6px;vertical-align:middle}
+.search-empty{padding:24px;text-align:center;color:var(--text-tertiary);font-size:13px}
+.search-hint{margin-top:14px;color:var(--text-tertiary);font-size:12px}
+.search-hint kbd{font-family:var(--font-mono);background:var(--bg-card);border:1px solid var(--border);
+  border-radius:4px;padding:1px 6px;font-size:11px;margin:0 2px}
 .news-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
 .news-tab{padding:8px 18px;border:1px solid var(--border);border-radius:var(--radius-xl);
   background:var(--bg-card);color:var(--text-secondary);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
@@ -658,6 +693,90 @@ function switchNews(key){
   document.querySelectorAll('.news-panel').forEach(function(p){
     p.classList.toggle('active', p.id==='news-'+key);});
 }
+
+// Homepage: global search (substring match over content/search-index.json)
+var _SEARCH={data:null,loaded:false,q:'',focused:-1};
+function _searchInit(){
+  var inp=document.getElementById('global-search');
+  if(!inp||_SEARCH.loaded) return;
+  _SEARCH.loaded=true;
+  fetch('content/search-index.json').then(function(r){return r.json();}).then(function(d){
+    _SEARCH.data=d.items||[];}).catch(function(e){console.warn('search index load failed',e);});
+  inp.addEventListener('input',function(){_searchRun(inp.value);});
+  inp.addEventListener('keydown',function(e){
+    var rs=document.querySelectorAll('.search-result');
+    if(e.key==='ArrowDown'){e.preventDefault();_SEARCH.focused=Math.min(_SEARCH.focused+1,rs.length-1);_searchFocus();}
+    else if(e.key==='ArrowUp'){e.preventDefault();_SEARCH.focused=Math.max(_SEARCH.focused-1,0);_searchFocus();}
+    else if(e.key==='Enter'){if(_SEARCH.focused>=0&&rs[_SEARCH.focused]){e.preventDefault();rs[_SEARCH.focused].click();}}
+    else if(e.key==='Escape'){inp.value='';_searchRun('');}
+  });
+  document.addEventListener('click',function(e){
+    var box=document.querySelector('.search-box');
+    if(box&&!box.contains(e.target)){document.getElementById('search-results').classList.remove('show');}
+  });
+}
+function _searchHighlight(s,q){
+  if(!q) return _escapeHtml(s);
+  var i=s.toLowerCase().indexOf(q.toLowerCase());
+  if(i<0) return _escapeHtml(s);
+  return _escapeHtml(s.slice(0,i))+'<mark>'+_escapeHtml(s.slice(i,i+q.length))+'</mark>'+_escapeHtml(s.slice(i+q.length));
+}
+function _escapeHtml(s){
+  return String(s).replace(/[&<>"']/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];});
+}
+function _searchRun(q){
+  _SEARCH.q=q; _SEARCH.focused=-1;
+  var box=document.getElementById('search-results');
+  var clr=document.querySelector('.search-clear');
+  if(clr) clr.classList.toggle('show',!!q);
+  q=q.trim();
+  if(!q||!_SEARCH.data){box.classList.remove('show');return;}
+  var ql=q.toLowerCase();
+  var hits=[];
+  for(var i=0;i<_SEARCH.data.length&&hits.length<30;i++){
+    var it=_SEARCH.data[i];
+    var t=it.t||''; var s=it.s||'';
+    var tl=t.toLowerCase(), sl=s.toLowerCase();
+    var score=0;
+    var idxT=tl.indexOf(ql); var idxS=sl.indexOf(ql);
+    if(idxT<0&&idxS<0) continue;
+    // 标题命中权重 10，简介命中权重 1；标题前缀匹配再加 5
+    if(idxT>=0){score+=10; if(idxT===0) score+=5;}
+    if(idxS>=0) score+=1;
+    // 同分类匹配稍微加权（让同类结果靠前）
+    hits.push({i:i, score:score, it:it});
+  }
+  hits.sort(function(a,b){return b.score-a.score;});
+  if(!hits.length){
+    box.innerHTML='<div class="search-empty">未找到与「'+_escapeHtml(q)+'」相关的内容，试试更短的关键词</div>';
+    box.classList.add('show'); return;
+  }
+  var html='';
+  for(var j=0;j<hits.length;j++){
+    var h=hits[j]; var it=h.it;
+    var isExternal=String(it.u).indexOf('http')===0;
+    var target=isExternal?' target="_blank" rel="noopener"':'';
+    var icoBg=(it.color&&it.color.length===7)?(it.color+'22'):'var(--accent-soft)';
+    var icoFg=it.color||'var(--c-teal)';
+    html+='<a class="search-result" href="'+_escapeHtml(it.u)+'"'+target+' data-idx="'+j+'">'
+      +'<div class="search-result-ico" style="background:'+icoBg+';color:'+icoFg+'">'+_escapeHtml(it.ico||'🔎')+'</div>'
+      +'<div class="search-result-body">'
+      +'<div class="search-result-title"><span class="search-result-cat">'+_escapeHtml(it.c||'')+'</span>'+_searchHighlight(it.t,q)+'</div>'
+      +'<div class="search-result-snippet">'+_searchHighlight(it.s||'',q)+'</div>'
+      +'</div></a>';
+  }
+  box.innerHTML=html; box.classList.add('show');
+}
+function _searchFocus(){
+  var rs=document.querySelectorAll('.search-result');
+  rs.forEach(function(r,i){r.classList.toggle('focused',i===_SEARCH.focused);});
+  if(_SEARCH.focused>=0&&rs[_SEARCH.focused]) rs[_SEARCH.focused].scrollIntoView({block:'nearest'});
+}
+function _searchClear(){
+  var inp=document.getElementById('global-search');
+  if(inp){inp.value='';inp.focus();_searchRun('');}
+}
+document.addEventListener('DOMContentLoaded',_searchInit);
 
 // Ecosystem detail page: TOC scroll-spy
 function initEcoToc(){
@@ -2516,6 +2635,7 @@ def build_index():
     wraps = "".join(article_wrap(p[0],p[1],p[2],p[3],p[4]) for p in HOME_ARTICLES)
     list_html = '<div class="article-list">' + wraps + '</div>'
     body = ('<div>' + hero +
+            build_search_section() +
             build_news_section() +
             '<section class="section" id="notebooks"><div class="section-head"><h2><span class="bar"></span>笔记类别</h2>'
             '<p>手册、案例、进阶、岗位与行业落地，按类别快速进入，内容持续补充中</p></div>' + card_html + '</section>'
@@ -2676,6 +2796,19 @@ def _load_news():
             return json.load(f)
     except Exception:
         return {"updated": "", "tabs": []}
+
+def build_search_section():
+    """首页全站搜索框。读 search-index.json 实时 substring 匹配，跳转到对应页/锚点。"""
+    return ('<section class="search-section" id="search">'
+            '<div class="search-box">'
+            '<span class="search-icon">🔍</span>'
+            '<input id="global-search" class="search-input" type="search" '
+            'placeholder="搜索全站：手册章节、新闻、技能、提示词、工具评测..." autocomplete="off">'
+            '<button class="search-clear" onclick="_searchClear()" title="清空">×</button>'
+            '<div id="search-results" class="search-results"></div>'
+            '</div>'
+            '<p class="search-hint">试试搜 <kbd>群机器人</kbd> <kbd>月报</kbd> <kbd>公文排版</kbd> <kbd>Kimi</kbd> <kbd>DeepSeek</kbd></p>'
+            '</section>')
 
 def build_news_section():
     data = _load_news()
@@ -2860,6 +2993,101 @@ ECOSYSTEM_PAGE_DATA = {
     },
 }
 
+# ---------- 全站搜索索引 ----------
+# 构建期遍历所有数据源，生成 content/search-index.json，前端 fetch 后 substring 匹配。
+# 只索引「标题 + 一句话简介」，点击直达对应页/锚点，不扫正文（避免噪声+索引过大）。
+import re as _re
+_HTML_TAG = _re.compile(r'<[^>]+>')
+_WS = _re.compile(r'\s+')
+def _strip_html(html, limit=80):
+    """去 HTML 标签，合并空白，取前 limit 字符作为 snippet。"""
+    if not html:
+        return ""
+    t = _HTML_TAG.sub(' ', html)
+    t = _WS.sub(' ', t).strip()
+    return t[:limit]
+
+def _search_chapters(items, chapters, fname, cat_label, ico, page_color=""):
+    """把 [chapter_tuple, ...] 格式的章节列表追加进 items。
+    chapter_tuple: (id, num, title, cat, html)
+    """
+    for (cid, num, title, cat, html) in chapters:
+        # snippet 优先用标题后的正文第一段；若 html 是字符串直接 strip
+        snippet = _strip_html(html, 80)
+        if not snippet:
+            snippet = title
+        items.append({"t": title, "s": snippet, "c": cat_label,
+                      "u": fname + "#" + cid, "ico": ico, "color": page_color})
+
+def _build_search_index():
+    items = []
+    # 1) WB 手册 10 章（从 wb_manual.json）
+    _search_chapters(items, MANUAL_WB, "manual-wb.html", "WB手册", "📘", C_WB)
+    # 2) WB 案例
+    _search_chapters(items, CASES_WB, "cases-wb.html", "WB案例", "📂", C_WB)
+    # 3) 进阶篇
+    _search_chapters(items, ADVANCED, "advanced.html", "进阶篇", "🚀", C_WB)
+    # 4) 岗位与行业落地
+    _search_chapters(items, INDUSTRY, "industry.html", "岗位落地", "🎯", C_INDUSTRY)
+    # 5) 新闻动态（外链，每条新闻独立条目）
+    try:
+        nd = _load_news()
+        for tab in nd.get("tabs", []):
+            cat_label = "新闻·" + tab["name"]
+            for it in tab.get("items", []):
+                items.append({"t": it["title"], "s": it["desc"][:80],
+                              "c": cat_label, "u": it["url"], "ico": tab.get("ico", "📰"),
+                              "color": tab.get("color", "")})
+    except Exception:
+        pass
+    # 6) Skills（每个技能）
+    for sk in SKILLS:
+        snippet = _strip_html(sk.get("overview", "") or sk.get("desc", ""), 80)
+        items.append({"t": sk["title"], "s": snippet, "c": "Skills",
+                      "u": "skills.html#skill-" + sk["id"], "ico": sk.get("ico", "🧩"),
+                      "color": "#A855F7"})
+    # 7) 提示词
+    for p in PROMPTS:
+        snippet = _strip_html(p.get("example", "") or p.get("desc", ""), 80)
+        items.append({"t": p["title"], "s": snippet, "c": "提示词·" + p["category"],
+                      "u": "skills.html#prompt-" + p["id"], "ico": p.get("ico", "✨"),
+                      "color": "#A855F7"})
+    # 8) AI 生态 4 个独立页（每个 section + subs 工具/模型名）
+    for key, pg in ECOSYSTEM_PAGE_DATA.items():
+        for sec in pg.get("sections", []):
+            items.append({"t": sec["title"], "s": _strip_html(sec.get("intro", ""), 80),
+                          "c": pg["title"], "u": pg["fname"] + "#" + sec["id"],
+                          "ico": sec.get("icon", pg.get("ico", "📄")),
+                          "color": pg.get("color", "")})
+            for sub in sec.get("subs", []):
+                # sub: (name, badge, desc, [], [])
+                sname, sbadge, sdesc = sub[0], sub[1], sub[2] if len(sub) > 2 else ""
+                if not sname:
+                    continue
+                items.append({"t": sname + " · " + sbadge, "s": _strip_html(sdesc, 60),
+                              "c": pg["title"], "u": pg["fname"] + "#" + sec["id"],
+                              "ico": sec.get("icon", pg.get("ico", "📄")),
+                              "color": pg.get("color", "")})
+    # 去重（同标题+同 URL 保留第一个）
+    seen = set()
+    dedup = []
+    for it in items:
+        k = (it["t"], it["u"])
+        if k in seen:
+            continue
+        seen.add(k)
+        dedup.append(it)
+    # 写出
+    import datetime as _dt
+    out_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "content")
+    os.makedirs(out_dir, exist_ok=True)
+    out_path = os.path.join(out_dir, "search-index.json")
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump({"updated": _dt.date.today().isoformat(),
+                   "count": len(dedup),
+                   "items": dedup}, f, ensure_ascii=False, separators=(",", ":"))
+    return out_path, len(dedup)
+
 def eco_subcards(subs):
     if not subs:
         return ""
@@ -2904,6 +3132,8 @@ def build_ecosystem_page(key):
     print("生成:", d["fname"])
 
 if __name__ == "__main__":
+    _idx_path, _idx_n = _build_search_index()
+    print("搜索索引:", _idx_path, "(" + str(_idx_n) + " 条)")
     build_index()
     build_reader("WB手册", "WorkBuddy 使用手册", MANUAL_WB, "manual-wb.html", C_WB, topbar_active="笔记类别")
     build_reader("WB案例", "WorkBuddy 案例", CASES_WB, "cases-wb.html", C_WB, topbar_active="笔记类别")
