@@ -167,7 +167,7 @@ h1,h2,h3,h4,h5,h6{font-family:var(--font-hei);font-weight:600}
   justify-content:center;font-size:20px;margin-bottom:0}
 .card-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
 .card h3{font-size:17px;font-weight:600;margin-bottom:0}
-.card p{color:var(--text-secondary);font-size:13.5px;line-height:1.8}
+.card p{color:var(--text-secondary);font-size:13.5px;line-height:1.8;font-weight:700}
 .card .meta{margin-top:14px;font-size:12px;color:var(--text-tertiary)}
 .card .arrow{position:absolute;right:20px;bottom:18px;font-size:18px;color:var(--text-tertiary);
   transition:transform .25s,color .25s}
@@ -2680,10 +2680,10 @@ def build_index():
             '<span class="hero-tag purple">Skill 沉淀</span></div></section>')
     # 板块卡片（笔记类别）：仅保留 WorkBuddy 相关内容
     cards = [
-        ("📘","WB手册","从 0 到 1，把 WorkBuddy 用起来","10 章：初识/安装/界面/Skill/专家/连接器/小程序/API/自动化/办公三件套","manual-wb.html",C_WB),
-        ("📂","WB案例","真实任务的完整复现","月报/透视/培训方案/桌面发票","cases-wb.html",C_WB),
-        ("🚀","进阶篇","从案例到系统，构建你的工作流","4 篇：Skill/多Agent/可靠性/双备份","advanced.html",C_WB),
-        ("🎯","岗位与行业落地","按岗位 / 行业视角组织实战内容","销售/外贸/零售/制造 · 建设中","industry.html",C_INDUSTRY),
+        ("📘","WB手册","从 0 到 1，把 WorkBuddy 用起来","10 篇文章","manual-wb.html",C_WB),
+        ("📂","WB案例","真实任务的完整复现","2 篇文章","cases-wb.html",C_WB),
+        ("🚀","进阶篇","从案例到系统，构建你的工作流","4 篇文章","advanced.html",C_WB),
+        ("🎯","岗位与行业落地","按岗位 / 行业视角组织实战内容","4 篇文章","industry.html",C_INDUSTRY),
     ]
     card_html = '<div class="cards">'
     for ico, name, desc, meta, href, color in cards:
