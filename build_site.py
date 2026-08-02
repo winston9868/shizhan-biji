@@ -936,7 +936,7 @@ def ch_body(intro, blocks):
         elif t == 'table': out += c
     return out
 
-# ---------- WorkBuddy 使用手册（复刻自「小饭的 AI 实战笔记」使用手册，共 10 章） ----------
+# ---------- WorkBuddy 使用手册（复刻自「小饭的 AI 实战笔记」使用手册，共 11 章） ----------
 def _load_manual_wb():
     _p = os.path.join(os.path.dirname(os.path.abspath(__file__)), "wb_manual.json")
     with open(_p, encoding="utf-8") as _f:
@@ -1007,7 +1007,7 @@ INDUSTRY = [
 
 # Home 文章卡片数据（product 用于筛选与色标）
 HOME_ARTICLES = [
-    # 使用手册（WB手册 1-10 章）
+    # 使用手册（WB手册 1-11 章）
     ("使用手册","01","第 1 章 初识 WorkBuddy","从回答到交付的 AI 工作台","manual-wb.html#chapter-1"),
     ("使用手册","02","第 2 章 下载、安装、登录与更新","多端安装与常见问题","manual-wb.html#chapter-2"),
     ("使用手册","03","第 3 章 主界面、任务与工作区","三区域/三模式/模型选择","manual-wb.html#chapter-3"),
@@ -1018,6 +1018,7 @@ HOME_ARTICLES = [
     ("使用手册","08","第 8 章 接入小程序与 IM 助理","微信/飞书/钉钉接入","manual-wb.html#chapter-8"),
     ("使用手册","09","第 9 章 如何接入外部 API","开放能力扩展","manual-wb.html#chapter-9"),
     ("使用手册","10","第 10 章 自动化任务","从想法到定时任务","manual-wb.html#chapter-10"),
+    ("使用手册","11","第 11 章 课外阅读：一章看懂 AI 工作系统","五类角色：模型·Agent·Skill·工具·人","manual-wb.html#chapter-11"),
     # 案例篇（WB案例）
     ("案例篇","01","第 1 章 从整理桌面文件这些小事做起","桌面发票扫描与台账生成","cases-wb.html#chapter-1"),
     ("案例篇","02","第 2 章 办公三件套：Word、Excel、PPT","三件套联动实战","cases-wb.html#chapter-2"),
@@ -2680,7 +2681,7 @@ def build_index():
             '<span class="hero-tag purple">Skill 沉淀</span></div></section>')
     # 板块卡片（笔记类别）：仅保留 WorkBuddy 相关内容
     cards = [
-        ("📘","WB手册","从 0 到 1，用好 WorkBuddy","📝 10 篇文章","manual-wb.html",C_WB),
+        ("📘","WB手册","从 0 到 1，用好 WorkBuddy","📝 11 篇文章","manual-wb.html",C_WB),
         ("📂","WB案例","真实任务的完整复现","📝 2 篇文章","cases-wb.html",C_WB),
         ("🚀","进阶篇","从案例到系统，构建你的工作流","📝 4 篇文章","advanced.html",C_WB),
         ("🎯","岗位与行业落地","按岗位 / 行业视角组织实战内容","📝 4 篇文章","industry.html",C_INDUSTRY),
@@ -3091,7 +3092,7 @@ def _search_chapters(items, chapters, fname, cat_label, ico, page_color=""):
 
 def _build_search_index():
     items = []
-    # 1) WB 手册 10 章（从 wb_manual.json）
+    # 1) WB 手册 11 章（从 wb_manual.json）
     _search_chapters(items, MANUAL_WB, "manual-wb.html", "WB手册", "📘", C_WB)
     # 2) WB 案例
     _search_chapters(items, CASES_WB, "cases-wb.html", "WB案例", "📂", C_WB)
