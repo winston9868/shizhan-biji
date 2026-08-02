@@ -444,17 +444,19 @@ td{color:var(--text-secondary)}
   .sidebar.open{display:block}
   .reading-page{padding:24px 18px}
   .hero-name{font-size:30px}.section{padding:40px 16px}}
-  .news-grid,.eco-grid,.case-grid,.news-cols{grid-template-columns:1fr}}
+  .news-grid,.eco-grid,.case-grid{grid-template-columns:1fr}}
 
-/* ===== Homepage: news hotspot ===== */
+/* ===== Homepage: news hotspot (4 sub-category tabs) ===== */
 .news-section{background:var(--bg-card)}
-.news-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.news-col{display:flex;flex-direction:column;gap:14px}
-.news-col-head{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;
-  color:var(--tc);padding-bottom:10px;border-bottom:2px solid var(--tc);margin-bottom:4px}
-.news-col-ico{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;
-  background:var(--tc);color:#fff;font-size:14px}
-.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.news-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
+.news-tab{padding:8px 18px;border:1px solid var(--border);border-radius:var(--radius-xl);
+  background:var(--bg-card);color:var(--text-secondary);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+.news-tab:hover{border-color:var(--tc);color:var(--tc)}
+.news-tab.active{background:var(--tc);color:#fff;border-color:transparent}
+.news-panel{display:none}
+.news-panel.active{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.news-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
 .news-card{background:var(--bg-soft);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;
   text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:10px;transition:all .2s}
 .news-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);border-color:var(--border-hover)}
@@ -649,7 +651,13 @@ function fallbackCopy(text){
   document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta);
 }
 
-// (news section switched to 4-column layout; no tab switching needed)
+// Homepage: news hotspot tab switch (4 sub-categories)
+function switchNews(key){
+  document.querySelectorAll('.news-tab').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-tab')===key);});
+  document.querySelectorAll('.news-panel').forEach(function(p){
+    p.classList.toggle('active', p.id==='news-'+key);});
+}
 
 // Ecosystem detail page: TOC scroll-spy
 function initEcoToc(){
@@ -2674,9 +2682,13 @@ def build_news_section():
     tabs = data.get("tabs", [])
     if not tabs:
         return ""
-    cols = ""
-    for t in tabs:
+    head = '<div class="news-tabs">'
+    panels = ""
+    for i, t in enumerate(tabs):
         key = t["key"]; name = t["name"]; ico = t.get("ico", ""); color = t.get("color", "#10B981")
+        active = " active" if i == 0 else ""
+        head += ('<button class="news-tab' + active + '" data-tab="' + key + '" style="--tc:' + color +
+                 '" onclick="switchNews(\'' + key + '\')">' + ico + ' ' + name + '</button>')
         cards = ""
         for it in t.get("items", []):
             cards += ('<a class="news-card" href="' + it["url"] + '" target="_blank" rel="noopener">'
@@ -2684,12 +2696,12 @@ def build_news_section():
                       t.get("tag", name) + '</span>'
                       '<h4>' + it["title"] + '</h4><p>' + it["desc"] + '</p>'
                       '<span class="news-go">阅读原文 →</span></a>')
-        cols += ('<div class="news-col" style="--tc:' + color + '">'
-                 '<div class="news-col-head"><span class="news-col-ico">' + ico + '</span>' + name + '</div>'
-                 + cards + '</div>')
+        panels += ('<div class="news-panel' + active + '" id="news-' + key + '"><div class="news-grid">' +
+                   cards + '</div></div>')
+    head += '</div>'
     return ('<section class="section news-section" id="news"><div class="section-head"><h2><span class="bar"></span>新闻动态</h2>'
             '<p>实时追踪 WorkBuddy、AI 办公与前沿模型动态 · 更新于 ' + data.get("updated", "") + '</p></div>'
-            '<div class="news-cols">' + cols + '</div></section>')
+            + head + panels + '</section>')
 
 def build_ecosystem_showcase():
     cards = ""

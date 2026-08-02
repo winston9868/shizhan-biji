@@ -388,17 +388,19 @@ td{color:var(--text-secondary)}
   .sidebar.open{display:block}
   .reading-page{padding:24px 18px}
   .hero-name{font-size:30px}.section{padding:40px 16px}}
-  .news-grid,.eco-grid,.case-grid,.news-cols{grid-template-columns:1fr}}
+  .news-grid,.eco-grid,.case-grid{grid-template-columns:1fr}}
 
-/* ===== Homepage: news hotspot ===== */
+/* ===== Homepage: news hotspot (4 sub-category tabs) ===== */
 .news-section{background:var(--bg-card)}
-.news-cols{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.news-col{display:flex;flex-direction:column;gap:14px}
-.news-col-head{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px;
-  color:var(--tc);padding-bottom:10px;border-bottom:2px solid var(--tc);margin-bottom:4px}
-.news-col-ico{width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;
-  background:var(--tc);color:#fff;font-size:14px}
-.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.news-tabs{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:24px}
+.news-tab{padding:8px 18px;border:1px solid var(--border);border-radius:var(--radius-xl);
+  background:var(--bg-card);color:var(--text-secondary);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+.news-tab:hover{border-color:var(--tc);color:var(--tc)}
+.news-tab.active{background:var(--tc);color:#fff;border-color:transparent}
+.news-panel{display:none}
+.news-panel.active{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.news-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
 .news-card{background:var(--bg-soft);border:1px solid var(--border);border-radius:var(--radius-lg);padding:20px;
   text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:10px;transition:all .2s}
 .news-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hover);border-color:var(--border-hover)}
@@ -607,7 +609,13 @@ function fallbackCopy(text){
   document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta);
 }
 
-// (news section switched to 4-column layout; no tab switching needed)
+// Homepage: news hotspot tab switch (4 sub-categories)
+function switchNews(key){
+  document.querySelectorAll('.news-tab').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-tab')===key);});
+  document.querySelectorAll('.news-panel').forEach(function(p){
+    p.classList.toggle('active', p.id==='news-'+key);});
+}
 
 // Ecosystem detail page: TOC scroll-spy
 function initEcoToc(){
