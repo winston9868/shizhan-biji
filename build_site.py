@@ -48,8 +48,7 @@ SECTIONS = [
     ("首页",   "index.html",              "🏠", "",         "", None),
     ("新闻动态", "index.html#news",       "📰", C_WB,      "", None),
     ("笔记类别", "index.html#notebooks",  "📝", "#10B981",  "", None),
-    ("AI生态专栏", "ai-tools.html",       "🌐", C_TOOLS,   "",
-        [(n, h, c) for (n, h, i, c, d) in ECOSYSTEM_SECTIONS]),
+    ("AI生态专栏", "index.html#ecosystem", "🌐", C_TOOLS,   "", None),
     ("Skills", "skills.html",             "🧩", "#A855F7", "", None),
     ("交流",   "community.html",          "💬", "#64748B", "", None),
 ]
