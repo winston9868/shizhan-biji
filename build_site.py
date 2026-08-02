@@ -69,6 +69,17 @@ CSS = """
   --shadow-lg:0 12px 40px rgba(16,185,129,.08),0 4px 16px rgba(0,0,0,.04);
   --shadow-hover:0 8px 28px rgba(16,185,129,.12),0 4px 12px rgba(0,0,0,.05);
   --sidebar-w:240px; --reading-w:760px; --topbar-h:56px;
+  /* ===== 一页纸（A4）排版参数：210mm @96dpi = 794px ===== */
+  --paper-w:794px;          /* 纸面宽度 */
+  --paper-pad-x:102px;      /* 左右页边距（公文 28mm/26mm 等比折算） */
+  --paper-bg:#EDEBE7;       /* 纸张外的桌面底色 */
+  --doc-line:1.75;          /* 屏幕上等效 Word「1.5 倍行距」 */
+  --doc-ink:#1F1F1F;        /* 公文正文墨色 */
+  /* ===== 公文字体族（缺字时按顺序回退） ===== */
+  --font-fs:'FangSong_GB2312','仿宋_GB2312',FangSong,'仿宋',STFangsong,'Songti SC',serif;
+  --font-hei:SimHei,'黑体','Heiti SC','Microsoft YaHei',sans-serif;
+  --font-kai:'KaiTi_GB2312',KaiTi,'楷体','Kaiti SC',STKaiti,serif;
+  --font-xbs:'方正小标宋简体',FZXiaoBiaoSong-B05S,'Songti SC',SimSun,'宋体',serif;
   --font-serif:Georgia,'Noto Serif SC','Songti SC',serif;
   --font-sans:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;
   --font-mono:'JetBrains Mono','Fira Code',Consolas,monospace;
@@ -181,9 +192,11 @@ img{max-width:100%;height:auto}
 .article-card p{font-size:13px;color:var(--text-secondary);line-height:1.75;margin:0;
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 
-/* ===== Doc layout (manual/cases/advanced) ===== */
-.layout{max-width:1280px;margin:0 auto;padding:calc(var(--topbar-h) + 28px) 24px 80px;
-  display:grid;grid-template-columns:var(--sidebar-w) minmax(0,1fr);gap:34px}
+/* ===== Doc layout (manual/cases/advanced/industry)：A4 一页纸 ===== */
+body.doc-body{background:var(--paper-bg)}
+.layout{max-width:calc(var(--sidebar-w) + var(--paper-w) + 82px);margin:0 auto;
+  padding:calc(var(--topbar-h) + 28px) 24px 80px;justify-content:center;
+  display:grid;grid-template-columns:var(--sidebar-w) minmax(0,var(--paper-w));gap:34px}
 .sidebar{position:sticky;top:calc(var(--topbar-h) + 24px);align-self:start;max-height:calc(100vh - var(--topbar-h) - 48px);overflow-y:auto}
 .sidebar-header{font-size:12px;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;
   letter-spacing:1px;margin-bottom:12px;padding-left:6px}
@@ -204,28 +217,41 @@ img{max-width:100%;height:auto}
 .sidebar-chapter.active{color:#059669;border-left-color:var(--accent);background:rgba(16,185,129,.15);font-weight:600}
 
 .reading-section{min-width:0}
-.reading-page{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);
-  padding:36px 44px;box-shadow:var(--shadow-sm)}
-.reading-page>.page-title{font-family:var(--font-serif);font-size:28px;font-weight:700;margin-bottom:6px}
-.reading-page>.page-sub{color:var(--text-tertiary);font-size:13.5px;margin-bottom:28px;
-  padding-bottom:20px;border-bottom:1px solid var(--border)}
+/* 纸面：白纸 + 投影，宽度 = A4，左右按公文页边距留白 */
+.reading-page{background:#fff;border:1px solid rgba(0,0,0,.07);border-radius:3px;
+  padding:56px var(--paper-pad-x) 68px;
+  box-shadow:0 1px 2px rgba(0,0,0,.05),0 10px 32px rgba(0,0,0,.07)}
+/* 文档大标题：方正小标宋 · 居中（对应 Word 二号标题） */
+.reading-page>.page-title{font-family:var(--font-xbs);font-size:26px;font-weight:400;
+  color:var(--doc-ink);text-align:center;letter-spacing:1px;margin-bottom:10px;line-height:1.5}
+.reading-page>.page-sub{font-family:var(--font-kai);color:var(--text-secondary);font-size:15px;
+  text-align:center;margin-bottom:30px;padding-bottom:22px;border-bottom:1px solid var(--border)}
 .chapter{scroll-margin-top:calc(var(--topbar-h) + 24px);margin-bottom:42px}
-.chapter-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.chapter-header{display:flex;align-items:center;gap:12px;margin-bottom:18px}
 .chapter-badge{font-size:12px;font-weight:600;padding:3px 11px;border-radius:var(--radius-xl);
   background:var(--accent-soft);color:var(--accent);white-space:nowrap}
-.chapter-title{font-size:20px;font-weight:700}
+.chapter-title{font-family:var(--font-hei);font-size:21px;font-weight:400;color:var(--doc-ink)}
 .chapter:not(:last-child){border-bottom:1px solid var(--border);padding-bottom:36px;margin-bottom:36px}
-.chapter-body{color:var(--text-primary);font-size:14.5px;line-height:1.95}
-.chapter-body img{border-radius:var(--radius-md);box-shadow:var(--shadow-sm);max-width:100%;margin:18px 0}
-.chapter-body h3{font-size:16px;font-weight:600;margin:22px 0 10px}
-.chapter-body p{margin:12px 0;color:var(--text-secondary)}
-.chapter-body ul,.chapter-body ol{margin:12px 0;padding-left:22px;color:var(--text-secondary)}
-.chapter-body li{margin:6px 0}
-.chapter-body strong{color:var(--text-primary)}
+/* ===== 正文：仿宋四号 · 1.5 倍行距 · 首行缩进 2 字符 · 两端对齐 ===== */
+.chapter-body{font-family:var(--font-fs);color:var(--doc-ink);font-size:16.5px;
+  line-height:var(--doc-line);text-align:justify}
+.chapter-body p{margin:0 0 12px;color:var(--doc-ink);text-indent:2em}
+.chapter-body p:has(> img),.chapter-body p:has(> .img-missing){text-indent:0}
+.chapter-body ul,.chapter-body ol{margin:12px 0;padding-left:2.4em;color:var(--doc-ink)}
+.chapter-body li{margin:5px 0;text-indent:0}
+.chapter-body li p{text-indent:0;margin:4px 0}
+.chapter-body strong,.chapter-body b{font-family:var(--font-hei);font-weight:600;color:#000}
+/* 标题分级：一级黑体（对应「一、」）· 二级楷体不加粗（对应「（一）」）· 三级仿宋加粗 */
+.chapter-body h3{font-family:var(--font-kai);font-size:19px;font-weight:400;
+  color:var(--doc-ink);margin:24px 0 10px;text-indent:0}
+.chapter-body h4{font-family:var(--font-fs);font-size:16.5px;font-weight:700;
+  color:var(--doc-ink);margin:20px 0 8px;text-indent:0}
 .chapter-body :not(pre) > code{font-family:var(--font-mono);font-size:13px;background:var(--bg-soft);
   padding:2px 6px;border-radius:5px;color:#047857}
-.callout{margin:16px 0;padding:14px 16px;border-radius:var(--radius-md);font-size:13.5px;line-height:1.8;
-  border-left:4px solid var(--c-teal);background:rgba(16,185,129,.07)}
+.callout{margin:16px 0;padding:14px 16px;border-radius:var(--radius-md);font-size:14px;line-height:1.8;
+  border-left:4px solid var(--c-teal);background:rgba(16,185,129,.07);
+  font-family:var(--font-sans);color:var(--text-secondary);text-indent:0;text-align:left}
+.callout p,.callout li{text-indent:0;color:inherit;font-family:inherit}
 .callout.warn{border-left-color:var(--c-coral);background:rgba(245,158,11,.08)}
 .callout.info{border-left-color:var(--c-blue);background:rgba(6,182,212,.08)}
 .callout .ttl{font-weight:600;display:block;margin-bottom:4px}
@@ -240,8 +266,17 @@ table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13.5px}
 th,td{border:1px solid var(--border);padding:10px 12px;text-align:left}
 th{background:var(--bg-soft);font-weight:600;color:var(--text-primary)}
 td{color:var(--text-secondary)}
-.chapter-body h2{font-size:18px;font-weight:700;margin:26px 0 12px;padding-bottom:8px;
-  border-bottom:1px solid var(--border);color:var(--text-primary)}
+.chapter-body h2{font-family:var(--font-hei);font-size:21px;font-weight:400;margin:28px 0 12px;
+  padding-bottom:8px;border-bottom:1px solid var(--border);color:var(--doc-ink);text-indent:0}
+/* ===== 公文表格：黑体表头 + 浅蓝底 #D9E2F3 + 细黑边框 · 无斑马纹 ===== */
+.chapter-body table{width:100%;border-collapse:collapse;margin:18px 0;font-size:15px;
+  font-family:var(--font-fs);text-indent:0}
+.chapter-body th{background:#D9E2F3;font-family:var(--font-hei);font-weight:400;color:#000;
+  border:1px solid #4A4A4A;padding:9px 12px;text-align:left}
+.chapter-body td{background:transparent;color:var(--doc-ink);border:1px solid #4A4A4A;
+  padding:9px 12px;text-align:left}
+/* 代码 / 预格式块内不参与首行缩进 */
+.chapter-body pre,.chapter-body code,.chapter-body figure{text-indent:0;text-align:left}
 .chapter-body img{max-width:100%;height:auto;display:block;margin:16px auto;
   border-radius:var(--radius-md);border:1px solid var(--border);background:var(--bg-soft)}
 .chapter-body figure{margin:16px 0;padding:12px 14px;border:1px solid var(--border);
@@ -445,6 +480,32 @@ td{color:var(--text-secondary)}
   .reading-page{padding:24px 18px}
   .hero-name{font-size:30px}.section{padding:40px 16px}}
   .news-grid,.eco-grid,.case-grid{grid-template-columns:1fr}}
+
+/* ===== 打印 / 导出 PDF：按公文页面设置输出（Ctrl+P 即得规整 PDF） ===== */
+@page{size:A4;margin:37mm 26mm 35mm 28mm}
+@media print{
+  body,body.doc-body{background:#fff!important}
+  .topbar,.sidebar,.footer,.menu-btn,.chapter-end,.reading-progress,
+  .search-box,.nav-dropdown-menu,.sidebar-back{display:none!important}
+  .layout{display:block!important;max-width:none!important;margin:0!important;padding:0!important}
+  .reading-page{background:#fff!important;border:none!important;border-radius:0!important;
+    box-shadow:none!important;padding:0!important}
+  .reading-header{margin:0 0 16pt!important}
+  .chapter-body{font-size:14pt;line-height:1.5;color:#000}
+  .chapter-body p{orphans:3;widows:3}
+  .chapter{border:none!important;margin:0 0 12pt!important;padding:0!important}
+  .chapter-title,.chapter-body h2,.chapter-body h3,.chapter-body h4{
+    break-after:avoid;page-break-after:avoid}
+  .chapter-body img,.chapter-body table,.chapter-body pre,.chapter-body figure,.callout{
+    break-inside:avoid;page-break-inside:avoid}
+  .chapter-body img{border:none!important;box-shadow:none!important;background:none!important}
+  /* 深色代码块打印会吃墨，改浅底黑字 */
+  pre{background:#F5F5F5!important;color:#000!important;border:1px solid #999!important}
+  pre code{color:#000!important}
+  .callout{background:#F5F5F5!important;border-left:3pt solid #666!important;color:#000!important}
+  .chapter-badge{background:none!important;color:#000!important;border:1px solid #999;font-weight:400}
+  a{color:#000!important;text-decoration:none}
+}
 
 /* ===== Homepage: news hotspot (4 sub-category tabs) ===== */
 .news-section{background:var(--bg-card)}
@@ -2451,7 +2512,7 @@ def build_doc(active_name, title, sub, chs, fname, pcolor, topbar_active=None):
             '<meta name="viewport" content="width=device-width,initial-scale=1">'
             '<meta name="description" content="' + SITE_DESC + '">'
             '<title>' + title + ' · ' + SITE_TITLE + '</title><style>' + CSS + '</style>' + accent + '</head>'
-            '<body>' + topbar(topbar_active if topbar_active is not None else active_name) +
+            '<body class="doc-body">' + topbar(topbar_active if topbar_active is not None else active_name) +
             '<div class="layout">' + doc_sidebar(active_name) +
             '<main class="reading-section">' + reading_page(title, sub, chs) + '</main>' +
             doc_toc(chs) + '</div>' + footer() +
@@ -2465,9 +2526,12 @@ def build_doc(active_name, title, sub, chs, fname, pcolor, topbar_active=None):
 # 底部「下一章」按钮手动切换；左侧边栏点击章节不刷新页面直接切换；
 # URL 保持 #chapter-N 可单章分享。
 READER_CSS = """
-.reading-header{display:flex;flex-direction:column;gap:10px;margin:0 0 26px}
-.reading-header h1{font-size:24px;margin:0;color:var(--text-primary);font-weight:700}
-.reading-progress{display:flex;align-items:center;gap:14px;font-size:14px;color:var(--text-tertiary);font-weight:600}
+.reading-header{display:flex;flex-direction:column;gap:14px;margin:0 0 30px;align-items:center;
+  padding-bottom:22px;border-bottom:1px solid var(--border)}
+.reading-header h1{font-family:var(--font-xbs);font-size:26px;margin:0;color:var(--doc-ink);
+  font-weight:400;text-align:center;letter-spacing:1px;line-height:1.5}
+.reading-progress{display:flex;align-items:center;gap:14px;font-size:13px;color:var(--text-tertiary);
+  font-weight:500;width:100%;max-width:460px}
 .progress-bar{flex:1;height:10px;background:var(--border);border-radius:6px;overflow:hidden;max-width:420px}
 .progress-fill{height:100%;background:var(--accent);border-radius:6px;transition:width .3s ease}
 .chapter-content{min-height:60vh}
@@ -2590,7 +2654,7 @@ def build_reader(active_name, page_title, chs, fname, pcolor, topbar_active=None
             '<meta name="description" content="' + SITE_DESC + '">'
             '<title>' + page_title + ' · ' + SITE_TITLE + '</title>'
             '<style>' + CSS + READER_CSS + '</style>' + accent + '</head>'
-            '<body>' + topbar(topbar_active if topbar_active is not None else active_name) +
+            '<body class="doc-body">' + topbar(topbar_active if topbar_active is not None else active_name) +
             '<div class="layout">' + sidebar +
             '<main class="reading-section">' + body + '</main></div>' + footer() +
             '<script>' + JS + '</script>'
