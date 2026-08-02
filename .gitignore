@@ -4,3 +4,4 @@ draft-*.png
 _preview/
 __pycache__/
 _draft_build*.py
+wb_manual.json.bak
