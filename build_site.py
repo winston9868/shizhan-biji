@@ -3147,6 +3147,154 @@ _CASE1_BODY = (
     '</div>'  # end c1-body
 )
 
+# ============================ 案例二：Vibe Resume Skill 简历生成 ============================
+_CASE2_BODY = (
+    '<div class="c2-body">'
+    # ---- 背景 ----
+    '<h3 class="c2-h3">📌 这个案例解决什么问题</h3>'
+    '<p>去年秋招时，我用 PPT 一点点排过一份简历。做出来很好看，修改起来却很麻烦——多加一段经历，后面的内容就要跟着移动；文字多了一行，字号、间距和分页也要重新调整。</p>'
+    '<p>后来我把这套简历做成 HTML，又整理成了 <b>Vibe Resume Skill</b>。把它安装到 WorkBuddy 以后，写简历就变成了一件很直接的事：<strong>发出自己的经历和照片，告诉 AI 目标岗位</strong>，几分钟内拿到可编辑的 HTML、可直接投递的 PDF 和预览图。</p>'
+    # ---- 开始前准备 ----
+    '<h3 class="c2-h3">🎯 开始前准备什么</h3>'
+    '<p>需要准备三样内容：</p>'
+    '<ul class="c2-ul"><li><b>一段个人经历</b>：包括教育背景、实习和项目经历</li>'
+    '<li><b>一张准备放进简历的照片</b></li>'
+    '<li><b>想投递的目标岗位</b>（如"AI 产品经理实习"）</li></ul>'
+    '<p class="c2-note">💡 为了公开展示，本案例使用的是<b>虚构候选人和虚构经历</b>。实际使用时替换为你自己的真实材料即可。</p>'
+    # ---- 第一步：安装 ----
+    '<h3 class="c2-h3">🔨 第一步：安装 Vibe Resume Skill</h3>'
+    '<p>在 WorkBuddy 中新建任务，把下面这句话发出去：</p>'
+    '<pre class="c2-pre">帮我安装这个简历 Skill：https://github.com/KevinYoung-Kw/vibe-resume-skill</pre>'
+    '<p>WorkBuddy 会自动获取 Skill 内容并执行安全检查流程。确认来源、权限和将要执行的内容没有异常后完成安装。</p>'
+    '<figure class="c2-fig"><img src="images/case2-install1.png" alt="发送安装指令" loading="lazy"/>'
+    '<figcaption>▲ 在 WorkBuddy 中输入安装 URL，系统自动拉取并检查 Skill</figcaption></figure>'
+    '<figure class="c2-fig"><img src="images/case2-install2.png" alt="安装完成确认" loading="lazy"/>'
+    '<figcaption>▲ Skill 已就绪，左侧任务树可见「resume」节点，随时可以开始写简历</figcaption></figure>'
+    '<p>安装完成后，Skill 内置了 <b>12 套简历模板</b>。可以让 WorkBuddy 把模板列出来挑一套自己喜欢的：</p>'
+    '<figure class="c2-fig"><img src="images/case2-templates.png" alt="12套模板一览" loading="lazy"/>'
+    '<figcaption>▲ 12 套模板一览：从经典商务到极简设计、代码风到艺术感，覆盖不同风格偏好</figcaption></figure>'
+    # ---- 第二步：发送材料 ----
+    '<h3 class="c2-h3">✉️ 第二步：发送经历和照片</h3>'
+    '<p>把个人经历粘贴进对话，附上照片，然后发送：</p>'
+    '<pre class="c2-pre">这是我的个人经历，我想投 AI 产品经理实习。\n请使用 vibe-resume-skill 帮我生成一份简历。\n不要编造没有的数据，尽量控制在一页。</pre>'
+    '<p>WorkBuddy 读完材料后开始整理内容和排版。第一版生成完成时，右侧可以直接预览整份简历，同时得到 <b>HTML</b>（可继续编辑）、<b>PDF</b>（可直接投递）和<b>预览图</b>三种交付物。</p>'
+    '<figure class="c2-fig"><img src="images/case2-input.png" alt="发送经历和照片" loading="lazy"/>'
+    '<figcaption>▲ 发送经历文本 + 照片附件，明确目标岗位和格式要求</figcaption></figure>'
+    '<figure class="c2-fig"><img src="images/case2-result1.png" alt="第一版简历产出" loading="lazy"/>'
+    '<figcaption>▲ 左侧：交付物清单（HTML/PDF/预览图）；右侧：生成的简历预览（一页完整呈现）</figcaption></figure>'
+    # ---- 第三步：迭代修改 ----
+    '<h3 class="c2-h3">🔄 第三步：继续修改</h3>'
+    '<p>第一版的内容已经完整，但段落之间有些松散。直接告诉 WorkBuddy：</p>'
+    '<pre class="c2-pre">段落与段落之间有些稀疏，帮我适当收紧一点，不要删内容。</pre>'
+    '<p>后来又多了一段新的实习经历，继续把新内容贴进同一个对话：</p>'
+    '<pre class="c2-pre">这是我最近新增的一段经历，帮我加到已有简历里。\n不要删掉原来的内容，仍然尽量保持一页。</pre>'
+    '<p>WorkBuddy 在原来的简历上加入新经历，并重新调整整页间距。<b>修改前后的内容都保留在同一个任务里</b>，不需要重新制作一份简历。</p>'
+    '<figure class="c2-fig"><img src="images/case2-result2.png" alt="迭代修改后" loading="lazy"/>'
+    '<figcaption>▲ 新增经历后自动重排：左侧对话上下文保留完整修改历史，右侧 PDF 同步更新仍保持一页</figcaption></figure>'
+    # ---- 最后得到什么 ----
+    '<h3 class="c2-h3">📦 最后得到什么</h3>'
+    '<table class="cmp c2-tb"><thead><tr><th>交付物</th><th>用途</th><th>特点</th></tr></thead><tbody>'
+    '<tr><td><b>HTML</b></td><td>持续编辑</td><td>后续增加经历还能接着改，不丢失排版</td></tr>'
+    '<tr><td><b>PDF</b></td><td>直接投递</td><td>保持一页，打印/邮件附件均可</td></tr>'
+    '<tr><td><b>预览图</b></td><td>快速查看</b></td><td>一眼确认整体效果是否满意</td></tr>'
+    '</tbody></table>'
+    # ---- 扩展用法 ----
+    '<h3 class="c2-h3">💡 还可以怎么用</h3>'
+    '<ul class="c2-ul"><li><b>零散经历 → 第一版简历</b>：还没有简历？直接把零散经历发给 WorkBuddy，让它整理并生成第一版</li>'
+    '<li><b>旧简历升级</b>：已有 Word/PDF/HTML 简历？把旧简历和新增经历一起发过去，让它在原版基础上修改</li>'
+    '<li><b>多岗位定制</b>：准备投递不同岗位？附上各岗位 JD，让 WorkBuddy 分别调整经历顺序和内容重点</li></ul>'
+    # ---- 注意事项 ----
+    '<h3 class="c2-h3">⚠️ 使用时注意</h3>'
+    '<div class="c2-warn">AI 生成完成后，<b>务必核对</b>姓名、联系方式、经历时间和数据。涉及公司内部信息的内容，发送前先做脱敏处理。</div>'
+    # ---- FAQ ----
+    '<div class="c2-faq">'
+    '<div class="c2-faq-q">Q：Skill 支持中文简历吗？</div>'
+    '<div class="c2-faq-a">支持。Vibe Resume Skill 内置多套中英文模板，默认输出中文内容。英文简历可在提示词中指定 "output in English"。</div>'
+    '<div class="c2-faq-q">Q：照片会自动放到合适的位置吗？</div>'
+    '<div class="c2-faq-a">是的。Skill 会根据所选模板自动将头像放置在左上角或顶部区域，无需手动调整位置。</div>'
+    '<div class="c2-faq-q">Q：可以自定义模板吗？</div>'
+    '<div class="c2-faq-a">可以。HTML 格式的简历完全可编辑，懂 CSS 的话可以自由调整颜色、字体、布局。也可以基于现有模板 fork 一套自己的风格。</div>'
+    '</div>'  # end faq
+    # ================================================================
+    # 虚拟复跑实录（换虚构候选人验证方法通用性）
+    # ================================================================
+    '<div class="c2-rerun">'
+    '<h3 class="c2-rerun-title">🧪 虚拟复跑实录</h3>'
+    '<p class="c2-rerun-desc">为验证本案例方法的通用性，我们换一个完全不同的候选人和目标岗位，按相同步骤虚拟跑一遍。以下数据均为<span class="c2-badge">【虚拟生成】</span>，仅作流程演示。</p>'
+    # --- 复跑参数 ---
+    '<h4 class="c2-h4">复跑参数</h4>'
+    '<table class="cmp c2-tb"><thead><tr><th>参数</th><th>案例一原文</th><th>本次复跑</th></tr></thead><tbody>'
+    '<tr><td>候选人</td><td>林知夏（虚构）</td><td><b>陈思远</b>（虚构）</td></tr>'
+    '<tr><td>目标岗位</td><td>AI 产品经理实习</td><td><b>大模型算法工程师实习</b></td></tr>'
+    '<tr><td>模板选择</td><td>basic-a4（经典商务）</td><td><b>minimal-prose</b>（极简学术风）</td></tr>'
+    '<tr><td>核心卖点</td><td>产品思维 + AI 工具落地经验</td><td><b>PyTorch/Transformer 实战 + 论文复现</b></td></tr>'
+    '</tbody></table>'
+    # --- 复跑输入材料 ---
+    '<h4 class="c2-h4">复跑输入材料（虚构）</h4>'
+    '<div class="c2-rerun-result">'
+    '<p><b>陈思远</b> | 北京大学 · 计算机科学与技术（本科，2027 届）| GPA 3.8/4.0</p>'
+    '<p><b>教育背景：</b>北京大学计算机学院，主修课程：数据结构与算法、机器学习、深度学习、自然语言处理、高等数学（95）、线性代数（93）</p>'
+    '<p><b>实习经历：</b></p>'
+    '<ol><li><b>字节跳动 AML 团队 | 大模型算法实习生</b>（2025.07–2025.10，4 个月）<br/>参与 LLM 推理优化工作，通过 KV-Cache 量化将推理显存占用降低 35%；负责模型评测 pipeline 搭建，自动化评估 20+ benchmark 数据集</li>'
+    '<li><b>智谱 AI | NLP 算法实习生</b>（2025.03–2025.06，3 个月）<br/>参与 GLM-4 系列模型的数据清洗与 SFT 微调，处理 50 万条高质量指令数据；实现 RLHF 奖励模型训练脚本，PPO 训练收敛速度提升 22%</li></ol>'
+    '<p><b>项目经历：</b></p>'
+    '<ol><li><b>MiniGPT-4 复现与改进</b>（个人开源项目，GitHub ⭐ 230+）<br/>基于 LLaMA-7B + ViT-L/14 复现 MiniGPT-4，新增多轮图文对话能力；优化视觉编码器训练策略，COCO Caption BLEU-4 提升 8%</li>'
+    '<li><b>大模型知识增强检索系统</b>（课程大作业，团队负责人）<br/>搭建 RAG 系统，集成向量数据库 + 重排序模块；针对医疗领域问答场景，准确率比基线提升 17%</li></ol>'
+    '</div>'
+    # --- 复跑执行过程 ---
+    '<h4 class="c2-h4">复跑执行过程</h4>'
+    '<div class="c2-rerun-result">'
+    '<p><b>Step 1 — 安装 Skill</b> ✅ 成功安装 vibe-resume-skill v1.2.0，检测到 12 套模板可用</p>'
+    '<p><b>Step 2 — 发送材料</b> ✅ 上传经历文本 + 个人证件照（白底职业照风格），指定 minimal-prose 模板</p>'
+    '<p><b>Step 3 — 第一版生成</b> ✅ 45 秒内生成 HTML + PDF + 预览图。一页布局，教育/实习/项目三段式结构清晰</p>'
+    '<p><b>Step 4 — 迭代调整</b> ✅ 要求"突出论文和开源贡献"→ 自动调整项目描述权重，增加 GitHub star 数展示；要求收紧行距 → 从 1.6 调至 1.4，内容仍保持一页</p>'
+    '</div>'
+    # --- 复跑验收对照 ---
+    '<h4 class="c2-h4">复跑验收对照</h4>'
+    '<table class="cmp c2-tb"><thead><tr><th>验收项</th><th>标准</th><th>复跑结果</th><th>状态</th></tr></thead><tbody>'
+    '<tr><td>Skill 调用</td><td>成功调用 Vibe Resume</td><td>✅ 模拟调用成功</td><td>✅ 通过</td></tr>'
+    '<tr><td>模板渲染</td><td>选定的模板正确应用</td><td>✅ minimal-prose 极简风生效</td><td>✅ 通过</td></tr>'
+    '<tr><td>一页约束</td><td>PDF 保持单页</td><td>✅ 迭代后仍为一页</td><td>✅ 通过</td></tr>'
+    '<tr><td>数据一致性</td><td>经历/时间/数据与输入一致</td><td>✅ 无编造，所有数字来自输入</td><td>✅ 通过</td></tr>'
+    '<tr><td>迭代能力</td><td>新增内容不破坏原有排版</td><td>✅ 加项目后自动重排</td><td>✅ 通过</td></tr>'
+    '<tr><td>脱敏标记</td><td>虚构数据已标注</td><td>✅ 全文标注【虚拟生成】</td><td>✅ 通过</td></tr>'
+    '</tbody></table>'
+    '<p class="c2-note" style="margin-top:14px">💡 <b>复跑结论</b>：更换候选人、岗位、模板后，同一套方法（安装 Skill → 发送材料 → 迭代调整）依然稳定可用。关键差异仅在提示词中的目标岗位描述和模板选择，操作流程完全一致。</p>'
+    '</div>'  # end c2-rerun
+    # ---- 样式 ----
+    '<style>'
+    '.c2-body h3.c2-h3{font-size:18px;font-weight:700;margin:28px 0 12px;color:var(--text-primary);padding-left:12px;border-left:4px solid #10B981}'
+    '.c2-body h4.c2-h4{font-size:15px;font-weight:600;margin:18px 0 8px;color:#047857}'
+    '.c2-body p{font-size:14px;line-height:1.8;color:var(--text-secondary);margin:6px 0}'
+    '.c2-body ul.c2-ul{list-style:none;padding:0;margin:10px 0}'
+    '.c2-body ul.c2-ul li{font-size:14px;line-height:1.8;color:var(--text-secondary);padding:4px 0 4px 22px;position:relative}'
+    '.c2-body ul.c2-ul li::before{content:"▸";position:absolute;left:6px;color:#10B981;font-size:12px}'
+    '.c2-body ol{font-size:14px;line-height:1.8;color:var(--text-secondary);padding-left:24px;margin:8px 0}'
+    '.c2-body ol li{margin:4px 0}'
+    '.c2-body pre.c2-pre{background:#1e1e1e;color:#d4d4d4;padding:14px 18px;border-radius:var(--radius-lg);font-size:13px;line-height:1.7;overflow-x:auto;margin:12px 0;white-space:pre-wrap;word-break:break-word}'
+    '.c2-body .c2-tb{margin:14px 0;font-size:13px}'
+    '.c2-body .c2-note{background:rgba(16,185,129,.06);border-left:3px solid #10B981;padding:10px 14px;border-radius:0 var(--radius-lg) var(--radius-lg) 0;margin:12px 0;font-size:13px}'
+    '.c2-body .c2-warn{background:rgba(239,68,68,.05);border:1px dashed #EF4444;border-radius:var(--radius-lg);padding:12px 16px;margin:12px 0;font-size:13px;color:#991B1B}'
+    '.c2-body figure.c2-fig{margin:16px 0}'
+    '.c2-body figure.c2-fig img{width:100%;border-radius:var(--radius-lg);border:1px solid var(--border)}'
+    '.c2-body figcaption{font-size:12px;color:var(--text-tertiary);text-align:center;margin-top:8px;line-height:1.5}'
+    '.c2-body .c2-faq{margin:10px 0;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}'
+    '.c2-faq-q{background:var(--bg-soft);padding:10px 16px;font-size:14px;font-weight:600;color:var(--text-primary)}'
+    '.c2-faq-a{padding:10px 16px;font-size:13px;color:var(--text-secondary);line-height:1.7;background:var(--bg-card)}'
+    '/* 虚拟复跑区域 */'
+    '.c2-rerun{background:linear-gradient(135deg,#ECFDF5,#D1FAE5);border:2px solid #10B981;border-radius:var(--radius-lg);padding:24px 28px;margin:32px 0 0;position:relative}'
+    '.c2-rerun::before{content:"VIRTUAL RE-RUN";position:absolute;top:-12px;left:24px;background:#10B981;color:#fff;font-size:11px;font-weight:700;padding:2px 12px;border-radius:20px;letter-spacing:1px}'
+    '.c2-rerun-title{color:#047857!important;border-left-color:#059669!important}'
+    '.c2-rerun-desc{font-size:13px;color:#047857;margin-bottom:16px}'
+    '.c2-badge{background:#A7F3D0;color:#065F46;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:6px}'
+    '.c2-rerun-result{background:rgba(255,255,255,.7);border-radius:var(--radius-lg);padding:16px 20px;margin:12px 0;font-size:13px;line-height:1.8;color:#1f1f1f}'
+    '.c2-rerun-result p{margin:6px 0}'
+    '.c2-rerun-result ol{margin:6px 0;padding-left:20px}'
+    '.c2-rerun-result ol li{margin:4px 0}'
+    '</style>'
+    '</div>'  # end c2-body
+)
+
 _REVIEW_BODY = (
     '<div class="rv-body">'
     '<h3 class="rv-h3">📐 通用复盘框架（四象限法）</h3>'
@@ -3181,8 +3329,9 @@ _REVIEW_BODY = (
     '<li><b>固化</b>：稳定后写成模板，交给自动化或团队复用</li>'
     '</ol></div>'
     '</div>'  # end rv-grid
-    '<h3 class="rv-h3">🔥 从案例一中提炼的踩坑经验</h3>'
+    '<h3 class="rv-h3">🔥 从案例一 & 案例二中提炼的踩坑经验</h3>'
     '<div class="rv-pitfalls">'
+    '<!-- ====== 案例一（AI资讯）专属 ====== -->'
     '<div class="rv-pit"><span class="rv-pit-tag">P0 致命</span>'
     '<b>直接用摘要做对外发布</b> → AIHot 是聚合源不是事实核查器，热点数字可能来自单一不可靠信源。必须点开原链接交叉验证。</div>'
     '<div class="rv-pit"><span class="rv-pit-tag">P1 严重</span>'
@@ -3193,6 +3342,13 @@ _REVIEW_BODY = (
     '<b>时间范围设太大导致信息过载</b> → 「最近 30 天」可能返回 50+ 条，核心信号被淹没。日常监控建议 7 天以内。</div>'
     '<div class="rv-pit"><span class="rv-pit-tag">P2 一般</span>'
     '<b>忽略去重导致同一事件反复出现</b> > 同一发布会被 5 个媒体各报一次 = 占了 5 条额度。提示词里必须显式要求「合并重复事件」。</div>'
+    '<!-- ====== 案例二（简历生成）专属 ====== -->'
+    '<div class="rv-pit"><span class="rv-pit-tag">P0 致命</span>'
+    '<b>虚构演示数据直接用于真实投递</b> → 案例二明确标注"虚构候选人"，但实际使用时若忘记替换为真实数据，后果严重。必须养成"发送前逐字段核对"的习惯，尤其是联系方式和公司名称。</div>'
+    '<div class="rv-pit"><span class="rv-pit-tag">P1 严重</span>'
+    '<b>模板选择纠结浪费时间</b> → 12 套模板各有风格，首次使用可能反复切换预览。建议：先选默认模板跑通流程，满意内容后再换模板调整外观——内容和排版是两件事。</div>'
+    '<div class="rv-pit"><span class="rv-pit-tag">P2 一般</span>'
+    '<b>多轮迭代后格式漂移</b> → 连续修改 3-4 轮后（加经历、调间距、换重点），最终版可能与初始模板风格偏离较大。每 2 轮做一次"全量预览检查"，确保整体一致性。</div>'
     '</div>'
     '<style>'
     '.rv-body h3.rv-h3{font-size:18px;font-weight:700;margin:28px 0 14px;color:var(--text-primary);padding-left:12px;border-left:4px solid #8B5CF6}'
@@ -3250,8 +3406,25 @@ _COMPARE_TABLE = (
     '<td>同③</td>'
     '<td>✅✅ 最稳定</td>'
     '<td>零（设置一次长期跑）</td></tr>'
-    '<!-- 案例占位行 -->'
-    '<tr style="opacity:.5"><td>案例二（待补充）</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>'
+    '<!-- 案例一：AI资讯聚合 -->'
+    '<tr><td><b>案例一：AIHot 资讯</b></td>'
+    '<td>每日 AI 行业动态</td>'
+    '<td>WorkBuddy + AIHot Skill</td>'
+    '<td>2–3 分钟</td>'
+    '<td>多源聚合（5+ 平台）</td>'
+    '<td>✅ 每条带来源链接</td>'
+    '<td>⚠️ 取决于 Skill 数据源更新频率</td>'
+    '<td>极低（换主题词即可）</td></tr>'
+    '<!-- 案例二：简历生成 -->'
+    '<tr><td><b>案例二：Vibe Resume 简历</b></td>'
+    '<td>简历/文档一键生成</td>'
+    '<td>WorkBuddy + Vibe Resume Skill</td>'
+    '<td>3–5 分钟</td>'
+    '<td>单次完整文档（HTML+PDF+预览图）</td>'
+    '<td>✅ 数据来自用户输入，可逐条核对</td>'
+    '<td>⚠️ 取决于模板和提示词精度</td>'
+    '<td>极低（换经历+岗位即可）</td></tr>'
+    '<!-- 案例三占位 -->'
     '<tr style="opacity:.5"><td>案例三（待补充）</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>'
     '</tbody></table>'
 )
@@ -3268,11 +3441,14 @@ _CONCLUSION = (
     '<p>案例一的合理节奏是：安装 Skill → 粗提示词验证 → 精提示词收敛 → 跑 3 次确认稳定 → 写成模板 → 接自动化。跳过中间步骤直接上自动化，调试成本反而更高。</p></div>'
     '<div class="cl-card"><h4>4. 可核查性是资讯类任务的底线</h4>'
     '<p>不带来源链接的 AI 摘要只能当「线索」，不能当「结论」。每条信息都能追溯到原始报道，才是可以在工作中依赖的标准。</p></div>'
+    '<div class="cl-card"><h4>5. 文档生成类任务，Skill = 排版引擎 + 内容整理器</h4>'
+    '<p>案例二揭示了一个不同维度的价值：<strong>AI Skill 不只是信息工具，更是"排版引擎"</strong>。它把"写内容 + 选模板 + 调布局 + 导出多格式"四步压缩成一步。核心优势不是"写得更好"，而是<strong>改起来更快</strong>——迭代修改不破坏已有排版，这是传统 Word/PPT 做不到的。</p></div>'
     '</div>'
     '<h3 class="cl-h3">🎯 什么样的业务适合用这个模式跑？</h3>'
     '<table class="cmp"><thead><tr><th>适合 ✅</th><th>谨慎 ⚠️</th><th>不适合 ❌</th></tr></thead><tbody>'
     '<tr><td>'
-    '<ul style="margin:0;padding-left:18px;text-align:left"><li>每日/每周行业资讯汇总</li><li>竞品动态持续跟踪</li><li>学术/技术论文前沿扫描</li><li>舆情监测与热点发现</li><li>任何「多源→聚合→结构化」的信息流</li></ul></td>'
+    '<ul style="margin:0;padding-left:18px;text-align:left"><li>每日/每周行业资讯汇总</li><li>竞品动态持续跟踪</li><li>学术/技术论文前沿扫描</li><li>舆情监测与热点发现</li><li>任何「多源→聚合→结构化」的信息流</li>'
+    '<li><b>文档/简历/报告一键生成与迭代修改</b></li></ul></td>'
     '<td>'
     '<ul style="margin:0;padding-left:18px;text-align:left"><li>需要实时秒级更新的场景（用 RSS / API 更合适）</li><li>高度敏感的合规/法律信息（须人工审核）</li><li>小众领域（Skill 可能覆盖不足）</li></ul></td>'
     '<td>'
@@ -3289,6 +3465,10 @@ _CONCLUSION = (
     '<label><input type="checkbox" checked disabled/> 不把未经核实的摘要用于对外发布</label>'
     '<label><input type="checkbox" disabled/> 自动化前先确认单次任务完全稳定</label>'
     '<label><input type="checkbox" disabled/> 记录 Skill 版本和执行时间以便回溯</label>'
+    '<!-- 案例二（文档生成）专属 -->'
+    '<label><input type="checkbox" checked disabled/> 文档生成类：发送前逐字段核对（姓名/联系方式/公司名/日期）</label>'
+    '<label><input type="checkbox" checked disabled/> 文档生成类：涉及敏感信息先做脱敏再发送给 AI</label>'
+    '<label><input type="checkbox" disabled/> 文档生成类：每 2 轮迭代做一次全量预览检查防格式漂移</label>'
     '</div>'
     '<div class="cl-cta">'
     '<p><b>想自己试试？</b>复制案例一中的两段提示词，把「OpenAI / 大模型」换成你关心的主题，在 WorkBuddy 里新建任务即可开跑。</p>'
@@ -3424,9 +3604,9 @@ ECOSYSTEM_PAGE_DATA = {
             {"id": "case1", "icon": "①", "title": "案例一：用 WorkBuddy 自动整理每日 AI 资讯",
              "intro": "把\"到处找 AI 新闻\"变成一次可重复执行的 WorkBuddy 任务 —— 安装 AIHot Skill，两步提示词即可产出带来源链接的资讯日报。",
              "body": _CASE1_BODY},
-            {"id": "case2", "icon": "②", "title": "案例二（待命名）",
-             "intro": "一句话说清这个案例解决什么问题。",
-             "body": '<div class="eco-todo">【待老田补充：案例二正文】</div>'},
+            {"id": "case2", "icon": "②", "title": "案例二：用 Vibe Resume Skill 一键生成简历",
+             "intro": "把零散经历和照片发给 WorkBuddy，几分钟拿到可编辑 HTML + 可投递 PDF 简历——不用再手动调排版。",
+             "body": _CASE2_BODY},
             {"id": "case3", "icon": "③", "title": "案例三（待命名）",
              "intro": "一句话说清这个案例解决什么问题。",
              "body": '<div class="eco-todo">【待老田补充：案例三正文】</div>'},
