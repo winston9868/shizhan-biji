@@ -2639,11 +2639,11 @@ READER_JS = """
 # ============ AI 案例页「案例」模块翻页器（案例一/二/三… 单页翻页） ============
 CASE_READER_CSS = """
 .case-reader{margin-top:22px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--bg-card);overflow:hidden;--accent:__ACCENT__}
-.case-reader-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 18px;background:var(--bg-soft);border-bottom:1px solid var(--border)}
-.case-nav-btn{padding:9px 18px;border:1px solid var(--border);border-radius:9px;background:#fff;color:var(--text-primary);font-size:13px;font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap}
-.case-nav-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.case-reader-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;background:linear-gradient(135deg,#FFF8F0 0%,#FEF3E0 50%,#FDECD4 100%);border-bottom:2px solid var(--accent);box-shadow:0 2px 8px rgba(245,158,11,.12)}
+.case-nav-btn{padding:10px 20px;border:2px solid var(--accent);border-radius:10px;background:#fff;color:var(--accent);font-size:13px;font-weight:700;cursor:pointer;transition:.2s;white-space:nowrap;box-shadow:0 1px 4px rgba(245,158,11,.15)}
+.case-nav-btn:hover{background:var(--accent);color:#fff;transform:translateY(-1px);box-shadow:0 3px 10px rgba(245,158,11,.3)}
 .case-nav-btn[disabled]{opacity:0;cursor:default;pointer-events:none}
-.case-indicator{font-size:13px;font-weight:600;color:var(--text-secondary);text-align:center;flex:1}
+.case-indicator{font-size:14px;font-weight:700;color:var(--text-primary);text-align:center;flex:1;background:rgba(255,255,255,.6);padding:6px 14px;border-radius:8px}
 .case-reader-content{padding:26px 30px;min-height:48vh}
 .case-title{font-family:var(--font-xbs);font-size:21px;font-weight:400;color:var(--doc-ink);margin:0 0 16px;letter-spacing:.5px;border-left:4px solid var(--accent);padding-left:14px}
 @media(max-width:640px){.case-reader-bar{flex-direction:column;align-items:stretch}.case-nav-btn{width:100%}.case-reader-content{padding:18px 16px}}
