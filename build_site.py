@@ -2636,6 +2636,67 @@ READER_JS = """
 })();
 """
 
+# ============ AI 案例页「案例」模块翻页器（案例一/二/三… 单页翻页） ============
+CASE_READER_CSS = """
+.case-reader{margin-top:22px;border:1px solid var(--border);border-radius:var(--radius-lg);background:var(--bg-card);overflow:hidden;--accent:__ACCENT__}
+.case-reader-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 18px;background:var(--bg-soft);border-bottom:1px solid var(--border)}
+.case-nav-btn{padding:9px 18px;border:1px solid var(--border);border-radius:9px;background:#fff;color:var(--text-primary);font-size:13px;font-weight:600;cursor:pointer;transition:.15s;white-space:nowrap}
+.case-nav-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.case-nav-btn[disabled]{opacity:0;cursor:default;pointer-events:none}
+.case-indicator{font-size:13px;font-weight:600;color:var(--text-secondary);text-align:center;flex:1}
+.case-reader-content{padding:26px 30px;min-height:48vh}
+.case-title{font-family:var(--font-xbs);font-size:21px;font-weight:400;color:var(--doc-ink);margin:0 0 16px;letter-spacing:.5px;border-left:4px solid var(--accent);padding-left:14px}
+@media(max-width:640px){.case-reader-bar{flex-direction:column;align-items:stretch}.case-nav-btn{width:100%}.case-reader-content{padding:18px 16px}}
+"""
+
+CASE_READER_JS = r"""
+(function(){
+  var cases = __CASES__;
+  var total = cases.length;
+  var contentEl = document.getElementById('case-content');
+  if (!contentEl) return;            // 仅 ai-agent-cases.html 执行，其他页忽略
+  var indicator = document.getElementById('case-indicator');
+  var prevBtn = document.getElementById('case-prev');
+  var nextBtn = document.getElementById('case-next');
+  var casesSec = document.getElementById('cases');
+
+  function getIdxFromHash(){
+    var m = location.hash.match(/case-(\d+)/);
+    var idx = m ? parseInt(m[1], 10) - 1 : 0;
+    return Math.max(0, Math.min(total - 1, idx));
+  }
+
+  function render(idx){
+    var c = cases[idx];
+    indicator.textContent = '案例 ' + (idx + 1) + ' / ' + total;
+    contentEl.innerHTML = '<article class="case-page" id="' + c.id + '">'
+      + '<h3 class="case-title">' + c.title + '</h3>'
+      + '<div class="case-body">' + c.html + '</div></article>';
+    // 边界处理：首案例隐藏「上一案例」，末案例隐藏「下一案例」
+    prevBtn.disabled = (idx <= 0);
+    if (idx < total - 1){
+      nextBtn.disabled = false;
+      nextBtn.textContent = '下一案例：' + cases[idx + 1].title.slice(0, 10) + '… →';
+    } else {
+      nextBtn.disabled = true;
+    }
+    if (location.hash !== '#case-' + (idx + 1)){
+      history.pushState({idx: idx}, '', '#case-' + (idx + 1));
+    }
+  }
+
+  function go(idx){
+    render(idx);
+    if (casesSec) casesSec.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+
+  prevBtn.onclick = function(){ var i = getIdxFromHash(); if (i > 0) go(i - 1); };
+  nextBtn.onclick = function(){ var i = getIdxFromHash(); if (i < total - 1) go(i + 1); };
+  window.addEventListener('popstate', function(){ render(getIdxFromHash()); });
+  render(getIdxFromHash());
+})();
+"""
+
 def build_reader(active_name, page_title, chs, fname, pcolor, topbar_active=None):
     """单页单章切换阅读器：与 WB手册 完全一致的排版（目录/文章标题均为「第*章+标题」，
     底部「下一章」手动翻页，每页只显示一个章节）。cases-wb 与 manual-wb 共用此函数。"""
@@ -3591,29 +3652,27 @@ ECOSYSTEM_PAGE_DATA = {
         "fname": "ai-agent-cases.html", "color": C_AGENT, "ico": "⚡",
         "title": "AI 案例",
         "tagline": "自己跑通的真实项目复盘 —— 每个案例都拆到「需求 → 选型 → 步骤 → 复盘」，能抄作业的程度。",
-        "sections": [
-            {"id": "tpl", "icon": "📋", "title": "案例模板说明",
-             "intro": "每个案例统一按「背景 → 目标 → 工具选型 → 执行步骤 → 验收标准 → 复盘」六段式展开，方便你对照自己的业务直接抄。",
-             "body": '<div class="case-tpl-grid"><div class="case-tpl-item"><h4>📌 背景</h4><p>为什么需要做这件事？痛点是什么？</p></div>'
+        # 案例模块：模板说明 + 可翻页案例列表（案例一/二/三… 单页翻页）
+        "cases_tpl": '<div class="case-tpl-grid"><div class="case-tpl-item"><h4>📌 背景</h4><p>为什么需要做这件事？痛点是什么？</p></div>'
               + '<div class="case-tpl-item"><h4>🎯 目标</h4><p>做完之后能达到什么效果？可量化最好。</p></div>'
               + '<div class="case-tpl-item"><h4>🔧 工具/技能</h4><p>用了哪些 WorkBuddy 内置或外部 Skill？</p></div>'
               + '<div class="case-tpl-item"><h4>📝 步骤</h4><p>从零到跑通的具体操作，含提示词。</p></div>'
               + '<div class="case-tpl-item"><h4>✅ 验收</h4><p>怎么判断跑通了？检查清单。</p></div>'
               + '<div class="case-tpl-item"><h4>💡 复盘</h4><p>踩了什么坑？下次怎么做更好？</p></div></div>'
-              + '<style>.case-tpl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}.case-tpl-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px}.case-tpl-item h4{font-size:14px;margin-bottom:6px;color:var(--text-primary)}.case-tpl-item p{font-size:12px;color:var(--text-secondary);margin:0;line-height:1.6}</style>'},
-            {"id": "case1", "icon": "①", "title": "案例一：用 WorkBuddy 自动整理每日 AI 资讯",
+              + '<style>.case-tpl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}.case-tpl-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px}.case-tpl-item h4{font-size:14px;margin-bottom:6px;color:var(--text-primary)}.case-tpl-item p{font-size:12px;color:var(--text-secondary);margin:0;line-height:1.6}</style>',
+        "cases": [
+            {"id": "case1", "title": "案例一：用 WorkBuddy 自动整理每日 AI 资讯",
              "intro": "把\"到处找 AI 新闻\"变成一次可重复执行的 WorkBuddy 任务 —— 安装 AIHot Skill，两步提示词即可产出带来源链接的资讯日报。",
              "body": _CASE1_BODY},
-            {"id": "case2", "icon": "②", "title": "案例二：用 Vibe Resume Skill 一键生成简历",
+            {"id": "case2", "title": "案例二：用 Vibe Resume Skill 一键生成简历",
              "intro": "把零散经历和照片发给 WorkBuddy，几分钟拿到可编辑 HTML + 可投递 PDF 简历——不用再手动调排版。",
              "body": _CASE2_BODY},
-            {"id": "case3", "icon": "③", "title": "案例三（待命名）",
+            {"id": "case3", "title": "案例三（待命名）",
              "intro": "一句话说清这个案例解决什么问题。",
              "body": '<div class="eco-todo">【待老田补充：案例三正文】</div>'},
-            {"id": "review", "icon": "🔁", "title": "复盘方法论",
-             "intro": "踩过的坑，才是真资产。以下框架适用于所有 AI Agent 任务类案例。",
-             "body": _REVIEW_BODY},
         ],
+        # 复盘 / 对比 / 结论 三个独立模块
+        "review": _REVIEW_BODY,
         "compare": _COMPARE_TABLE,
         "conclusion": _CONCLUSION,
     },
@@ -3680,6 +3739,17 @@ def _build_search_index():
                       "color": "#A855F7"})
     # 8) AI 生态 4 个独立页（每个 section + subs 工具/模型名）
     for key, pg in ECOSYSTEM_PAGE_DATA.items():
+        # ai-agent-cases 已重构为「案例列表 + 复盘/对比/结论」四模块结构
+        if key == "ai-agent-cases":
+            items.append({"t": "实战案例", "s": "案例一/二/三… 单页翻页的真实项目复盘", "c": "AI案例",
+                          "u": pg["fname"] + "#cases", "ico": "⚡", "color": pg.get("color", "")})
+            items.append({"t": "复盘方法论", "s": "踩坑清单 + 通用复盘框架", "c": "AI案例",
+                          "u": pg["fname"] + "#review", "ico": "🔁", "color": pg.get("color", "")})
+            items.append({"t": "横向对比总表", "s": "多种做法耗时/效果/可核查性横评", "c": "AI案例",
+                          "u": pg["fname"] + "#compare", "ico": "📊", "color": pg.get("color", "")})
+            items.append({"t": "结论与建议", "s": "适用性判断 + 落地避坑清单", "c": "AI案例",
+                          "u": pg["fname"] + "#conclusion", "ico": "✅", "color": pg.get("color", "")})
+            continue
         for sec in pg.get("sections", []):
             items.append({"t": sec["title"], "s": _strip_html(sec.get("intro", ""), 80),
                           "c": pg["title"], "u": pg["fname"] + "#" + sec["id"],
@@ -3757,6 +3827,60 @@ def build_ecosystem_page(key):
         f.write(html)
     print("生成:", d["fname"])
 
+def build_agent_cases_page(d):
+    """AI 案例页：四大模块（案例翻页器 / 复盘方法论 / 横向对比 / 结论建议）。
+    案例模块内每个案例单页展示，底部「上一案例 / 下一案例」翻页切换。"""
+    color, ico, title, tagline = d["color"], d["ico"], d["title"], d["tagline"]
+    toc = ('<nav class="eco-toc">'
+           '<a href="#cases">⚡ 实战案例</a>'
+           '<a href="#review">🔁 复盘方法论</a>'
+           '<a href="#compare">📊 横向对比</a>'
+           '<a href="#conclusion">✅ 结论建议</a></nav>')
+
+    # 案例模块：模板说明 + 可翻页案例列表
+    cases = d["cases"]
+    cases_json = json.dumps(
+        [{"id": c["id"], "title": c["title"], "html": c["body"]} for c in cases],
+        ensure_ascii=False, separators=(',', ':'))
+    cases_module = (
+        '<section class="eco-section" id="cases">'
+        '<div class="eco-section-head"><span class="si">⚡</span><h2>实战案例</h2></div>'
+        '<p class="intro">每个案例统一按「背景 → 目标 → 工具选型 → 执行步骤 → 验收 → 复盘」六段式展开。'
+        '点击「下一案例」翻页，逐一看完每个真实项目。</p>'
+        + d["cases_tpl"] +
+        '<div class="case-reader">'
+        '<div class="case-reader-bar">'
+        '<button id="case-prev" class="case-nav-btn" type="button">← 上一案例</button>'
+        '<span id="case-indicator" class="case-indicator"></span>'
+        '<button id="case-next" class="case-nav-btn" type="button">下一案例 →</button>'
+        '</div>'
+        '<div class="case-reader-content" id="case-content"></div>'
+        '</div>'
+        '</section>')
+
+    review = ('<section class="eco-section" id="review"><div class="eco-section-head">'
+              '<span class="si">🔁</span><h2>复盘方法论</h2></div>'
+              '<p class="intro">踩过的坑，才是真资产。以下框架适用于所有 AI Agent 任务类案例。</p>'
+              + d["review"] + '</section>')
+    compare = ('<section class="eco-section" id="compare"><div class="eco-section-head">'
+               '<span class="si">📊</span><h2>横向对比总表</h2></div>' + d["compare"] + '</section>')
+    conclusion = ('<section class="eco-section" id="conclusion"><div class="eco-section-head">'
+                  '<span class="si">✅</span><h2>结论与建议</h2></div>'
+                  '<div class="eco-conclusion">' + d["conclusion"] + '</div></section>')
+    cta = ('<div class="eco-cta"><h3>看完想试试？+ 老田的一线经验</h3>'
+           '<a href="index.html">回到首页</a><a class="ghost" href="community.html">和我交流</a></div>')
+    hero = ('<section class="eco-hero"><span class="eco-badge" style="background:' + color + '1a;color:' + color + '">'
+            + ico + ' ' + title + '</span><h1>' + title + '</h1><p>' + tagline + '</p></section>')
+    reader_css = CASE_READER_CSS.replace('__ACCENT__', color)
+    reader_js = CASE_READER_JS.replace('__CASES__', cases_json)
+    body = hero + '<div class="eco-layout">' + toc + '<div class="eco-main">' + cases_module + review + compare + conclusion + cta + '</div></div>'
+    body += '<style>' + reader_css + '</style>'
+    html = wrap_page(title, body, active="AI生态专栏")
+    html = html.replace('</body>', '<script>' + reader_js + '</script></body>')  # 翻页器脚本（仅本页 #case-content 触发）
+    with open(d["fname"], "w", encoding="utf-8") as f:
+        f.write(html)
+    print("生成:", d["fname"])
+
 if __name__ == "__main__":
     _idx_path, _idx_n = _build_search_index()
     print("搜索索引:", _idx_path, "(" + str(_idx_n) + " 条)")
@@ -3771,5 +3895,5 @@ if __name__ == "__main__":
     build_ecosystem_page("ai-tools")
     build_ecosystem_page("llm-compare")
     build_ecosystem_page("ai-industry")
-    build_ecosystem_page("ai-agent-cases")
+    build_agent_cases_page(ECOSYSTEM_PAGE_DATA["ai-agent-cases"])
     print("全部页面生成完成。")
