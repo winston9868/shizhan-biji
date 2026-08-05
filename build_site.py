@@ -1121,6 +1121,36 @@ PROMPTS = [
 
 SKILLS = [
 {
+  "id":"sales-report-builder",
+  "ico":"📊",
+  "title":"销售报告自动生成",
+  "desc":"从区域销售 CSV 一键生成 HTML 可视化报告 + PPTX 浓缩版，支持每月自动跑 + 企微通知。",
+  "category":"数据分析",
+  "status":"已落地",
+  "hot":True,
+  "overview":"从一份「月份×区域×渠道」聚合型 CSV 销售数据出发，全自动生成 HTML 可视化报告(3 张 Chart.js 交互图表 + KPI 卡片 + 结论摘要)和 5 页 PPTX 浓缩版(封面→趋势→地区→渠道→总结)，并支持配置每月 1 号自动跑 + 企微群通知。<br>⚠️ 核心要求：<br>① CSV 须含「月份、地区、渠道、销售额、订单量」五列，命名规则为 *区域销售数据_*月.csv；<br>② HTML 报告零 CDN 依赖，Chart.js 内嵌，双击浏览器即开；<br>③ 所有百分比、排名从 CSV 聚合计算，严禁硬编码数字；<br>④ 企微通知需配置群 webhook key(脚本已内置)。",
+  "deploy":[
+    "将技能包解压到 WorkBuddy 可访问目录，或在技能市场加载「sales-report-builder」",
+    "确保 Python 3.13+ 环境已安装 pandas(pip install pandas)",
+    "PPTX 生成需 Node.js 22.x + pptxgenjs(cd 托管 node workspace, npm install pptxgenjs)",
+    "将 chart.umd.min.js 放在技能 assets/ 目录下供脚本内嵌用",
+    "首次使用先用模拟 CSV 跑一遍全链路验证"
+  ],
+  "steps":[
+    "将 CSV 文件(命名如 2026区域销售数据_08月.csv)放到桌面",
+    "输入指令：「用 sales-report-builder 生成销售报告」—自动走工作流 A(HTML)",
+    "如需 PPTX：「再生成浓缩版 PPT」—自动走工作流 B",
+    "如需每月自动跑：「帮我配每月 1 号自动出月报」—自动走工作流 C(定时器+企微通知)",
+    "打开 桌面\\销售月报\\ 目录查看生成的报告"
+  ],
+  "example":"用 sales-report-builder 把桌面上的 2026区域销售数据_模拟.csv 生成 HTML 可视化报告和 PPTX 浓缩版，再配一个每月 1 号 09:00 自动跑 + 企微通知的定时任务。",
+  "scenarios":[
+    "销售运营每月出区域销售月报",
+    "管理层会议快速生成一图一结论的 PPT 浓缩版",
+    "替多个区域/渠道配置自动化定时报告，解放手工重复劳动"
+  ]
+},
+{
   "id":"tianwei-word-formatter",
   "ico":"📄",
   "title":"公文标准排版 v1.3",
