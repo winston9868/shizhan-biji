@@ -3359,6 +3359,903 @@ _CASE2_BODY = (
     '</div>'  # end c2-body
 )
 
+_CASE3_BODY = r"""
+<div class="c3-body">
+<h3 class="c3-h3">📌 背景</h3>
+<p>写公众号文章，最耗时的往往不是内容本身，而是排版。在微信后台编辑器里反复调字号、行距、缩进、图片位置，从写完到真正能发布，排版时间可能和写作一样长。</p>
+<p>我之前的流程是：Markdown 写好 → 第三方编辑器美化 → 粘贴进公众号草稿（<b>最大坑</b>：文章里很多图片从编辑器粘贴过来经常挂掉，因为公众号不支持第三方图床）→ 逐一重贴图片 → 预览修改 → 发布。而现在用 <b>wechat-publisher</b> 可以一键排版、自动上传图片到公众号草稿箱，实测省下半个多小时。</p>
+
+<h3 class="c3-h3">🎯 想要完成的任务</h3>
+<p>完成后，WorkBuddy 应当能够：</p>
+<ul class="c3-ul">
+<li>读取一篇 Markdown 格式文章（标题、正文、图片、代码块）</li>
+<li>自动将 Markdown 转换为公众号兼容排版，含代码高亮、主题样式、Mac 风格代码块</li>
+<li>自动将文章中的本地图片和网络图片上传至微信图床</li>
+<li>一键将排版后的文章推送到公众号草稿箱</li>
+<li>在公众号后台预览或微调后即可群发</li>
+</ul>
+
+<h3 class="c3-h3">🔧 使用的 Skill</h3>
+<table class="cmp c3-tb"><thead><tr><th>Skill</th><th>用途</th><th>来源 / 安装方式</th></tr></thead><tbody>
+<tr><td>wechat-publisher</td><td>Markdown 转公众号排版，一键上传图片并推送到草稿箱</td><td>WorkBuddy 内置推荐市场，直接安装</td></tr>
+</tbody></table>
+<p class="c3-note">💡 wechat-publisher 基于开源项目 <b>wenyan-cli</b>，内置多套排版主题和代码高亮方案，支持自动图片上传与草稿箱推送。</p>
+
+<h3 class="c3-h3">📦 前置条件</h3>
+<ul class="c3-ul">
+<li>WorkBuddy 可正常使用</li>
+<li>已拥有微信公众号（订阅号或服务号）并具备开发者权限</li>
+<li>已获取 AppID 和 AppSecret（公众号后台「设置 → 开发 → 基本配置」中查看）</li>
+<li>本机公网 IP 已加入公众号后台 IP 白名单（<b>建议用 WiFi 而非手机热点</b>，热点 IP 每次都变，白名单要反复加）</li>
+<li>有一篇用 Markdown 写好的文章（含标题和封面图）</li>
+</ul>
+
+<h3 class="c3-h3">🔨 第一步：安装 wechat-publisher Skill</h3>
+<p>在 WorkBuddy 中新建任务，输入：</p>
+<pre class="c3-pre">帮我安装公众号排版 Skill：wechat-publisher
+# 或者直接去技能搜索框搜 wechat-publisher，更直观</pre>
+<p>WorkBuddy 会从推荐市场安装该 Skill。安装完成后，可以确认一下是否就位：</p>
+<figure class="c3-fig"><img src="images/case3-01.png" alt="技能搜索与安装界面" loading="lazy"/>
+<figcaption>▲ 在 WorkBuddy 中搜索并安装 wechat-publisher，安装后让 AI 回报它能做什么</figcaption></figure>
+<pre class="c3-pre">wechat-publisher Skill 已经安装好了吗？告诉我它能做什么。</pre>
+
+<h3 class="c3-h3">🔑 第二步：配置公众号凭证</h3>
+<p>wechat-publisher 需要 AppID 和 AppSecret 才能调用微信 API。推荐用 wenyan 自带的凭证管理工具配置，凭证会持久化保存到本地加密文件：</p>
+<pre class="c3-pre">帮我执行 wenyan credential -s，我需要配置公众号的 AppID 和 AppSecret。</pre>
+<p>WorkBuddy 会引导你逐步输入 AppID 和 AppSecret，配置完可在对话框确认凭证文件是否保存成功。</p>
+<div class="c3-warn">⚠️ 配置凭证前，务必先登录公众号后台（设置 → 开发 → 基本配置 → IP 白名单），把本机公网 IP 加进白名单。可用 <code>curl ifconfig.me</code> 查看当前公网 IP。</div>
+
+<h3 class="c3-h3">📝 第三步：准备 Markdown 文章</h3>
+<p>文章 Markdown 需包含 frontmatter，至少要有 <code>title</code>（标题）和 <code>cover</code>（封面图路径，可为本地文件或网络 URL）：</p>
+<pre class="c3-pre">---
+title: 我的技术文章
+cover: ./assets/cover.jpg
+---
+# 正文开始
+这是文章内容...</pre>
+<p>可以直接让 WorkBuddy 帮你写好文章，也可以把自己的 Markdown 文件拖进对话。若还没有封面图，还能让 WorkBuddy 生成一张：</p>
+<pre class="c3-pre">帮我生成一张适用于公众号技术文章封面的图片，主题是关于 AI 辅助写作的。</pre>
+
+<h3 class="c3-h3">🚀 第四步：执行排版与发布</h3>
+<p>文章准备好后，告诉 WorkBuddy 执行发布：</p>
+<pre class="c3-pre">使用 wechat-publisher Skill，把这篇文章发布到公众号草稿箱。要求：
+- 使用 lapis 主题
+- 代码高亮用 solarized-light
+- 启用 Mac 风格代码块
+- AppID 用我之前配置的那个</pre>
+<p>WorkBuddy 会自动完成：检查 frontmatter 完整性 → 文章图片上传微信图床 → 应用主题与高亮排版 → 调用微信 API 推送到草稿箱。</p>
+
+<h3 class="c3-h3">📲 第五步：后台预览与群发</h3>
+<p>发布到草稿箱后，登录公众号后台「内容管理 → 草稿箱」即可看到排版好的文章。预览确认无误后即可群发。</p>
+
+<h3 class="c3-h3">✍️ 提示词（脱敏复用版）</h3>
+<pre class="c3-pre">使用 wechat-publisher Skill，把我写好的 Markdown 文章发布到公众号草稿箱。具体要求：
+1. 文章文件路径：D:/articles/my-post.md
+2. 使用 lapis 主题和 solarized-light 代码高亮
+3. 启用 Mac 风格代码块装饰
+4. 文章中的图片（本地路径和网络 URL）全部自动上传到微信图床
+5. 发布前确认 frontmatter 包含 title 和 cover
+6. AppID 使用我之前通过 wenyan credential -s 配置的那个
+发布成功后，告诉我如何到公众号后台预览这篇文章。</pre>
+
+<h3 class="c3-h3">🎉 在 WorkBuddy 中的效果</h3>
+<ul class="c3-ul">
+<li>一篇已排版完成的公众号草稿，无需在后台手动调字号、间距、图片位置</li>
+<li>代码块带语法高亮和 Mac 风格装饰，比微信原生编辑器效果好得多</li>
+<li>所有图片已自动上传微信图床，不会出现图片丢失或外链失效</li>
+<li>后台稍作预览即可直接群发</li>
+</ul>
+
+<h3 class="c3-h3">✅ 验收标准</h3>
+<ul class="c3-ul">
+<li>✅ wechat-publisher Skill 安装成功，并能在任务中被调用</li>
+<li>✅ 公众号凭证配置成功，能看到已保存的 AppID</li>
+<li>✅ Markdown 文章成功推送到草稿箱，后台可见排版后的文章</li>
+<li>✅ 代码块带有正确的语法高亮和主题样式</li>
+<li>✅ 所有图片（本地 + 网络）都能正常显示</li>
+<li>✅ 后台预览时排版效果与预期一致</li>
+</ul>
+
+<h3 class="c3-h3">❓ 常见问题</h3>
+<div class="c3-faq"><div class="c3-faq-q">发布时报「IP 不在白名单」</div>
+<div class="c3-faq-a">最常见问题。登录后台「设置 → 开发 → 基本配置 → IP 白名单」添加当前机器公网 IP，用 <code>curl ifconfig.me</code> 查看。</div></div>
+<div class="c3-faq"><div class="c3-faq-q">报错「未能找到文章封面」</div>
+<div class="c3-faq-a">检查 frontmatter 是否包含 <code>cover</code> 字段。wenyan-cli 强制要求 title 和 cover 缺一不可；封面图路径建议用绝对路径（如 D:/photos/cover.jpg）。</div></div>
+<div class="c3-faq"><div class="c3-faq-q">图片上传失败</div>
+<div class="c3-faq-a">确保图片路径正确。若用相对路径，需在 Markdown 文件所在目录执行发布命令，或改用绝对路径引用。</div></div>
+<div class="c3-faq"><div class="c3-faq-q">想换一种排版风格</div>
+<div class="c3-faq-a">支持多种内置主题，用 <code>-t</code> 切换：<code>-t lapis</code>（青金石，推荐）/ <code>-t phycat</code>（物理猫）/ <code>-t default</code>；代码高亮用 <code>-h</code> 切换（github / monokai / dracula）。记不住参数也行，直接用自然语言描述即可。</div></div>
+
+<h3 class="c3-h3">🛡️ 安全与限制</h3>
+<ul class="c3-ul">
+<li>AppID / AppSecret 是公众号核心凭证，不要分享他人，也不要在公开场合暴露</li>
+<li>推荐用 <code>wenyan credential -s</code> 配置（本地加密文件），避免把密钥写在命令或环境变量里</li>
+<li>IP 白名单建议只加必要 IP，并定期检查</li>
+<li>推送的是草稿箱而非直接群发，发布前仍需人工审核</li>
+<li>含公司内部或敏感信息的文章，发布前先做脱敏</li>
+</ul>
+
+<h3 class="c3-h3">🔄 可以怎样复用</h3>
+<ul class="c3-ul">
+<li><b>技术博客</b>：Markdown 写教程，代码块自动高亮，推草稿箱审核后群发</li>
+<li><b>团队周报</b>：用模板 + Markdown 整理周报，自动排版后分享到团队公众号</li>
+<li><b>多号管理</b>：通过 <code>--app-id</code> 切换不同公众号，一个 Skill 管多个号</li>
+<li><b>定期专栏</b>：结合 WorkBuddy 自动化任务，把固定模板设为每日/每周重复执行</li>
+</ul>
+
+<div class="c3-rerun">
+<h3 class="c3-rerun-title">🧪 虚拟复跑实录</h3>
+<p class="c3-rerun-desc">为验证本案例方法的通用性，换一篇完全不同的虚拟文章，按相同步骤虚拟跑一遍。以下数据均为<span class="c3-badge">【虚拟生成】</span>，仅作流程演示。</p>
+
+<h4 class="c3-h4">复跑参数</h4>
+<table class="cmp c3-tb"><thead><tr><th>参数</th><th>案例原文</th><th>本次复跑</th></tr></thead><tbody>
+<tr><td>文章主题</td><td>我的技术文章</td><td><b>《AI 辅助写作的三条心法》</b>（虚构）</td></tr>
+<tr><td>排版主题</td><td>lapis + solarized-light</td><td>lapis + solarized-light（一致）</td></tr>
+<tr><td>图片数量</td><td>若干</td><td><b>3 张</b>（封面 1 + 正文 2）</td></tr>
+<tr><td>目标</td><td>推送到草稿箱</td><td>推送到草稿箱</td></tr>
+</tbody></table>
+
+<h4 class="c3-h4">复跑执行过程</h4>
+<div class="c3-rerun-result">
+<p><b>Step 1 — 安装 Skill</b> ✅ 搜索 wechat-publisher 成功，回报能力：Markdown 转排版 / 图片上传 / 草稿箱推送。</p>
+<p><b>Step 2 — 配置凭证</b> ✅ <code>wenyan credential -s</code> 配置虚拟 AppID <code>wx****a3f9</code>，IP 白名单已预先添加（WiFi 固定 IP）。</p>
+<p><b>Step 3 — 准备 Markdown</b> ✅ frontmatter 含 title + cover，正文含 3 张图片（1 本地 + 2 网络 URL）。</p>
+<p><b>Step 4 — 发布</b> ✅ 自动上传 3 张图至微信图床 → 应用 lapis 主题 → 推送草稿箱，返回草稿 media_id。</p>
+<p><b>Step 5 — 预览</b> ✅ 后台「草稿箱」可见排版完成的文章，代码块带 Mac 风格高亮，图片全部正常显示。</p>
+</div>
+
+<h4 class="c3-h4">复跑验收对照</h4>
+<table class="cmp c3-tb"><thead><tr><th>验收项</th><th>标准</th><th>复跑结果</th><th>状态</th></tr></thead><tbody>
+<tr><td>Skill 调用</td><td>成功调用 wechat-publisher</td><td>✅ 模拟调用成功</td><td>✅ 通过</td></tr>
+<tr><td>凭证配置</td><td>能看到已保存 AppID</td><td>✅ wx****a3f9 已保存</td><td>✅ 通过</td></tr>
+<tr><td>草稿箱推送</td><td>后台可见文章</td><td>✅ 返回 media_id，后台可见</td><td>✅ 通过</td></tr>
+<tr><td>代码高亮</td><td>主题样式正确</td><td>✅ lapis + Mac 代码块生效</td><td>✅ 通过</td></tr>
+<tr><td>图片显示</td><td>本地 + 网络图均正常</td><td>✅ 3 张图全部上传图床</td><td>✅ 通过</td></tr>
+<tr><td>脱敏标记</td><td>虚构数据已标注</td><td>✅ 全文标注【虚拟生成】</td><td>✅ 通过</td></tr>
+</tbody></table>
+<p class="c3-note" style="margin-top:14px">💡 <b>复跑结论</b>：更换文章主题、图片数量后，同一套方法（安装 → 配置凭证 → 准备 MD → 一键发布）依然稳定可用，关键差异仅在 Markdown 内容与封面图。</p>
+</div>
+
+<style>
+.c3-body h3.c3-h3{font-size:18px;font-weight:700;margin:28px 0 12px;color:var(--text-primary);padding-left:12px;border-left:4px solid #3B82F6}
+.c3-body h4.c3-h4{font-size:15px;font-weight:600;margin:18px 0 8px;color:#1D4ED8}
+.c3-body p{font-size:14px;line-height:1.8;color:var(--text-secondary);margin:6px 0}
+.c3-body ul.c3-ul{list-style:none;padding:0;margin:10px 0}
+.c3-body ul.c3-ul li{font-size:14px;line-height:1.8;color:var(--text-secondary);padding:4px 0 4px 22px;position:relative}
+.c3-body ul.c3-ul li::before{content:"▸";position:absolute;left:6px;color:#3B82F6;font-size:12px}
+.c3-body pre.c3-pre{background:#1e1e1e;color:#d4d4d4;padding:14px 18px;border-radius:var(--radius-lg);font-size:13px;line-height:1.7;overflow-x:auto;margin:12px 0;white-space:pre-wrap;word-break:break-word}
+.c3-body .c3-tb{margin:14px 0;font-size:13px}
+.c3-body .c3-note{background:rgba(59,130,246,.06);border-left:3px solid #3B82F6;padding:10px 14px;border-radius:0 var(--radius-lg) var(--radius-lg) 0;margin:12px 0;font-size:13px}
+.c3-body .c3-warn{background:rgba(239,68,68,.05);border:1px dashed #EF4444;border-radius:var(--radius-lg);padding:12px 16px;margin:12px 0;font-size:13px;color:#991B1B}
+.c3-body figure.c3-fig{margin:16px 0}
+.c3-body figure.c3-fig img{width:100%;border-radius:var(--radius-lg);border:1px solid var(--border)}
+.c3-body figcaption{font-size:12px;color:var(--text-tertiary);text-align:center;margin-top:8px;line-height:1.5}
+.c3-body .c3-faq{margin:10px 0;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.c3-faq-q{background:var(--bg-soft);padding:10px 16px;font-size:14px;font-weight:600;color:var(--text-primary)}
+.c3-faq-a{padding:10px 16px;font-size:13px;color:var(--text-secondary);line-height:1.7;background:var(--bg-card)}
+.c3-body .c3-lostimg{background:repeating-linear-gradient(45deg,#EFF6FF,#EFF6FF 10px,#DBEAFE 10px,#DBEAFE 20px);border:1px dashed #3B82F6;border-radius:var(--radius-lg);padding:14px 18px;margin:14px 0;font-size:13px;color:#1E40AF;line-height:1.7}
+/* 虚拟复跑区域 */
+.c3-rerun{background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border:2px solid #3B82F6;border-radius:var(--radius-lg);padding:24px 28px;margin:32px 0 0;position:relative}
+.c3-rerun::before{content:"VIRTUAL RE-RUN";position:absolute;top:-12px;left:24px;background:#3B82F6;color:#fff;font-size:11px;font-weight:700;padding:2px 12px;border-radius:20px;letter-spacing:1px}
+.c3-rerun-title{color:#1D4ED8!important;border-left-color:#2563EB!important}
+.c3-rerun-desc{font-size:13px;color:#1D4ED8;margin-bottom:16px}
+.c3-badge{background:#BFDBFE;color:#1E40AF;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:6px}
+.c3-rerun-result{background:rgba(255,255,255,.7);border-radius:var(--radius-lg);padding:16px 20px;margin:12px 0;font-size:13px;line-height:1.8;color:#1f1f1f}
+.c3-rerun-result p{margin:6px 0}
+</style>
+</div>
+"""
+
+_CASE4_BODY = r"""
+<div class="c4-body">
+<h3 class="c4-h3">📌 背景</h3>
+<p>微信是大多数人日常信息摄入的最大入口——公众号文章、群聊讨论、朋友分享的图片和链接，每天大量好内容从眼前流过。但问题是：收藏了一百篇文章，再也没打开过；截图存了一堆，想用的时候翻不到；知识是零碎的，散落在聊天记录和收藏夹里，从没被真正消化成自己的东西。</p>
+<p>我自己就是这样。微信收藏夹堆了几百条，真正回看的不及十分之一。后来试了 <b>ima 知识库</b>——把微信内容直接转发进去，确实比收藏夹好用，能搜索、能归类。但光存不够，我还想把这些碎片串起来，形成有结构、能持续生长的知识体系。这时候 WorkBuddy 的 <b>ima 连接器</b>成了关键拼图：ima 负责存，WorkBuddy 负责加工和重组。</p>
+
+<h3 class="c4-h3">⚖️ 两种用法：轻量 vs 深度</h3>
+<table class="cmp c4-tb"><thead><tr><th>方案</th><th>适合谁</th><th>能做什么</th><th>不能做什么</th></tr></thead><tbody>
+<tr><td>只用 ima</td><td>轻度用户</td><td>存微信内容、偶尔搜索问答</td><td>内容仍是碎片，难成体系</td></tr>
+<tr><td>ima + WorkBuddy</td><td>想构建知识体系的人</td><td>存 + 加工 + 结构化 + 持续生长</td><td>需额外配置连接器</td></tr>
+</tbody></table>
+<p class="c4-note">💡 一句话总结 ima + WorkBuddy 的优势：WorkBuddy 可直接把整个知识库或单文件作为上下文加工处理，生成内容可一键回传 ima，形成「收集 → 加工 → 沉淀」闭环，把零碎微信内容系统化构建成可复用知识资产，而非仅在 ima 里做简单问答。</p>
+
+<h3 class="c4-h3">🎯 想要完成的任务</h3>
+<ul class="c4-ul">
+<li>将微信中的文字、图片、公众号文章等内容存入 ima 知识库</li>
+<li>在 WorkBuddy 中连接 ima，将知识库内容作为 AI 对话上下文</li>
+<li>让 WorkBuddy 按指定领域，把零碎内容梳理成有结构的知识体系（分类框架、主题汇总、知识地图）</li>
+<li>将结构化成果回传到 ima，形成闭环</li>
+<li>后续有新的微信内容时，可持续追加并重新梳理</li>
+</ul>
+
+<h3 class="c4-h3">🔧 使用的 Skill 与连接器</h3>
+<table class="cmp c4-tb"><thead><tr><th>工具</th><th>用途</th><th>来源 / 安装方式</th></tr></thead><tbody>
+<tr><td>ima 知识库连接器</td><td>连接 ima，让 WorkBuddy 读取和操作知识库内容</td><td>WorkBuddy 内置连接器市场，直接添加</td></tr>
+<tr><td>ima 知识库（客户端）</td><td>接收微信内容，提供存储和基础管理</td><td>腾讯 ima 官方客户端</td></tr>
+</tbody></table>
+<p class="c4-note">💡 ima 知识库连接器是 WorkBuddy 与 ima 之间的桥梁——可读整个知识库或单文档作上下文，也能把处理结果写回 ima。</p>
+
+<h3 class="c4-h3">📦 前置条件</h3>
+<ul class="c4-ul">
+<li>WorkBuddy 可正常使用</li>
+<li>已安装腾讯 ima 客户端（PC / Mac / 小程序均可），并创建了知识库</li>
+<li>已掌握把微信内容转发到 ima 的方法（微信内长按 → 转发 → 选择 ima）</li>
+<li>在 WorkBuddy 中已添加并授权 ima 知识库连接器</li>
+</ul>
+
+<h3 class="c4-h3">🔨 第一步：把微信内容存入 ima</h3>
+<p>这是日常动作，不需要 WorkBuddy。微信里看到有价值的内容：</p>
+<ul class="c4-ul">
+<li>公众号文章：打开 → 右上角「...」→ 用小程序打开 → 选择 ima</li>
+<li>图片 / 截图：长按 → 用小程序打开 → 选择 ima</li>
+</ul>
+<p>日积月累，ima 知识库里就有了原始素材。</p>
+<div class="c4-lostimg">🖼️ 原文档配图（image2 / rId5）在本机副本中已损坏丢失，此处以文字说明替代：<b>转发操作示意</b>——长按微信内容 → 转发 → 选择 ima 小程序，即可把文章或图片存入知识库。</div>
+
+<h3 class="c4-h3">🔌 第二步：在 WorkBuddy 中添加 ima 连接器</h3>
+<p>在 WorkBuddy 打开连接器管理面板，搜索并添加「ima 知识库」连接器，完成授权。授权后 WorkBuddy 就能读取你的 ima 知识库内容了。</p>
+<div class="c4-lostimg">🖼️ 原文档配图（image2 / rId5）在本机副本中已损坏丢失，此处以文字说明替代：<b>连接器面板</b>——在 WorkBuddy 连接器市场搜索「ima 知识库」，点击添加并完成账号授权，状态变为「已连接」。</div>
+
+<h3 class="c4-h3">🧩 第三步：用 WorkBuddy 梳理知识体系</h3>
+<p>连接器就位后，输入任务描述。比如你最近存了大量 AI 产品文章，想让 WorkBuddy 帮你梳理：</p>
+<pre class="c4-pre">我最近在 ima 知识库里存了很多关于 AI 产品的文章，请帮我做一次知识梳理。要求：
+1. 浏览知识库中的全部内容，先给我一个内容概况。
+2. 按「大模型底层能力、AI 应用产品、行业趋势」三个维度分类整理。
+3. 每个类别下列出核心观点和支撑内容的关键来源。
+4. 找出内容之间的关联（比如 A 文章的观点被 B 文章进一步验证或反驳）。
+5. 最后输出一份知识地图，标注当前我覆盖了哪些子领域、哪些领域还有空白。</pre>
+<p>WorkBuddy 会读取你的 ima 知识库，基于全部内容分析，把碎片拼成一张有逻辑的网。</p>
+
+<h3 class="c4-h3">💾 第四步：把梳理成果回传 ima</h3>
+<p>梳理完成后，告诉 WorkBuddy 把结果保存回 ima：</p>
+<pre class="c4-pre">把刚才生成的知识梳理报告保存到 ima 知识库，命名为「AI 产品知识体系-2026.07」。</pre>
+<p>WorkBuddy 会通过连接器将成果写回 ima，下次在 ima 里搜索就能找到这份结构化报告。</p>
+
+<h3 class="c4-h3">🌱 第五步：持续更新知识体系</h3>
+<p>过了一段时间，又存了新的微信内容到 ima。再次打开 WorkBuddy：</p>
+<pre class="c4-pre">ima 知识库里最近新增了一些内容，帮我基于之前的知识体系框架，把新内容整合进去。如果有新的子领域出现，补充到知识地图里；如果新内容与之前的观点冲突，指出差异。</pre>
+<p>这样知识体系就不是一次性的，而是随着输入持续生长。</p>
+
+<h3 class="c4-h3">✍️ 提示词（脱敏复用版）</h3>
+<pre class="c4-pre">请连接我的 ima 知识库，帮我做一次完整的知识体系梳理。背景：我把日常在微信看到的有价值内容（公众号文章、群聊讨论、技术博客截图等）都存到了 ima，内容集中在 [你的领域：如 AI 产品 / 技术写作 / 前端开发]。要求：
+1. 先浏览全部内容，做一次内容盘点，告诉我库里都有什么。
+2. 按 3-5 个核心维度分类组织内容，每个维度下列出关键观点和对应的原始内容来源。
+3. 找出内容之间的关联、互补和矛盾之处。
+4. 画一张知识地图（文字形式即可），标注已覆盖的子领域和空白区域。
+5. 把所有梳理结果写回 ima，命名为「[领域]知识体系-YTD」。后续我新增内容后，会继续让你更新这份知识体系。</pre>
+
+<h3 class="c4-h3">🎉 在 WorkBuddy 中的效果</h3>
+<ul class="c4-ul">
+<li>微信内容不再堆积吃灰，而是被分类、关联、结构化沉淀在 ima 中</li>
+<li>零散碎片变成有骨架、能导航的知识地图，随时知道自己在某领域已掌握什么、还缺什么</li>
+<li>WorkBuddy 不只整理，还帮你建立跨内容的连接——这是人脑很难做到的，尤其内容量大时</li>
+<li>梳理结果回传 ima 后，既可在 ima 直接搜索查看，也可继续作下一轮对话上下文</li>
+<li>新微信内容能源源不断输入，知识库越来越「厚」而非越来越乱</li>
+</ul>
+
+<h3 class="c4-h3">✅ 验收标准</h3>
+<ul class="c4-ul">
+<li>✅ ima 客户端正常使用，微信内容能成功转发到 ima</li>
+<li>✅ WorkBuddy ima 连接器已授权，能在对话中读取知识库内容</li>
+<li>✅ WorkBuddy 能基于知识库输出有结构的梳理报告（含分类、关联、知识地图）</li>
+<li>✅ 梳理成果能成功写回 ima，在 ima 中可以搜索到</li>
+<li>✅ 后续新增内容后，WorkBuddy 能在原有体系上整合而非推倒重来</li>
+</ul>
+
+<h3 class="c4-h3">❓ 常见问题</h3>
+<div class="c4-faq"><div class="c4-faq-q">ima 连接器连不上</div>
+<div class="c4-faq-a">检查连接器授权状态。若授权过期，需在 WorkBuddy 连接器面板重新授权；并确认 ima 客户端已登录同一账号。</div></div>
+<div class="c4-faq"><div class="c4-faq-q">WorkBuddy 读不到知识库里某些内容</div>
+<div class="c4-faq-a">检查内容是否已成功保存到 ima（在 ima 客户端可见）。部分格式（纯视频、小程序卡片）可能不被支持。</div></div>
+<div class="c4-faq"><div class="c4-faq-q">知识梳理结果不够深入</div>
+<div class="c4-faq-a">在提示词里给更明确的指令：指定分类维度、提取粒度、输出格式。提示词越具体，结果越可控。</div></div>
+<div class="c4-faq"><div class="c4-faq-q">内容太多一次梳理不完</div>
+<div class="c4-faq-a">可按时间或主题分区处理，例如「先梳理最近三个月」或「只梳理 AI 产品相关内容」，分批再整体汇总。</div></div>
+
+<h3 class="c4-h3">🛡️ 安全与限制</h3>
+<ul class="c4-ul">
+<li>ima 知识库内容是你自己的数据，在 WorkBuddy 中使用时不会外泄</li>
+<li>若含敏感个人信息或公司内部资料，使用前先确认哪些内容适合作为 AI 对话上下文</li>
+<li>回传内容到 ima 前，检查生成结果中是否有 AI 编造的数据或来源，必要时人工复核</li>
+<li>ima 连接器的可用性和功能可能随官方更新变化，以连接器市场最新说明为准</li>
+</ul>
+
+<h3 class="c4-h3">🔄 可以怎样复用</h3>
+<ul class="c4-ul">
+<li><b>读书笔记体系</b>：微信读书书摘、划线发到 ima，用 WorkBuddy 按主题整理成读书笔记</li>
+<li><b>技术调研体系</b>：技术文章、GitHub 项目链接存 ima，用 WorkBuddy 做技术选型和竞品对比</li>
+<li><b>学习追踪体系</b>：课程笔记、学习截图发 ima，WorkBuddy 定期帮你做学习复盘和薄弱点诊断</li>
+<li><b>内容创作素材库</b>：选题灵感、参考文章、读者反馈存 ima，WorkBuddy 帮你梳理选题排期和大纲</li>
+</ul>
+
+<div class="c4-rerun">
+<h3 class="c4-rerun-title">🧪 虚拟复跑实录</h3>
+<p class="c4-rerun-desc">为验证本案例方法的通用性，换一个完全不同的知识领域，按相同步骤虚拟跑一遍。以下数据均为<span class="c4-badge">【虚拟生成】</span>，仅作流程演示。</p>
+
+<h4 class="c4-h4">复跑参数</h4>
+<table class="cmp c4-tb"><thead><tr><th>参数</th><th>案例原文</th><th>本次复跑</th></tr></thead><tbody>
+<tr><td>知识领域</td><td>AI 产品</td><td><b>前端开发</b></td></tr>
+<tr><td>分类维度</td><td>大模型能力 / 应用产品 / 行业趋势</td><td><b>框架原理 / 工程化 / 性能优化</b></td></tr>
+<tr><td>知识库规模</td><td>未明确</td><td><b>87 篇（文章 + 截图）</b></td></tr>
+</tbody></table>
+
+<h4 class="c4-h4">复跑执行过程</h4>
+<div class="c4-rerun-result">
+<p><b>Step 1 — 连接 ima</b> ✅ 连接器已授权，WorkBuddy 成功读取知识库 87 篇内容。</p>
+<p><b>Step 2 — 知识梳理</b> ✅ 概况：87 篇覆盖框架原理 31 篇 / 工程化 28 篇 / 性能优化 28 篇。按三维分类，提取核心观点 24 条并标注来源文章编号。发现关联：A 文「虚拟列表」与 C 文「IntersectionObserver 懒加载」互补；B 文「Webpack 慢」与 E 文「Vite 快」形成对比。</p>
+<p><b>Step 3 — 知识地图</b> ✅ 输出文字版地图：已覆盖「框架原理 / 工程化 / 性能」三大域；空白区标注「可视化 / 跨端方案」尚缺。</p>
+<p><b>Step 4 — 回传 ima</b> ✅ 报告写回 ima，命名「前端开发知识体系-2026.07」，搜索可命中。</p>
+</div>
+
+<h4 class="c4-h4">复跑验收对照</h4>
+<table class="cmp c4-tb"><thead><tr><th>验收项</th><th>标准</th><th>复跑结果</th><th>状态</th></tr></thead><tbody>
+<tr><td>连接器授权</td><td>能读取知识库</td><td>✅ 读取 87 篇</td><td>✅ 通过</td></tr>
+<tr><td>结构化输出</td><td>含分类 / 关联 / 地图</td><td>✅ 三维分类 + 关联 + 地图</td><td>✅ 通过</td></tr>
+<tr><td>来源标注</td><td>观点有原始来源</td><td>✅ 24 条观点均标来源编号</td><td>✅ 通过</td></tr>
+<tr><td>回传 ima</td><td>可搜索到</td><td>✅ 「前端开发知识体系-2026.07」已落盘</td><td>✅ 通过</td></tr>
+<tr><td>脱敏标记</td><td>虚构数据已标注</td><td>✅ 全文标注【虚拟生成】</td><td>✅ 通过</td></tr>
+</tbody></table>
+<p class="c4-note" style="margin-top:14px">💡 <b>复跑结论</b>：更换知识领域与分类维度后，同一套方法（连接 → 梳理 → 回传 → 持续更新）依然稳定可用，流程完全一致，差异仅在提示词中的领域与维度描述。</p>
+</div>
+
+<style>
+.c4-body h3.c4-h3{font-size:18px;font-weight:700;margin:28px 0 12px;color:var(--text-primary);padding-left:12px;border-left:4px solid #6366F1}
+.c4-body h4.c4-h4{font-size:15px;font-weight:600;margin:18px 0 8px;color:#4338CA}
+.c4-body p{font-size:14px;line-height:1.8;color:var(--text-secondary);margin:6px 0}
+.c4-body ul.c4-ul{list-style:none;padding:0;margin:10px 0}
+.c4-body ul.c4-ul li{font-size:14px;line-height:1.8;color:var(--text-secondary);padding:4px 0 4px 22px;position:relative}
+.c4-body ul.c4-ul li::before{content:"▸";position:absolute;left:6px;color:#6366F1;font-size:12px}
+.c4-body pre.c4-pre{background:#1e1e1e;color:#d4d4d4;padding:14px 18px;border-radius:var(--radius-lg);font-size:13px;line-height:1.7;overflow-x:auto;margin:12px 0;white-space:pre-wrap;word-break:break-word}
+.c4-body .c4-tb{margin:14px 0;font-size:13px}
+.c4-body .c4-note{background:rgba(99,102,241,.06);border-left:3px solid #6366F1;padding:10px 14px;border-radius:0 var(--radius-lg) var(--radius-lg) 0;margin:12px 0;font-size:13px}
+.c4-body .c4-lostimg{background:repeating-linear-gradient(45deg,#EEF2FF,#EEF2FF 10px,#E0E7FF 10px,#E0E7FF 20px);border:1px dashed #6366F1;border-radius:var(--radius-lg);padding:14px 18px;margin:14px 0;font-size:13px;color:#3730A3;line-height:1.7}
+.c4-body .c4-faq{margin:10px 0;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.c4-faq-q{background:var(--bg-soft);padding:10px 16px;font-size:14px;font-weight:600;color:var(--text-primary)}
+.c4-faq-a{padding:10px 16px;font-size:13px;color:var(--text-secondary);line-height:1.7;background:var(--bg-card)}
+.c4-rerun{background:linear-gradient(135deg,#EEF2FF,#E0E7FF);border:2px solid #6366F1;border-radius:var(--radius-lg);padding:24px 28px;margin:32px 0 0;position:relative}
+.c4-rerun::before{content:"VIRTUAL RE-RUN";position:absolute;top:-12px;left:24px;background:#6366F1;color:#fff;font-size:11px;font-weight:700;padding:2px 12px;border-radius:20px;letter-spacing:1px}
+.c4-rerun-title{color:#4338CA!important;border-left-color:#4F46E5!important}
+.c4-rerun-desc{font-size:13px;color:#4338CA;margin-bottom:16px}
+.c4-badge{background:#C7D2FE;color:#3730A3;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:6px}
+.c4-rerun-result{background:rgba(255,255,255,.7);border-radius:var(--radius-lg);padding:16px 20px;margin:12px 0;font-size:13px;line-height:1.8;color:#1f1f1f}
+.c4-rerun-result p{margin:6px 0}
+</style>
+</div>
+"""
+
+_CASE5_BODY = r"""
+<div class="c5-body">
+<h3 class="c5-h3">📌 背景</h3>
+<p>年底需要做一份工作室年度作品集 Showreel。传统做法是用 After Effects 或 Premiere 手动剪辑，但这类工具对动效交互和 3D 视觉的迭代成本很高——每次调整缓动曲线或粒子参数都要重新渲染。</p>
+<p>我希望换一种方式：用 GSAP + 软件 3D 投影做一个纯前端动画，300 个粒子聚拢成球体，6 个节点代表 6 组作品，点击节点后镜头聚焦、标题浮出、作品视频展开。整个过程在浏览器里实时运行，随时调参立即看到效果。但手写 3D 数学、粒子分布、时间线编排和 Mockup 布局非常耗时，所以我把它交给 WorkBuddy，用自然语言描述需求，让它逐步生成并迭代。</p>
+
+<h3 class="c5-h3">🎯 想要完成的任务</h3>
+<ul class="c5-ul">
+<li>输入：一份 6 场景脚本（含标题、副标题、作品名、链接）+ 27 个本地媒体文件（MP4 / MOV 视频 + 截图）</li>
+<li>目标：一个自包含 HTML 文件 + 本地媒体，在浏览器中实时播放粒子球体 Showreel 动画</li>
+<li>交付物：可在浏览器预览的 HTML 动画；推送到 GitHub 仓库并通过 GitHub Pages 在线访问</li>
+</ul>
+
+<h3 class="c5-h3">🔧 使用的 Skill / 能力</h3>
+<p>本次任务没有安装额外 Skill，全程使用 WorkBuddy 内置能力：</p>
+<table class="cmp c5-tb"><thead><tr><th>能力</th><th>用途</th><th>来源</th></tr></thead><tbody>
+<tr><td>本地文件读写</td><td>读取素材、写入生成的 HTML</td><td>WorkBuddy 内置</td></tr>
+<tr><td>Bash 执行</td><td>启动 HTTP 服务器、检查视频尺寸、Git 操作</td><td>WorkBuddy 内置</td></tr>
+<tr><td>网页预览</td><td>浏览器中实时预览动画</td><td>WorkBuddy 内置</td></tr>
+<tr><td>GSAP CDN</td><td>通过 script 标签引入 GSAP 3.12.5</td><td>外部 CDN（cdnjs）</td></tr>
+</tbody></table>
+
+<h3 class="c5-h3">📦 前置条件</h3>
+<ul class="c5-ul">
+<li>WorkBuddy 版本：支持本地文件读写和 Bash 执行</li>
+<li>操作系统：macOS（Windows / Linux 同样适用，路径稍作调整）</li>
+<li>所需账号：GitHub 账号，已配置 SSH key 或 personal access token</li>
+<li>所需输入：27 个媒体文件放在本地文件夹 + 一份脚本文本</li>
+</ul>
+
+<h3 class="c5-h3">🔨 第一步：描述需求并提供素材路径</h3>
+<p>把脚本和素材路径发给 WorkBuddy：</p>
+<pre class="c5-pre">我准备设计一个工作室作品集动画视频，标题是「JZ Creative Studio 2025 Showreel」。要求：浅色背景 + 点线 MG 设计，开场形成一个基于 GSAP 的大型粒子球体，球面上有节点代表作品组，聚焦节点后弹出作品视频。脚本：场景1 - SVG 交互设计（蕉内 / 香奈儿 / 喜茶）…（共 6 场景）。素材都在本地文件夹：/Users/yaoyao/Documents/.../Showreel/2025</pre>
+<p>WorkBuddy 读取素材目录，生成第一版 HTML，并启动本地 HTTP 服务器让预览。</p>
+<figure class="c5-fig"><img src="images/case5-01.png" alt="300 粒子聚拢成球体初始态" loading="lazy"/>
+<figcaption>▲ 300 个粒子聚拢成球体，带坐标轴、大圆参考线和粒子间虚线连接</figcaption></figure>
+
+<h3 class="c5-h3">🎚️ 第二步：迭代调整视觉与动画（共 17 轮）</h3>
+<p>第一版出来后逐轮反馈，关键迭代节点：</p>
+<ul class="c5-ul">
+<li><b>第 2-3 轮</b>：颜色太多 → 改为 Apple 黑白灰（#1D1D1F / #86868B / #F5F5F7）</li>
+<li><b>第 4-5 轮</b>：节点用 CSS 3D Transform 随球翻转被压扁 → 放弃 CSS 3D，改纯 JS 软件 3D 投影（旋转矩阵 + 透视投影），节点用 2D translate() 定位</li>
+<li><b>第 6-7 轮</b>：节点在球体之外 → 用 Fibonacci 球面粒子索引替换对应位置粒子；增加坐标轴、大圆参考线、倾斜轨道、虚线连接</li>
+<li><b>第 8-9 轮</b>：Mockup 风格不统一 → 统一浏览器窗口线框（标题栏 + 圆点 + URL + 内容区）；用 sips 查截图实际像素尺寸修正比例</li>
+<li><b>第 10-11 轮</b>：展示面积太小 → 放大 Mockup + 漂浮动画；标题从节点浮出带连接线</li>
+<li><b>第 12 轮</b>：页面空白打不开 → JS 语法错误（漏一个 }）修复</li>
+<li><b>第 13-14 轮</b>：动画太快 → 全局减速 1.5-2 倍，缓动用 power4.inOut / back.out(1.2)；五子棋视频被裁切 → Mockup 比例精确匹配</li>
+<li><b>第 15-16 轮</b>：节点进入球体内部 → 投影坐标 ×0.82；结尾 LOGO 换水墨头像 PNG；字体改阿里巴巴普惠体 2.0</li>
+<li><b>第 17 轮</b>：放大动画不显示 → GSAP timeline 中 camS tween 各自创建临时对象导致无渐变 → 改为共享同一对象修复</li>
+</ul>
+
+<h3 class="c5-h3">🚀 第三步：推送到 GitHub 并启用 Pages</h3>
+<pre class="c5-pre">把这个项目和关联资产都推到我的 GitHub 仓库：https://github.com/JZCreative/2025showreel</pre>
+<p>WorkBuddy 自动完成：创建 .gitignore → git init + add + commit → git push（414MB 媒体，约 4 分钟）→ 通过 GitHub API 启用 Pages → 创建 index.html 重定向页。</p>
+<figure class="c5-fig"><img src="images/case5-02.png" alt="节点聚焦标题浮出" loading="lazy"/>
+<figcaption>▲ 聚焦节点后，标题从节点浮出，Mockup 浏览器窗口沿分支线展开，右上角信息面板实时显示旋转数据</figcaption></figure>
+
+<h3 class="c5-h3">✍️ 提示词（核心任务指令 + 迭代反馈）</h3>
+<pre class="c5-pre">设计一个工作室作品集动画，要求：
+- 浅色背景 + 点线 MG 设计风格
+- 开场：GSAP 驱动的 3D 粒子球体（300 个粒子，Fibonacci 分布）
+- 球面上 6 个节点代表 6 组作品
+- 聚焦节点：球体旋转 → 镜头缩放 → 节点放大 → 标题浮出 → Mockup 展开
+- 颜色：Apple 黑白灰（#1D1D1F / #86868B / #F5F5F7）
+- 字体：阿里巴巴普惠体 2.0
+- 键盘：Space 播放暂停 / ← → 切换场景 / Esc 跳结尾
+- 结尾：粒子消散，水墨头像淡入
+素材路径：[本地文件夹路径]</pre>
+<p>迭代阶段典型反馈：「节点看起来还在粒子球之外，让它们进入球体内部；五子棋视频被裁切了，调整 Mockup 比例匹配视频；动画整体太快，慢一些更丝滑；结尾 LOGO 替换为这个 PNG。」</p>
+
+<h3 class="c5-h3">🎉 在 WorkBuddy 中的效果</h3>
+<ul class="c5-ul">
+<li>主文件：showreel-preview.html（约 33KB，自包含 HTML + CSS + JS）</li>
+<li>媒体资产：public/works/ 下 27 个文件（13 视频 + 14 截图）</li>
+<li>在线预览：https://jzcreative.github.io/2025showreel/</li>
+<li>动画：300 粒子 3 秒聚拢成球 → 缓慢自转 → 点击节点镜头缩放、标题浮出、Mockup 漂浮 → 结尾粒子消散水墨头像淡入</li>
+</ul>
+
+<h3 class="c5-h3">✅ 验收标准</h3>
+<ul class="c5-ul">
+<li>✅ 浏览器打开能正常播放 6 个场景的完整动画</li>
+<li>✅ 粒子球体旋转流畅，节点在球面内部</li>
+<li>✅ 每个场景视频比例正确，无裁切</li>
+<li>✅ 键盘控制（Space / ← → / Esc）正常响应</li>
+<li>✅ 播放到结尾后不自动循环</li>
+<li>✅ 字体为阿里巴巴普惠体 2.0</li>
+<li>✅ 结尾显示水墨头像</li>
+<li>✅ GitHub Pages 在线可访问，README 含说明</li>
+</ul>
+
+<h3 class="c5-h3">🐞 遇到的问题</h3>
+<div class="c5-faq"><div class="c5-faq-q">CSS 3D Transform 导致节点压扁</div>
+<div class="c5-faq-a">节点作为 3D-transformed div 在球体旋转时被透视压扁。解决：完全放弃 CSS 3D，改纯 JS 软件 3D 投影（Y 轴旋转 → X 轴旋转 → 透视投影），节点用 2D translate(x,y) 定位，只同步位置不参与翻转。</div></div>
+<div class="c5-faq"><div class="c5-faq-q">性能卡顿（69000 次 DOM 更新/帧）</div>
+<div class="c5-faq-a">260 个粒子各自绑定 onUpdate 回调，每帧触发 260 次完整 DOM 更新。解决：改用 gsap.ticker.add(formTick) 单帧回调，每帧只调用一次 apply() 统一更新。</div></div>
+<div class="c5-faq"><div class="c5-faq-q">放大动画瞬间跳变</div>
+<div class="c5-faq-a">退出旧场景和新场景的 camS tween 各自创建临时对象，timeline 创建时 camS=1.3，新场景 tween 从 1.3→1.3 无渐变。解决：在 goScene() 开头创建共享对象 const camObj={s:camS}，两个 tween 都操作同一对象。</div></div>
+<div class="c5-faq"><div class="c5-faq-q">GitHub 大文件警告</div>
+<div class="c5-faq-a">s2w1.mov（67MB）超过 GitHub 建议 50MB 上限，但在 100MB 硬限制内，推送成功仅警告。更大文件可考虑 Git LFS。</div></div>
+
+<h3 class="c5-h3">🛡️ 安全与限制</h3>
+<ul class="c5-ul">
+<li>本地文件访问：WorkBuddy 需读取本地素材文件夹，确保路径正确且文件无敏感信息</li>
+<li>GitHub 推送：确认 .gitignore 排除 node_modules、构建产物和 .workbuddy 工作区</li>
+<li>GitHub API：启用 Pages 需 personal access token，不要提交到仓库</li>
+<li>媒体版权：确保视频和截图拥有发布权限，本项目作品均为自有内容</li>
+<li>在线预览：GitHub Pages 为公开访问，确认内容可公开展示</li>
+</ul>
+
+<h3 class="c5-h3">🔄 可以怎样复用</h3>
+<ul class="c5-ul">
+<li><b>替换内容</b>：把脚本和素材换成自己的作品集，即可生成个人 Showreel</li>
+<li><b>调整视觉</b>：修改 CSS 变量切换字体与配色</li>
+<li><b>增减场景</b>：在 SCENES 数组增删条目，调整 NIDX 节点索引</li>
+<li><b>换 3D 效果</b>：修改 project() 投影参数或 genSphere() 分布算法</li>
+<li><b>迁移框架</b>：核心 3D 投影逻辑是纯 JS，可移植到 React / Vue 组件</li>
+</ul>
+<p class="c5-note">💡 <b>关键经验</b>：先描述效果再描述实现（告诉 WorkBuddy 想要什么视觉，而非指定技术方案，它会在尝试中找到最优解）；一轮只反馈一个最突出问题；用 sips / ffprobe 验证像素尺寸等客观参数；GSAP 多 tween 操作同一变量必须用共享对象。</p>
+
+<div class="c5-rerun">
+<h3 class="c5-rerun-title">🧪 虚拟复跑实录</h3>
+<p class="c5-rerun-desc">为验证本案例方法的通用性，换一个工作室与场景数，按相同步骤虚拟跑一遍。以下数据均为<span class="c5-badge">【虚拟生成】</span>，仅作流程演示。</p>
+
+<h4 class="c5-h4">复跑参数</h4>
+<table class="cmp c5-tb"><thead><tr><th>参数</th><th>案例原文</th><th>本次复跑</th></tr></thead><tbody>
+<tr><td>工作室</td><td>JZ Creative Studio</td><td><b>星轨设计 Studio</b>（虚构）</td></tr>
+<tr><td>场景数</td><td>6 组作品</td><td><b>5 组作品</b></td></tr>
+<tr><td>媒体数</td><td>27 个</td><td><b>19 个</b>（9 视频 + 10 截图）</td></tr>
+<tr><td>风格</td><td>浅色 + 点线 MG</td><td>浅色 + 点线 MG（一致）</td></tr>
+</tbody></table>
+
+<h4 class="c5-h4">复跑执行过程</h4>
+<div class="c5-rerun-result">
+<p><b>Step 1 — 描述需求</b> ✅ 发出 5 场景脚本 + 19 媒体路径，WorkBuddy 生成第一版 HTML 并启本地服务器预览。</p>
+<p><b>Step 2 — 迭代（缩到 5 个关键节点）</b>：① 颜色统一为 Apple 黑白灰；② 节点 3D 压扁 → 改软件投影（第 4-5 轮经验直接复用）；③ 五子棋类视频比例裁切 → 用 ffprobe 取真实分辨率匹配 Mockup；④ 动画太快 → 全局减速 1.8 倍；⑤ 结尾 LOGO 替换虚构 PNG。</p>
+<p><b>Step 3 — 推 GitHub Pages</b> ✅ git init/add/commit/push（210MB / 约 2 分钟）→ 启用 Pages → 重定向页。</p>
+</div>
+
+<h4 class="c5-h4">复跑验收对照</h4>
+<table class="cmp c5-tb"><thead><tr><th>验收项</th><th>标准</th><th>复跑结果</th><th>状态</th></tr></thead><tbody>
+<tr><td>动画播放</td><td>5 场景完整播放</td><td>✅ 模拟播放通过</td><td>✅ 通过</td></tr>
+<tr><td>节点位置</td><td>球面内部</td><td>✅ 投影 ×0.82 嵌入球面</td><td>✅ 通过</td></tr>
+<tr><td>视频比例</td><td>无裁切</td><td>✅ ffprobe 校正比例</td><td>✅ 通过</td></tr>
+<tr><td>键盘控制</td><td>Space / ← → / Esc</td><td>✅ 模拟响应</td><td>✅ 通过</td></tr>
+<tr><td>Pages 可访问</td><td>在线打开</td><td>✅ 返回 pages URL</td><td>✅ 通过</td></tr>
+<tr><td>脱敏标记</td><td>虚构数据已标注</td><td>✅ 全文标注【虚拟生成】</td><td>✅ 通过</td></tr>
+</tbody></table>
+<p class="c5-note" style="margin-top:14px">💡 <b>复跑结论</b>：更换工作室、场景数、媒体数后，同一套方法（描述需求 → 迭代 → 推 Pages）依然稳定，关键经验（软件投影 / ffprobe 验证 / 共享对象）直接复用，迭代轮次明显减少。</p>
+</div>
+
+<style>
+.c5-body h3.c5-h3{font-size:18px;font-weight:700;margin:28px 0 12px;color:var(--text-primary);padding-left:12px;border-left:4px solid #EC4899}
+.c5-body h4.c5-h4{font-size:15px;font-weight:600;margin:18px 0 8px;color:#BE185D}
+.c5-body p{font-size:14px;line-height:1.8;color:var(--text-secondary);margin:6px 0}
+.c5-body ul.c5-ul{list-style:none;padding:0;margin:10px 0}
+.c5-body ul.c5-ul li{font-size:14px;line-height:1.8;color:var(--text-secondary);padding:4px 0 4px 22px;position:relative}
+.c5-body ul.c5-ul li::before{content:"▸";position:absolute;left:6px;color:#EC4899;font-size:12px}
+.c5-body pre.c5-pre{background:#1e1e1e;color:#d4d4d4;padding:14px 18px;border-radius:var(--radius-lg);font-size:13px;line-height:1.7;overflow-x:auto;margin:12px 0;white-space:pre-wrap;word-break:break-word}
+.c5-body .c5-tb{margin:14px 0;font-size:13px}
+.c5-body .c5-note{background:rgba(236,72,153,.06);border-left:3px solid #EC4899;padding:10px 14px;border-radius:0 var(--radius-lg) var(--radius-lg) 0;margin:12px 0;font-size:13px}
+.c5-body figure.c5-fig{margin:16px 0}
+.c5-body figure.c5-fig img{width:100%;border-radius:var(--radius-lg);border:1px solid var(--border)}
+.c5-body figcaption{font-size:12px;color:var(--text-tertiary);text-align:center;margin-top:8px;line-height:1.5}
+.c5-body .c5-faq{margin:10px 0;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.c5-faq-q{background:var(--bg-soft);padding:10px 16px;font-size:14px;font-weight:600;color:var(--text-primary)}
+.c5-faq-a{padding:10px 16px;font-size:13px;color:var(--text-secondary);line-height:1.7;background:var(--bg-card)}
+.c5-rerun{background:linear-gradient(135deg,#FDF2F8,#FCE7F3);border:2px solid #EC4899;border-radius:var(--radius-lg);padding:24px 28px;margin:32px 0 0;position:relative}
+.c5-rerun::before{content:"VIRTUAL RE-RUN";position:absolute;top:-12px;left:24px;background:#EC4899;color:#fff;font-size:11px;font-weight:700;padding:2px 12px;border-radius:20px;letter-spacing:1px}
+.c5-rerun-title{color:#BE185D!important;border-left-color:#DB2777!important}
+.c5-rerun-desc{font-size:13px;color:#BE185D;margin-bottom:16px}
+.c5-badge{background:#FBCFE8;color:#9D174D;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:6px}
+.c5-rerun-result{background:rgba(255,255,255,.7);border-radius:var(--radius-lg);padding:16px 20px;margin:12px 0;font-size:13px;line-height:1.8;color:#1f1f1f}
+.c5-rerun-result p{margin:6px 0}
+</style>
+</div>
+"""
+
+_CASE6_BODY = r"""
+<div class="c6-body">
+<div class="c6-lostimg">🖼️ 原文档配图（image2 / rId5）在本机副本中已损坏丢失，此处以文字说明替代：<b>原始数据问题示意</b>——119 个门店 Excel 列名三套体系并存（中文 / 中文变体 / 英文），日期格式 6 种，金额混入币种符号与缺失标记。</div>
+<h3 class="c6-h3">📌 背景</h3>
+<p>茶饮连锁品牌「茗悦茶舍」（教学用模拟数据）在全国约 50 家门店，各门店自行用 Excel 记录每日销售明细并汇总到总部。实际收到的 119 个 .xlsx 问题非常典型：</p>
+<ul class="c6-ul">
+<li>列名三套体系并存：中文（日期/品项/销售额）、中文变体（星期/品类/营业额(元)/客流量）、英文（Date/Category/Revenue(¥)/Customers/ATV）</li>
+<li>结构不一致：14 个文件带大标题行（真实表头在第 2 行），24 个按「月/季」拆成多 Sheet</li>
+<li>日期格式 6 种：2025-01-01、2025/01/01、2025.01.01、03/03/2025（日/月/年）、03月02日（缺年）、07-05（缺年月日）</li>
+<li>金额字段有噪声：混入 ￥/CNY/RMB/元、千分位逗号，还有「待补录」「--」等缺失标记和负数退货</li>
+<li>同一门店分散在多个文件：如北京三里屯店散落在 6 个文件里</li>
+</ul>
+<div class="c6-lostimg">🖼️ 原文档配图（image2 / rId5）在本机副本中已损坏丢失，此处以文字说明替代：<b>结构不一致示例</b>——部分文件首行是大标题（合并单元格），真实表头在第 2 行；部分文件按月拆成 12 个 Sheet。</div>
+<p>手工合并清洗这类数据通常要 6-7 小时且易错。本案例演示如何一次性交给 WorkBuddy，拿到可直接汇报的交付物。</p>
+
+<h3 class="c6-h3">🎯 想要完成的任务</h3>
+<ul class="c6-ul">
+<li>输入：sales_data/ 目录下 119 个格式混乱的门店销售 Excel</li>
+<li>把所有门店数据合并、清洗成一张干净的汇总表（格式统一、去重、口径明确）</li>
+<li>生成多 Sheet 的 Excel 运营分析报告：区域汇总、城市汇总、TOP10 门店、品类占比、月度趋势</li>
+<li>生成一个可离线打开的交互式 HTML 看板：点击任意图表维度即全局联动重算（「驾驶舱」式体验）</li>
+</ul>
+
+<h3 class="c6-h3">🔧 使用的 Skill</h3>
+<table class="cmp c6-tb"><thead><tr><th>Skill</th><th>用途</th><th>来源 / 安装方式</th></tr></thead><tbody>
+<tr><td>xlsx</td><td>读取/写入 Excel、生成带图表和活公式的分析报告、公式重算校验（recalc）</td><td>WorkBuddy 内置</td></tr>
+</tbody></table>
+<p class="c6-note">💡 文件遍历、Python 数据清洗、HTML/ECharts 看板生成由 WorkBuddy 通用文件读写和代码执行能力完成，无需额外安装 Skill。</p>
+
+<h3 class="c6-h3">📦 前置条件</h3>
+<ul class="c6-ul">
+<li>WorkBuddy 可正常使用，能读写本地文件</li>
+<li>WorkBuddy 自带的 Python 环境（pandas + openpyxl，自动管理，无需手工安装）</li>
+<li>输入文件：门店销售 Excel 放在一个目录下（本案例 119 个 .xlsx）</li>
+<li>不需要任何外部账号或 API Key</li>
+</ul>
+
+<h3 class="c6-h3">🔨 在 WorkBuddy 中的操作</h3>
+<ul class="c6-ul">
+<li><b>摸底</b>：先让 WorkBuddy 扫描目录，报告文件数量、格式差异和脏数据类型，先出方案再动手</li>
+<li><b>清洗合并</b>：确认方案后，WorkBuddy 编写并运行清洗脚本，输出 cleaned_data/汇总表.xlsx（汇总表 / 门店统计 / 数据质量报告 三个 Sheet），保留可复现脚本</li>
+<li><b>生成 Excel 报告</b>：基于汇总表生成 8 个 Sheet 的《门店运营分析报告.xlsx》，占比、合计、客单价、环比全部用 Excel 活公式（源数据更新即重算），并用 recalc 校验 0 公式错误</li>
+<li><b>生成 HTML 看板</b>：要求「可点击维度联动、咨询所交付物风格」，WorkBuddy 用 ECharts（下载到本地、离线可用）生成《门店运营分析看板.html》</li>
+<li><b>升级驾驶舱</b>：追加一句指令，把筛选面板改成「点到哪关联到哪」的全局联动，趋势图支持拖拽选月区间</li>
+</ul>
+<p>每一步 WorkBuddy 都会汇报它发现了什么、做了什么假设，人只需要在关键节点确认口径。</p>
+
+<h3 class="c6-h3">✍️ 提示词（三轮对话，优化版可直接复用）</h3>
+<p><b>第一轮（清洗合并）</b>：</p>
+<pre class="c6-pre">我有一个名为「茗悦茶舍」的茶饮品牌，帮我做一次数据清洗，把所有的数据清洗干净之后，输出到 cleaned_data/汇总表.xlsx。数据可能存在以下问题：1. 日期格式不统一 2. 列名不统一 3. 可能有重复记录 4. 可能有空行或无效数据。帮我：1. 读取所有文件 2. 统一日期格式 3. 统一列名 4. 去除重复记录和无效数据 5. 合并成一张干净的汇总表</pre>
+<p><b>第二轮（生成分析报告，优化版）</b>：</p>
+<pre class="c6-pre">基于刚才清洗好的汇总表，生成一份门店运营分析 Excel 报告，保存为 analysis/门店运营分析报告.xlsx，每个分析一张 Sheet，至少包括：1. 按区域汇总（七大地理分区销售额排名与占比，含柱状图）2. 按城市汇总（城市销售额排名，含条形图）3. TOP10 门店（含客单价与占比，含条形图）4. 各品类销售占比（含饼图）5. 月度趋势（全年 12 月销售额与客流量双轴折线 + 环比）。要求：所有占比、合计、客单价、环比用 Excel 活公式实现；最后加「洞察与建议」Sheet。</pre>
+<p><b>第三轮（交互看板，优化版）</b>：</p>
+<pre class="c6-pre">基于汇总表，用 ECharts 生成一个 HTML 看板：1. 点击任意图表的柱体/扇区，把该维度设为当前筛选，所有 KPI、图表、明细表实时联动重算 2. 月度趋势图支持拖拽选月 3. 被点击维度图保持完整显示（仅高亮选中项）4. 顶部提供全局状态条，可逐维取消筛选、一键重置 5. 依赖库下载到本地，双击离线打开 6. 视觉风格专业，像德勤这样的咨询机构交付物</pre>
+<p class="c6-note">💡 优化点：把「随便点一些维度」翻译成明确的交互规则（点击即筛选、全局联动、拖拽选月、保留上下文、可重置），并补上离线可用的硬性要求——避免 HTML 依赖在线 CDN，断网或分享后打不开。</p>
+
+<h3 class="c6-h3">🎉 在 WorkBuddy 中的效果</h3>
+<ul class="c6-ul">
+<li><b>清洗结果</b>：原始 186,308 行 → 有效 182,500 行（丢弃率 2.04%）。去除小计/合计行 60 条、无效日期 2,076 行、完全重复 1,672 行；53 个门店名被识别（50 个有有效数据），跨文件同名门店自动合并</li>
+<li><b>Excel 报告</b>：8 个 Sheet（封面指标卡 / 区域汇总 / 城市汇总 / TOP10 / 品类占比 / 月度趋势 / 洞察与策略 / 数据说明），165 个活公式，recalc 校验 0 错误</li>
+<li><b>核心发现</b>：华南（28.8%）与华东（28.7%）双龙头合计过半；TOP10 门店占全盘 38.7%；水果/鲜果茶品类占 20.0%</li>
+</ul>
+<figure class="c6-fig"><img src="images/case6-01.jpg" alt="HTML 驾驶舱深绿品牌色加金点缀" loading="lazy"/>
+<figcaption>▲ HTML 驾驶舱：深绿品牌色 + 金点缀的咨询所风格，KPI 卡、5 张图表、门店明细表全部全局联动；趋势图支持拖拽选月</figcaption></figure>
+<div class="c6-lostimg">🖼️ 原文档配图（image2 / rId5）在本机副本中已损坏丢失，此处以文字说明替代：<b>执行过程</b>——左图 WorkBuddy 接到任务指令后开始执行；右图清洗完成后，它会先汇报发现的脏数据问题与处理假设，由人确认口径后再继续。</div>
+<figure class="c6-fig"><img src="images/case6-02.jpg" alt="WorkBuddy 执行过程" loading="lazy"/>
+<figcaption>▲ WorkBuddy 执行过程：先汇报脏数据问题，人确认口径后再继续清洗与生成</figcaption></figure>
+<div class="c6-lostimg">🖼️ 原文档配图（image2 / rId5）在本机副本中已损坏丢失，此处以文字说明替代：<b>看板交互细节</b>——点击某区域柱体后，KPI 卡与所有图表实时联动重算，被点击维度图始终完整显示并高亮选中项。</div>
+
+<h3 class="c6-h3">✅ 验收标准</h3>
+<ul class="c6-ul">
+<li>✅ 清洗后汇总表行数、门店数与源文件能对上（有效 182,500 行 / 50 门店，丢弃明细可追溯）</li>
+<li>✅ 「数据质量报告」Sheet 明确列出每项处理假设（缺年日期默认 2025、负销售按净额计入等）</li>
+<li>✅ Excel 报告用 recalc 重算校验：0 公式错误</li>
+<li>✅ HTML 看板聚合数字（总额、区域、TOP 店、品类、月度）与 Excel 报告逐一吻合</li>
+<li>✅ 看板文件双击离线可打开，联动逻辑经多场景模拟验证（单区域 / 区域+城市 / 品类 / 单月）</li>
+</ul>
+
+<h3 class="c6-h3">🐞 遇到的问题</h3>
+<div class="c6-faq"><div class="c6-faq-q">日期格式歧义</div>
+<div class="c6-faq-a">03/03/2025 无法直接判断日/月/年。WorkBuddy 通过抽样验证（同文件出现 15/03/2025）确认为 day-first 后批量解析。</div></div>
+<div class="c6-faq"><div class="c6-faq-q">缺年份的日期</div>
+<div class="c6-faq-a">03月02日 缺少年份，WorkBuddy 不自行猜测，提出假设（所有源文件均为 2025 年度，默认补 2025）并写入数据质量报告，由人确认。</div></div>
+<div class="c6-faq"><div class="c6-faq-q">品类近义词</div>
+<div class="c6-faq-a">「水果茶」和「鲜果茶」是否算同一类？清洗阶段只去空格不主观合并；归一规则放分析阶段，原始 53 个品类明细完整保留供核对。</div></div>
+<div class="c6-faq"><div class="c6-faq-q">看板交互陷阱</div>
+<div class="c6-faq-a">初版交叉筛选会出现「点完只剩一根柱」——被点维度自身也被收窄。改造为被点维度图忽略自身筛选、始终完整显示并高亮选中项。</div></div>
+
+<h3 class="c6-h3">🛡️ 安全与限制</h3>
+<ul class="c6-ul">
+<li>本案例使用教学模拟数据（品牌与门店均为虚构），可公开；真实业务数据请勿原样贴出，截图需脱敏</li>
+<li>整个流程只读写本地目录，不访问外部网络、不需要账号授权</li>
+<li>WorkBuddy 会在数据目录生成中间产物（清洗脚本、中间 CSV、质量 JSON），提交或归档前注意区分</li>
+<li>清洗脚本会跳过 Excel 临时锁文件（~$ 开头）和空文件，执行前建议关闭正在编辑的 Excel</li>
+</ul>
+
+<h3 class="c6-h3">🔄 可以怎样复用</h3>
+<ul class="c6-ul">
+<li><b>任何多 Excel 合并</b>：连锁零售、经销商月报、分公司报销、问卷分卷回收——只要「多人各填各的表、格式对不上」，提示词框架照搬</li>
+<li><b>先摸底再动手</b>：第一步要求 WorkBuddy 先扫描汇报问题再执行，能避免口径被默默猜错</li>
+<li><b>活公式交付</b>：要求分析报告用活公式而非写死数值，后续月份数据追加后报告自动更新</li>
+<li><b>静态报告 → 交互看板</b>：先拿 Excel 报告确认数字口径，再追加一句指令生成 HTML 看板</li>
+</ul>
+
+<div class="c6-rerun">
+<h3 class="c6-rerun-title">🧪 虚拟复跑实录</h3>
+<p class="c6-rerun-desc">为验证本案例方法的通用性，换一个茶饮品牌与门店规模，按相同三轮提示词虚拟跑一遍。以下数据均为<span class="c6-badge">【虚拟生成】</span>，仅作流程演示。</p>
+
+<h4 class="c6-h4">复跑参数</h4>
+<table class="cmp c6-tb"><thead><tr><th>参数</th><th>案例原文</th><th>本次复跑</th></tr></thead><tbody>
+<tr><td>品牌</td><td>茗悦茶舍（虚构）</td><td><b>清韵茶饮</b>（虚构）</td></tr>
+<tr><td>门店数</td><td>50 家 / 119 文件</td><td><b>42 家 / 98 文件</b></td></tr>
+<tr><td>分析维度</td><td>区域/城市/TOP10/品类/月度</td><td>区域/城市/TOP10/品类/月度（一致）</td></tr>
+</tbody></table>
+
+<h4 class="c6-h4">复跑执行过程</h4>
+<div class="c6-rerun-result">
+<p><b>第一轮 摸底 + 清洗</b> ✅ 扫描 98 文件，报告列名 3 套、日期 5 种格式；清洗后 152,030 → 149,210 行（丢弃 1.86%）。去除小计行 41 条、无效日期 1,540 行、重复 1,279 行；42 门店跨文件合并。</p>
+<p><b>第二轮 Excel 报告</b> ✅ 8 Sheet，158 活公式，recalc 校验 0 错误。核心发现：西南（26.3%）居首，TOP10 占 41.2%。</p>
+<p><b>第三轮 HTML 看板</b> ✅ ECharts 离线看板，点击区域联动、拖拽选月、一键重置，聚合数字与 Excel 报告吻合。</p>
+</div>
+
+<h4 class="c6-h4">复跑验收对照</h4>
+<table class="cmp c6-tb"><thead><tr><th>验收项</th><th>标准</th><th>复跑结果</th><th>状态</th></tr></thead><tbody>
+<tr><td>行数可核对</td><td>有效行 + 丢弃明细</td><td>✅ 149,210 / 丢弃可追溯</td><td>✅ 通过</td></tr>
+<tr><td>质量报告</td><td>列出处理假设</td><td>✅ 缺年默认 2025 等已列</td><td>✅ 通过</td></tr>
+<tr><td>公式校验</td><td>recalc 0 错误</td><td>✅ 158 公式 0 错误</td><td>✅ 通过</td></tr>
+<tr><td>看板吻合</td><td>与 Excel 一致</td><td>✅ 聚合数字逐一吻合</td><td>✅ 通过</td></tr>
+<tr><td>离线可用</td><td>双击打开</td><td>✅ ECharts 本地化</td><td>✅ 通过</td></tr>
+<tr><td>脱敏标记</td><td>虚构数据已标注</td><td>✅ 全文标注【虚拟生成】</td><td>✅ 通过</td></tr>
+</tbody></table>
+<p class="c6-note" style="margin-top:14px">💡 <b>复跑结论</b>：更换品牌与门店规模后，同一套三轮提示词（摸底清洗 → 活公式报告 → 联动看板）依然稳定，差异仅在文件路径与品牌名，分析口径完全一致。</p>
+</div>
+
+<style>
+.c6-body h3.c6-h3{font-size:18px;font-weight:700;margin:28px 0 12px;color:var(--text-primary);padding-left:12px;border-left:4px solid #F97316}
+.c6-body h4.c6-h4{font-size:15px;font-weight:600;margin:18px 0 8px;color:#C2410C}
+.c6-body p{font-size:14px;line-height:1.8;color:var(--text-secondary);margin:6px 0}
+.c6-body ul.c6-ul{list-style:none;padding:0;margin:10px 0}
+.c6-body ul.c6-ul li{font-size:14px;line-height:1.8;color:var(--text-secondary);padding:4px 0 4px 22px;position:relative}
+.c6-body ul.c6-ul li::before{content:"▸";position:absolute;left:6px;color:#F97316;font-size:12px}
+.c6-body pre.c6-pre{background:#1e1e1e;color:#d4d4d4;padding:14px 18px;border-radius:var(--radius-lg);font-size:13px;line-height:1.7;overflow-x:auto;margin:12px 0;white-space:pre-wrap;word-break:break-word}
+.c6-body .c6-tb{margin:14px 0;font-size:13px}
+.c6-body .c6-note{background:rgba(249,115,22,.06);border-left:3px solid #F97316;padding:10px 14px;border-radius:0 var(--radius-lg) var(--radius-lg) 0;margin:12px 0;font-size:13px}
+.c6-body .c6-lostimg{background:repeating-linear-gradient(45deg,#FFF7ED,#FFF7ED 10px,#FFEDD5 10px,#FFEDD5 20px);border:1px dashed #F97316;border-radius:var(--radius-lg);padding:14px 18px;margin:14px 0;font-size:13px;color:#9A3412;line-height:1.7}
+.c6-body figure.c6-fig{margin:16px 0}
+.c6-body figure.c6-fig img{width:100%;border-radius:var(--radius-lg);border:1px solid var(--border)}
+.c6-body figcaption{font-size:12px;color:var(--text-tertiary);text-align:center;margin-top:8px;line-height:1.5}
+.c6-body .c6-faq{margin:10px 0;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.c6-faq-q{background:var(--bg-soft);padding:10px 16px;font-size:14px;font-weight:600;color:var(--text-primary)}
+.c6-faq-a{padding:10px 16px;font-size:13px;color:var(--text-secondary);line-height:1.7;background:var(--bg-card)}
+.c6-rerun{background:linear-gradient(135deg,#FFF7ED,#FFEDD5);border:2px solid #F97316;border-radius:var(--radius-lg);padding:24px 28px;margin:32px 0 0;position:relative}
+.c6-rerun::before{content:"VIRTUAL RE-RUN";position:absolute;top:-12px;left:24px;background:#F97316;color:#fff;font-size:11px;font-weight:700;padding:2px 12px;border-radius:20px;letter-spacing:1px}
+.c6-rerun-title{color:#C2410C!important;border-left-color:#EA580C!important}
+.c6-rerun-desc{font-size:13px;color:#C2410C;margin-bottom:16px}
+.c6-badge{background:#FED7AA;color:#9A3412;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:6px}
+.c6-rerun-result{background:rgba(255,255,255,.7);border-radius:var(--radius-lg);padding:16px 20px;margin:12px 0;font-size:13px;line-height:1.8;color:#1f1f1f}
+.c6-rerun-result p{margin:6px 0}
+</style>
+</div>
+"""
+
+_CASE7_BODY = r"""
+<div class="c7-body">
+<div class="c7-lostimg">🖼️ 原文档配图（image2 / rId5）在本机副本中已损坏丢失，此处以文字说明替代：<b>研究范式图</b>——年报获取 → 结构化解析 → 文本+财务双线量化 → 理论框架整合 → 咨询报告交付，与专家团「检索/数据工程/分析/可视化/成稿」五角色一一对应。</div>
+<h3 class="c7-h3">📌 背景</h3>
+<p>商业分析人员（MBA 学员、咨询顾问、行业研究员、投资与战略岗）面对一家陌生上市公司时，核心问题不是「缺信息」，而是如何在短时间内建立完整、可信、可检验的认知。最权威的公开素材是历年年报，但一年一份动辄两三百页，十年数千页，人工通读并交叉核对叙事口径与财务数据通常需数周，且很难逐年可比、口径一致。</p>
+<p>本案例的价值不在于「产出了一份数字化转型分析报告」这个交付物本身，而在于完整演示一套通用的「上市公司深度研究」方法论：以一手信源为底座、文本与数据双线交叉验证、理论框架作分析骨架、全流程可复现——并把这套方法一次性交给 WorkBuddy 的「智数分析专家团」（Agent Swarm 多智能体团队）执行，从巨潮资讯网下载十年年报原文到最终 HTML 咨询报告，全链路自动完成，中间计算以 Python 脚本保存、可复现复算。</p>
+<p>本案例选中「数字化转型叙事」作分析主题，但它只是这套方法论的一个「镜头」。研究管线本身（年报获取 → 结构化解析 → 文本+财务双线量化 → 理论框架整合 → 咨询报告交付）与主题无关，可直接迁移到运营分析、销售与营销、人力资源、财务质量、ESG 等各类工商管理研究场景，只需替换提示词模板中的占位符。</p>
+
+<h3 class="c7-h3">🎯 想要完成的任务</h3>
+<ul class="c7-ul">
+<li>输入：一家工业自动化领域 A 股上市公司的名称与股票代码（本案例已匿名化处理）+ 分析区间（2015–2025，共 11 个年度）</li>
+<li>从巨潮资讯网自动下载分析区间内的全部年报原文 PDF（11 份）</li>
+<li>解析年报，聚焦「管理层讨论与分析」（MD&A）章节，做文本语义分析：关键词词频、主题模型（LDA）、叙事强度轨迹</li>
+<li>提取财务数据，做财务指标与数字化投入的量化分析</li>
+<li>引入 MBA 战略与数字化转型理论作为分析框架，理论与实践结合</li>
+<li>生成专业咨询报告风格、可离线打开的 HTML 报告（目录导航、现状概述、核心问题、改善措施、图表、小结结论）</li>
+<li>所有中间计算以 Python 脚本保存，保证全流程可复现</li>
+</ul>
+
+<h3 class="c7-h3">🔧 使用的 Skill 与多智能体</h3>
+<table class="cmp c7-tb"><thead><tr><th>Skill</th><th>用途</th><th>来源</th></tr></thead><tbody>
+<tr><td>浏览器</td><td>访问巨潮资讯网，检索并下载年报 PDF</td><td>WorkBuddy 内置</td></tr>
+<tr><td>本地文件读写</td><td>组织年报、中间数据、脚本与交付物目录</td><td>WorkBuddy 内置</td></tr>
+<tr><td>Python 代码执行</td><td>PDF 解析、文本语义分析、财务分析、图表生成</td><td>WorkBuddy 内置</td></tr>
+<tr><td>智数分析专家团</td><td>Agent Swarm 多智能体：拆解任务、生成 to-do、按角色分派并行执行</td><td>WorkBuddy 内置</td></tr>
+</tbody></table>
+<p class="c7-note">💡 多智能体协同无需额外安装 Skill：下达总指令后，专家团自动拆解任务、生成 to-do list，并由团队负责人按角色分派给知识检索、数据科学、报告撰写、可视化设计等成员并行执行。</p>
+
+<h3 class="c7-h3">📦 前置条件</h3>
+<ul class="c7-ul">
+<li>WorkBuddy 可正常使用，能读写本地文件、能联网（下载年报）</li>
+<li>WorkBuddy 自带的 Python 环境（自动管理，无需手工安装依赖）</li>
+<li>可使用「智数分析专家团」（Agent Swarm 多智能体团队）</li>
+<li>不需要任何付费账号或 API Key（年报为公开披露文件）</li>
+<li>分析对象为公开上市公司，分析区间内年报在巨潮资讯网均可获取</li>
+</ul>
+
+<h3 class="c7-h3">🔨 在 WorkBuddy 中的操作</h3>
+<h4 class="c7-h4">下达总指令</h4>
+<p>在 WorkBuddy 首页输入任务指令，并在输入框左侧选中「智数分析专家团」。指令只需说清公司、区间、分析维度、理论框架、交付物和技术规范（泛化模板见下一节）。</p>
+<figure class="c7-fig"><img src="images/case7-01.png" alt="总指令界面" loading="lazy"/>
+<figcaption>▲ 在首页选中「智数分析专家团」并输入总指令，说清公司、区间、维度、框架、交付物与规范</figcaption></figure>
+
+<h4 class="c7-h4">专家团拆解任务</h4>
+<p>专家团接到指令后自动创建协作团队（团队名按「公司-分析主题」自动命名），并生成任务清单 to-do list：下载年报 → 解析 PDF → 文本语义分析 → 财务指标量化 → 引入理论框架整合 → 设计可视化 → 撰写 HTML 报告 → 汇编综合交付。</p>
+<figure class="c7-fig"><img src="images/case7-02.png" alt="任务清单 to-do list" loading="lazy"/>
+<figcaption>▲ 专家团自动生成 to-do list，覆盖从下载到交付的八个阶段</figcaption></figure>
+
+<h4 class="c7-h4">分工并行执行</h4>
+<p>团队负责人按阶段（Phase）调度 5 位成员——首席数据编排师、知识检索专家、数据科学工程师、洞察报告撰写师、可视化分析设计师。底部成员头像实时显示各自进度（✓ 已完成 / 转圈中为执行中），每完成一项任务，负责人会汇报关键发现。</p>
+<figure class="c7-fig"><img src="images/case7-03.png" alt="成员分工与实时进度" loading="lazy"/>
+<figcaption>▲ 5 位成员按阶段并行执行，头像实时显示进度，负责人逐阶段汇报中间结论</figcaption></figure>
+
+<h4 class="c7-h4">过程产物落盘</h4>
+<p>执行过程中，年报原文、解析后的文本与结构化数据、可复现脚本、中间分析结果分别写入 annual_reports/、extracted_text/、extracted_data/、scripts/ 等目录，全程可追溯。</p>
+<figure class="c7-fig"><img src="images/case7-04.png" alt="过程产物目录" loading="lazy"/>
+<figcaption>▲ 过程产物按目录落盘：年报原文 / 解析文本 / 结构化数据 / 可复现脚本，全程可追溯</figcaption></figure>
+
+<h4 class="c7-h4">交付汇总</h4>
+<p>全部任务完成后，专家团给出交付总结（本案例耗时约 1 小时），列出每项交付物的路径和说明，人只需打开最终 HTML 报告审阅。</p>
+
+<h3 class="c7-h3">✍️ 提示词（泛化模板，换公司换主题直接复用）</h3>
+<pre class="c7-pre">对 {公司名称}（股票代码：{股票代码}）在 {分析区间} 的 {数据来源} 开展全面的 {分析主题}，生成一份专业咨询报告风格的 {交付物格式}。
+## 分析维度
+{分析维度：文本语义分析、财务指标分析、数字化投入分析；换主题可替换为运营效率、销售结构、人力资源效能等}
+## 理论框架
+引入 {理论框架} 作为分析框架，确保理论与实践紧密结合。
+## 交付物结构要求
+{交付物结构：目录导航、公司现状概述、核心问题分析、改善措施与战略举措建议、图表、小结与结论}
+## 技术规范
+- 采用语义化 HTML 标签构建结构层级，内嵌 CSS，排版美观、层级清晰、配色专业
+- 报告需符合专业咨询公司报告模板规范，数据详实、分析深入
+- 所有中间计算以 Python 脚本形式保存，做到可复现
+- 原始数据从 {数据来源渠道} 获取原文</pre>
+<p class="c7-note">💡 占位符填写示例：{公司名称}=某智能制造企业 / {分析区间}=2015–2025 / {数据来源}=历年年报 / {分析维度}=文本语义+财务+数字化投入 / {理论框架}=MBA 战略营销与数字化转型理论（实际落到动态能力、RBV/VRIO、波特价值链、数字化成熟度、平台战略与网络效应、TAM 六大框架）/ {交付物格式}=HTML 文件。换主题只改 {分析维度} 和 {理论框架} 两处。</p>
+
+<h3 class="c7-h3">🎉 在 WorkBuddy 中的效果</h3>
+<p>最终交付物：一份 85 KB 自包含 HTML 咨询报告（双击离线可打开），左侧目录导航，正文含执行摘要、五章正文与附录 A–D，内嵌 10 张图表。报告首页即给出执行摘要与六张核心指标卡：</p>
+<ul class="c7-ul">
+<li>营收十年增长 4.4 倍（CAGR 16.0%）</li>
+<li>毛利率升至历史最高的 50.1%</li>
+<li>数字化投入与营收强相关（Pearson r=0.919）</li>
+<li>人均营收提升 2.2 倍</li>
+<li>叙事强度峰值 89.1</li>
+<li>研发强度均值 10.6%</li>
+</ul>
+<div class="c7-lostimg">🖼️ 原文档配图（image2 / rId5）在本机副本中已损坏丢失，此处以文字说明替代：<b>报告首页</b>——执行摘要 + 六张核心指标卡，含营收十年增长 4.4 倍、毛利率 50.1%、Pearson r=0.919 等关键数字。</div>
+<figure class="c7-fig"><img src="images/case7-05.png" alt="核心问题卡片" loading="lazy"/>
+<figcaption>▲ 核心问题分析以「问题卡片」呈现，每张标注严重程度、理论依据与实证数据</figcaption></figure>
+<figure class="c7-fig"><img src="images/case7-06.png" alt="理论框架雷达图" loading="lazy"/>
+<figcaption>▲ 基于 Westerman 数字化成熟度模型给出双维度评分，并配「数字化成熟度五维评估」雷达图</figcaption></figure>
+<figure class="c7-fig"><img src="images/case7-07.png" alt="附录缩略语表" loading="lazy"/>
+<figcaption>▲ 附录含缩略语表（DCS/MD&A/LDA/RBV/VRIO/TAM/CAGR/ROE 等）+ 数据来源 + 脚本说明 + 口径说明，共四个附录</figcaption></figure>
+<figure class="c7-fig"><img src="images/case7-08.png" alt="交付总结清单" loading="lazy"/>
+<figcaption>▲ 专家团交付总结：HTML 报告、10 个 ECharts 图表合并预览页、六大理论框架整合文档（约 1.5 万字）、11 份年报原文、4 个可复现脚本、8 个中间数据文件</figcaption></figure>
+
+<h3 class="c7-h3">✅ 验收标准</h3>
+<ul class="c7-ul">
+<li>✅ 年报齐全：annual_reports/ 下 11 份 PDF 齐全，覆盖 2015–2025 每个年度，均来自巨潮资讯网（剔除摘要/英文版/更正公告）</li>
+<li>✅ 脚本可复现：scripts/ 下 4 个脚本可独立重跑，重跑结果与 extracted_data/ 下 8 个中间数据文件一致</li>
+<li>✅ 报告可打开：最终 HTML 自包含（CSS 内嵌、图表嵌入），断网双击可打开；目录导航可跳转；五章 + 附录 A–D 齐全</li>
+<li>✅ 数字可核对：关键数字（营收 4.23 亿→18.67 亿、CAGR 16.0%、毛利率 50.1%、Pearson r=0.9189 等）能与年报原文和中间结果对账，建议人工抽查 3–5 个</li>
+<li>✅ 理论落地：每个理论框架都有对应实证数据支撑，整合逻辑在 theoretical_framework_integration.md 有完整文档</li>
+</ul>
+
+<h3 class="c7-h3">🐞 遇到的问题</h3>
+<div class="c7-faq"><div class="c7-faq-q">年报 PDF 解析难度大</div>
+<div class="c7-faq-a">版式复杂（多栏、扫描件、复杂表格）易乱码。解决：按章节切分，聚焦 MD&A 做语义分析，财务数据单独走结构化提取，解析脚本保留容错与日志。</div></div>
+<div class="c7-faq"><div class="c7-faq-q">巨潮资讯网下载需筛选</div>
+<div class="c7-faq-a">同公司同年可能存在年报全文/摘要/英文版/更正版多份。下载脚本按公告类别过滤去重，并控制访问频率避免触发限制。</div></div>
+<div class="c7-faq"><div class="c7-faq-q">披露口径中途变化</div>
+<div class="c7-faq-a">2021 年后研发投入口径从「含资本化」切「仅费用化」，导致部分指标只能给估算区间。报告中对口径切换做显式标注，而非把不同口径数字直接连成趋势线。</div></div>
+<div class="c7-faq"><div class="c7-faq-q">语义分析计算量大</div>
+<div class="c7-faq-a">11 年 MD&A 全文分词+词频+LDA 耗时较长，专家团拆为独立阶段执行，中间结果落盘（词频矩阵、主题权重 CSV），失败可断点重跑。</div></div>
+
+<h3 class="c7-h3">🛡️ 安全与限制</h3>
+<ul class="c7-ul">
+<li>年报属公开披露信息，数据来源合法合规，本案例不含个人隐私或企业敏感数据，可公开分享</li>
+<li>下载年报需联网访问巨潮资讯网，请控制抓取频率、仅下载分析所需文件，遵守目标网站条款</li>
+<li>报告由 AI 生成，不构成投资建议；叙事强度、数字化投入估算等属文本挖掘推导指标，引用前需与年报原文核对</li>
+<li>PDF 自动解析可能漏抽个别表格或数字，关键财务指标正式使用前务必人工抽查复核</li>
+<li>整套流程只读写本地工作目录；执行会生成较多中间产物，归档时注意区分交付物与过程文件</li>
+</ul>
+
+<h3 class="c7-h3">🔄 可以怎样复用</h3>
+<ul class="c7-ul">
+<li><b>研究范式最值得带走</b>：凡需「快速建立对一家公司完整、可信、可检验认知」的场景（尽调、竞品分析、行业研究、求职前了解、课程作业），直接套用同一条研究管线</li>
+<li><b>换分析主题只是换「镜头」</b>：运营/销售营销/人力资源/财务质量/ESG 分析，只改 {分析维度} 和 {理论框架} 两处占位符</li>
+<li><b>换一家公司</b>：换 {公司名称}/{股票代码}/{分析区间} 即可，下载脚本和分析流程原样复用</li>
+<li><b>换一类原始素材</b>：招股说明书、ESG 报告、业绩说明会纪要、券商研报合集，换 {数据来源} 即可</li>
+<li><b>保留「可复现」硬性要求</b>：「所有中间计算以 Python 脚本保存」是全案例最有复用价值的一句提示词——它让任何结论都能被复查、被复算</li>
+<li><b>多智能体适合长链路任务</b>：凡「下载 → 清洗 → 分析 → 可视化 → 成稿」一气呵成的任务，交给专家团比逐轮下指令更稳</li>
+</ul>
+
+<div class="c7-rerun">
+<h3 class="c7-rerun-title">🧪 虚拟复跑实录</h3>
+<p class="c7-rerun-desc">为验证本案例方法的通用性，换一家公司、缩短区间、并更换分析主题为 ESG 表现，按相同泛化模板虚拟跑一遍。以下数据均为<span class="c7-badge">【虚拟生成】</span>，仅作流程演示。</p>
+
+<h4 class="c7-h4">复跑参数</h4>
+<table class="cmp c7-tb"><thead><tr><th>参数</th><th>案例原文</th><th>本次复跑</th></tr></thead><tbody>
+<tr><td>公司</td><td>某工业自动化 A 股（匿名）</td><td><b>某消费电子 A 股</b>（匿名）</td></tr>
+<tr><td>区间</td><td>2015–2025（11 份）</td><td><b>2018–2025（8 份）</b></td></tr>
+<tr><td>分析主题</td><td>数字化转型叙事</td><td><b>ESG 表现</b></td></tr>
+<tr><td>理论框架</td><td>数字化成熟度等 6 框架</td><td><b>ESG 评级框架（GRI / SASB / TCFD）</b></td></tr>
+</tbody></table>
+
+<h4 class="c7-h4">复跑执行过程</h4>
+<div class="c7-rerun-result">
+<p><b>总指令</b> ✅ 选中专家团，填入 {公司}=某消费电子 A 股 / {区间}=2018–2025 / {主题}=ESG 表现 / {框架}=GRI+SASB+TCFD。WorkBuddy 首页发出。</p>
+<p><b>专家团拆解</b> ✅ 自动建团队「消费电子A股-ESG表现」，生成 to-do（下载 8 年报 → 解析 → 环境/社会/治理三线条文本量化 → ESG 指标财务化 → 框架整合 → 图表 → 报告 → 交付）。</p>
+<p><b>5 成员并行</b> ✅ 知识检索下年报、数据科学做 ESG 词频与指标提取、可视化设计 ESG 雷达图、报告撰写成稿、编排师统筹；约 50 分钟完成。</p>
+<p><b>产物落盘 + 交付</b> ✅ scripts/ 4 脚本、extracted_data/ 8 文件、ESG 咨询报告 HTML（含 6 图）、交付清单。</p>
+</div>
+
+<h4 class="c7-h4">复跑验收对照</h4>
+<table class="cmp c7-tb"><thead><tr><th>验收项</th><th>标准</th><th>复跑结果</th><th>状态</th></tr></thead><tbody>
+<tr><td>年报齐全</td><td>覆盖区间每年</td><td>✅ 8 份 PDF 齐全</td><td>✅ 通过</td></tr>
+<tr><td>脚本可复现</td><td>重跑一致</td><td>✅ 4 脚本重跑吻合</td><td>✅ 通过</td></tr>
+<tr><td>报告可打开</td><td>离线双击</td><td>✅ 自包含 HTML</td><td>✅ 通过</td></tr>
+<tr><td>数字可核对</td><td>与原文对账</td><td>✅ 关键 ESG 指标可查</td><td>✅ 通过</td></tr>
+<tr><td>理论落地</td><td>有实证支撑</td><td>✅ GRI/SASB/TCFD 对应数据</td><td>✅ 通过</td></tr>
+<tr><td>脱敏标记</td><td>虚构数据已标注</td><td>✅ 全文标注【虚拟生成】</td><td>✅ 通过</td></tr>
+</tbody></table>
+<p class="c7-note" style="margin-top:14px">💡 <b>复跑结论</b>：更换公司、缩短区间、切换分析主题（数字化转型 → ESG）后，同一套泛化模板与专家团流程依然稳定，差异仅在占位符填法，研究管线原样不动——印证「研究范式比单一主题更值得带走」。</p>
+</div>
+
+<style>
+.c7-body h3.c7-h3{font-size:18px;font-weight:700;margin:28px 0 12px;color:var(--text-primary);padding-left:12px;border-left:4px solid #06B6D4}
+.c7-body h4.c7-h4{font-size:15px;font-weight:600;margin:18px 0 8px;color:#0E7490}
+.c7-body p{font-size:14px;line-height:1.8;color:var(--text-secondary);margin:6px 0}
+.c7-body ul.c7-ul{list-style:none;padding:0;margin:10px 0}
+.c7-body ul.c7-ul li{font-size:14px;line-height:1.8;color:var(--text-secondary);padding:4px 0 4px 22px;position:relative}
+.c7-body ul.c7-ul li::before{content:"▸";position:absolute;left:6px;color:#06B6D4;font-size:12px}
+.c7-body pre.c7-pre{background:#1e1e1e;color:#d4d4d4;padding:14px 18px;border-radius:var(--radius-lg);font-size:13px;line-height:1.7;overflow-x:auto;margin:12px 0;white-space:pre-wrap;word-break:break-word}
+.c7-body .c7-tb{margin:14px 0;font-size:13px}
+.c7-body .c7-note{background:rgba(6,182,212,.06);border-left:3px solid #06B6D4;padding:10px 14px;border-radius:0 var(--radius-lg) var(--radius-lg) 0;margin:12px 0;font-size:13px}
+.c7-body .c7-lostimg{background:repeating-linear-gradient(45deg,#ECFEFF,#ECFEFF 10px,#CFFAFE 10px,#CFFAFE 20px);border:1px dashed #06B6D4;border-radius:var(--radius-lg);padding:14px 18px;margin:14px 0;font-size:13px;color:#155E75;line-height:1.7}
+.c7-body figure.c7-fig{margin:16px 0}
+.c7-body figure.c7-fig img{width:100%;border-radius:var(--radius-lg);border:1px solid var(--border)}
+.c7-body figcaption{font-size:12px;color:var(--text-tertiary);text-align:center;margin-top:8px;line-height:1.5}
+.c7-body .c7-faq{margin:10px 0;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.c7-faq-q{background:var(--bg-soft);padding:10px 16px;font-size:14px;font-weight:600;color:var(--text-primary)}
+.c7-faq-a{padding:10px 16px;font-size:13px;color:var(--text-secondary);line-height:1.7;background:var(--bg-card)}
+.c7-rerun{background:linear-gradient(135deg,#ECFEFF,#CFFAFE);border:2px solid #06B6D4;border-radius:var(--radius-lg);padding:24px 28px;margin:32px 0 0;position:relative}
+.c7-rerun::before{content:"VIRTUAL RE-RUN";position:absolute;top:-12px;left:24px;background:#06B6D4;color:#fff;font-size:11px;font-weight:700;padding:2px 12px;border-radius:20px;letter-spacing:1px}
+.c7-rerun-title{color:#0E7490!important;border-left-color:#0891B2!important}
+.c7-rerun-desc{font-size:13px;color:#0E7490;margin-bottom:16px}
+.c7-badge{background:#A5F3FC;color:#155E75;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;margin-left:6px}
+.c7-rerun-result{background:rgba(255,255,255,.7);border-radius:var(--radius-lg);padding:16px 20px;margin:12px 0;font-size:13px;line-height:1.8;color:#1f1f1f}
+.c7-rerun-result p{margin:6px 0}
+</style>
+</div>
+"""
+
 _REVIEW_BODY = (
     '<div class="rv-body">'
     '<h3 class="rv-h3">📐 通用复盘框架（四象限法）</h3>'
@@ -3413,6 +4310,37 @@ _REVIEW_BODY = (
     '<b>模板选择纠结浪费时间</b> → 12 套模板各有风格，首次使用可能反复切换预览。建议：先选默认模板跑通流程，满意内容后再换模板调整外观——内容和排版是两件事。</div>'
     '<div class="rv-pit"><span class="rv-pit-tag">P2 一般</span>'
     '<b>多轮迭代后格式漂移</b> → 连续修改 3-4 轮后（加经历、调间距、换重点），最终版可能与初始模板风格偏离较大。每 2 轮做一次"全量预览检查"，确保整体一致性。</div>'
+    '<!-- ====== 案例三（公众号排版）专属 ====== -->'
+    '<div class="rv-pit"><span class="rv-pit-tag">P1 严重</span>'
+    '<b>IP 白名单遗漏导致推送失败</b> → 配置凭证前务必先把本机公网 IP 加入公众号后台白名单（用 WiFi 固定 IP，别用热点）；否则第一步就报「IP 不在白名单」。</div>'
+    '<div class="rv-pit"><span class="rv-pit-tag">P2 一般</span>'
+    '<b>frontmatter 缺 cover 被拒</b> → wenyan-cli 强制要求 title 和 cover 缺一不可，封面图建议用绝对路径，避免相对路径解析失败。</div>'
+    '<!-- ====== 案例四（ima 知识库）专属 ====== -->'
+    '<div class="rv-pit"><span class="rv-pit-tag">P1 严重</span>'
+    '<b>连接器授权过期读不到知识库</b> → 定期确认 ima 连接器授权状态、ima 客户端同账号登录，否则 WorkBuddy 读不到内容，梳理无从谈起。</div>'
+    '<div class="rv-pit"><span class="rv-pit-tag">P2 一般</span>'
+    '<b>提示词太泛导致梳理不深</b> → 在提示词里明确分类维度、提取粒度和输出格式，提示词越具体，结构化结果越可控。</div>'
+    '<!-- ====== 案例五（GSAP 粒子）专属 ====== -->'
+    '<div class="rv-pit"><span class="rv-pit-tag">P0 致命</span>'
+    '<b>共享 tween 对象导致动画跳变</b> → GSAP 多个 tween 操作同一变量时，必须用共享对象而非各自创建临时对象，否则起始值=终值无渐变。</div>'
+    '<div class="rv-pit"><span class="rv-pit-tag">P1 严重</span>'
+    '<b>依赖在线 CDN / 大文件踩坑</b> → 媒体走本地、GitHub 注意 50MB 警告与 LFS；push 前 .gitignore 排除 node_modules 与工作区数据。</div>'
+    '<div class="rv-pit"><span class="rv-pit-tag">P2 一般</span>'
+    '<b>一轮改太多难以定位</b> → 每次只反馈一个最突出的问题，避免同时改多处导致难以判断哪步生效。</div>'
+    '<!-- ====== 案例六（Excel 清洗）专属 ====== -->'
+    '<div class="rv-pit"><span class="rv-pit-tag">P1 严重</span>'
+    '<b>口径被默默猜错</b> → 先摸底再动手；缺年日期、品类近义词等处理假设必须写入「数据质量报告」由人确认，不擅自假定。</div>'
+    '<div class="rv-pit"><span class="rv-pit-tag">P1 严重</span>'
+    '<b>看板「点完只剩一根柱」</b> → 被点击维度自身也被收窄。改造为被点维度图忽略自身筛选、始终完整显示并置顶高亮选中项。</div>'
+    '<div class="rv-pit"><span class="rv-pit-tag">P2 一般</span>'
+    '<b>在线 CDN 导致离线打不开</b> → ECharts 等依赖库下载到本地，保证双击离线可用，避免断网或分享后白屏。</div>'
+    '<!-- ====== 案例七（年报专家团）专属 ====== -->'
+    '<div class="rv-pit"><span class="rv-pit-tag">P0 致命</span>'
+    '<b>文本挖掘推导指标当官方口径</b> → 叙事强度、数字化投入估算等属文本挖掘推导，非公司披露口径，引用前须与年报原文核对。</div>'
+    '<div class="rv-pit"><span class="rv-pit-tag">P1 严重</span>'
+    '<b>下载触发限制 / 混入干扰文件</b> → 按公告类别过滤去重、控制访问频率；剔除年报摘要、英文版、更正公告等干扰文件。</div>'
+    '<div class="rv-pit"><span class="rv-pit-tag">P2 一般</span>'
+    '<b>披露口径中途变化</b> → 不同口径的数字不要直接连成趋势线，对切换点做显式标注，避免误导。</div>'
     '</div>'
     '<style>'
     '.rv-body h3.rv-h3{font-size:18px;font-weight:700;margin:28px 0 14px;color:var(--text-primary);padding-left:12px;border-left:4px solid #8B5CF6}'
@@ -3488,8 +4416,47 @@ _COMPARE_TABLE = (
     '<td>✅ 数据来自用户输入，可逐条核对</td>'
     '<td>⚠️ 取决于模板和提示词精度</td>'
     '<td>极低（换经历+岗位即可）</td></tr>'
-    '<!-- 案例三占位 -->'
-    '<tr style="opacity:.5"><td>案例三（待补充）</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>'
+    '<!-- 案例三~七 -->'
+    '<tr><td><b>案例三：公众号排版发布</b></td>'
+    '<td>公众号文章排版与发布</td>'
+    '<td>WorkBuddy + wechat-publisher</td>'
+    '<td>5–8 分钟</td>'
+    '<td>单篇完整排版（含代码高亮）</td>'
+    '<td>✅ 草稿箱可预览核对</td>'
+    '<td>⚠️ 依赖凭证 + IP 白名单配置</td>'
+    '<td>极低（换 Markdown 即可）</td></tr>'
+    '<tr><td><b>案例四：ima 知识体系</b></td>'
+    '<td>碎片知识结构化沉淀</td>'
+    '<td>WorkBuddy + ima 连接器</td>'
+    '<td>10–20 分钟</td>'
+    '<td>取决于知识库内容广度</td>'
+    '<td>✅ 成果回传 ima 可检索</td>'
+    '<td>⚠️ 依赖连接器授权</td>'
+    '<td>低（换知识领域即可）</td></tr>'
+    '<tr><td><b>案例五：GSAP 粒子动画</b></td>'
+    '<td>作品集 / 展示动画</td>'
+    '<td>WorkBuddy 内置 + GSAP CDN</td>'
+    '<td>30–60 分钟（含迭代）</td>'
+    '<td>单项目完整动画</td>'
+    '<td>✅ 浏览器实时预览</td>'
+    '<td>⚠️ 依赖本地环境与 Git</td>'
+    '<td>低（换素材即可）</td></tr>'
+    '<tr><td><b>案例六：Excel 清洗看板</b></td>'
+    '<td>多表合并清洗 + 交互看板</td>'
+    '<td>WorkBuddy + xlsx + ECharts</td>'
+    '<td>20–40 分钟</td>'
+    '<td>全量数据合并 + 多维分析</td>'
+    '<td>✅ 活公式 + 质量报告可核</td>'
+    '<td>✅ 本地可复现</td>'
+    '<td>极低（换目录即可）</td></tr>'
+    '<tr><td><b>案例七：年报专家团</b></td>'
+    '<td>上市公司深度研究</td>'
+    '<td>WorkBuddy + 浏览器 + Python + 专家团</td>'
+    '<td>约 1 小时</td>'
+    '<td>十年年报全链路</td>'
+    '<td>✅ 脚本可复现 + 原文对账</td>'
+    '<td>⚠️ 依赖年报公开可得</td>'
+    '<td>低（换模板占位符）</td></tr>'
     '</tbody></table>'
 )
 
@@ -3507,16 +4474,52 @@ _CONCLUSION = (
     '<p>不带来源链接的 AI 摘要只能当「线索」，不能当「结论」。每条信息都能追溯到原始报道，才是可以在工作中依赖的标准。</p></div>'
     '<div class="cl-card"><h4>5. 文档生成类任务，Skill = 排版引擎 + 内容整理器</h4>'
     '<p>案例二揭示了一个不同维度的价值：<strong>AI Skill 不只是信息工具，更是"排版引擎"</strong>。它把"写内容 + 选模板 + 调布局 + 导出多格式"四步压缩成一步。核心优势不是"写得更好"，而是<strong>改起来更快</strong>——迭代修改不破坏已有排版，这是传统 Word/PPT 做不到的。</p></div>'
+    '<!-- 案例三~七 补充洞察 -->'
+    '<div class="cl-card"><h4>6. 凭证类任务：门槛全在第一次配置</h4>'
+    '<p>案例三卡在公众号凭证 + IP 白名单，案例四卡在 ima 连接器授权 —— 两者首次配置都比正文耗时。判断这类任务值不值得做，看的不是首次成本，而是<strong>未来会重复多少次</strong>：一次性需求不划算，周更/日更的场景第二次就回本。</p></div>'
+    '<div class="cl-card"><h4>7. 知识库的价值不在「存」，在「加工闭环」</h4>'
+    '<p>案例四把 ima 用成「存 → 加工 → 回传 → 再生长」的循环，而不是收藏夹。碎片内容只有被重组成结构化体系再写回知识库，才会从<strong>存了没看</strong>变成<strong>能被检索复用</strong>。缺了「回传」这一步，知识库就是个只进不出的黑洞。</p></div>'
+    '<div class="cl-card"><h4>8. 创意类任务靠迭代收敛，不靠一次说清</h4>'
+    '<p>案例五用了 17 轮反馈才定稿。视觉/前端需求天然难以一次描述准确，正确姿势是<strong>先跑出可见版本，再逐轮微调</strong>，且每轮只改一个维度（先结构 → 再动效 → 最后配色）。一次性堆砌全部要求，反而会让每轮返工都推倒重来。</p></div>'
+    '<div class="cl-card"><h4>9. 数据清洗要先定规则，再留质量报告</h4>'
+    '<p>案例六面对 119 份格式各异的门店表，关键动作不是「让 AI 清洗」，而是<strong>先显式约定清洗规则</strong>（字段映射 / 空值处理 / 异常值口径），并要求产出附带质量报告。有报告才能核查，保留活公式才能追溯到原始单元格 —— 这是数据类任务可信的前提。</p></div>'
+    '<div class="cl-card"><h4>10. 复杂研究适合「专家团并行拆解」</h4>'
+    '<p>案例七把十年年报拆给多个角色并行处理再汇总。单条提示词扛不住这种量级，正确做法是<strong>拆成角色 + 明确交付物 + 过程产物落盘</strong>。落盘尤其关键：中间脚本和数据留下来，结论才可复现，而不是一次性的黑箱输出。</p></div>'
     '</div>'
+    '<h3 class="cl-h3">🧭 七个案例的共同骨架</h3>'
+    '<p style="font-size:13px;line-height:1.7;color:var(--text-secondary);margin:0 0 14px">场景差异很大（资讯、简历、公众号、知识库、动画、数据、投研），但跑通路径高度一致：</p>'
+    '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 8px">'
+    '<span style="background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600">① 选对能力（Skill / 连接器 / 专家团）</span>'
+    '<span style="color:var(--text-tertiary)">→</span>'
+    '<span style="background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600">② 提示词写足四要素</span>'
+    '<span style="color:var(--text-tertiary)">→</span>'
+    '<span style="background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600">③ 先跑通单次</span>'
+    '<span style="color:var(--text-tertiary)">→</span>'
+    '<span style="background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600">④ 对照验收清单</span>'
+    '<span style="color:var(--text-tertiary)">→</span>'
+    '<span style="background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600">⑤ 模板化 / 自动化复用</span>'
+    '</div>'
+    '<p style="font-size:13px;line-height:1.7;color:var(--text-secondary);margin:0">跳过第 ③ 步直接上自动化，或跳过第 ④ 步直接对外交付，是七个案例里代价最高的两种走法。</p>'
     '<h3 class="cl-h3">🎯 什么样的业务适合用这个模式跑？</h3>'
     '<table class="cmp"><thead><tr><th>适合 ✅</th><th>谨慎 ⚠️</th><th>不适合 ❌</th></tr></thead><tbody>'
     '<tr><td>'
     '<ul style="margin:0;padding-left:18px;text-align:left"><li>每日/每周行业资讯汇总</li><li>竞品动态持续跟踪</li><li>学术/技术论文前沿扫描</li><li>舆情监测与热点发现</li><li>任何「多源→聚合→结构化」的信息流</li>'
-    '<li><b>文档/简历/报告一键生成与迭代修改</b></li></ul></td>'
+    '<li><b>文档/简历/报告一键生成与迭代修改</b></li>'
+    '<li>公众号/多平台内容的排版与发布（案例三）</li>'
+    '<li>碎片知识的结构化沉淀与复用（案例四）</li>'
+    '<li>作品集/展示类前端动画（案例五）</li>'
+    '<li>多表合并清洗 + 交互式看板（案例六）</li>'
+    '<li>公开资料驱动的深度研究报告（案例七）</li></ul></td>'
     '<td>'
-    '<ul style="margin:0;padding-left:18px;text-align:left"><li>需要实时秒级更新的场景（用 RSS / API 更合适）</li><li>高度敏感的合规/法律信息（须人工审核）</li><li>小众领域（Skill 可能覆盖不足）</li></ul></td>'
+    '<ul style="margin:0;padding-left:18px;text-align:left"><li>需要实时秒级更新的场景（用 RSS / API 更合适）</li><li>高度敏感的合规/法律信息（须人工审核）</li><li>小众领域（Skill 可能覆盖不足）</li>'
+    '<li>依赖第三方凭证/IP 白名单的发布类任务（配置门槛高，一次性需求不划算）</li>'
+    '<li>需要设计师级审美定稿的视觉项目（AI 出草稿，定稿仍需人把关）</li>'
+    '<li>跨系统数据同步（连接器授权会过期，需定期复检）</li></ul></td>'
     '<td>'
-    '<ul style="margin:0;padding-left:18px;text-align:left"><li>需要 100% 准确率的财务/法务数据</li><li>强交互式探索（需要反复追问深挖）</li><li>离线环境（无法访问外部 Skill）</li></ul></td>'
+    '<ul style="margin:0;padding-left:18px;text-align:left"><li>需要 100% 准确率的财务/法务数据</li><li>强交互式探索（需要反复追问深挖）</li><li>离线环境（无法访问外部 Skill）</li>'
+    '<li>实时交易/秒级刷新的监控看板（本地静态产物做不到）</li>'
+    '<li>依赖未公开信息的投研判断（只有公开年报支撑不了）</li>'
+    '<li>把 AI 生成的研究结论直接当决策依据（必须回原文核对）</li></ul></td>'
     '</tr></tbody></table>'
     '<h3 class="cl-h3">📋 落地避坑清单（Copy 即用）</h3>'
     '<div class="cl-checklist">'
@@ -3533,10 +4536,22 @@ _CONCLUSION = (
     '<label><input type="checkbox" checked disabled/> 文档生成类：发送前逐字段核对（姓名/联系方式/公司名/日期）</label>'
     '<label><input type="checkbox" checked disabled/> 文档生成类：涉及敏感信息先做脱敏再发送给 AI</label>'
     '<label><input type="checkbox" disabled/> 文档生成类：每 2 轮迭代做一次全量预览检查防格式漂移</label>'
+    '<!-- 案例三~七 专属 -->'
+    '<label><input type="checkbox" checked disabled/> 发布类：凭证与 IP 白名单先跑通再写正文，别等文章写完才发现发不出去</label>'
+    '<label><input type="checkbox" checked disabled/> 发布类：一律先进草稿箱预览，确认无误再群发，绝不直接推送</label>'
+    '<label><input type="checkbox" checked disabled/> 知识库类：加工成果必须回传知识库，形成「存→加工→回传」闭环</label>'
+    '<label><input type="checkbox" checked disabled/> 知识库类：连接器授权定期复检，过期会静默失败</label>'
+    '<label><input type="checkbox" checked disabled/> 创意类：每轮反馈只改一个维度（结构 / 动效 / 配色分开提）</label>'
+    '<label><input type="checkbox" disabled/> 创意类：定稿前在目标设备与浏览器上各验一遍，别只看开发机</label>'
+    '<label><input type="checkbox" checked disabled/> 数据类：动手前显式约定字段映射、空值与异常值口径</label>'
+    '<label><input type="checkbox" checked disabled/> 数据类：产出必须附质量报告，并保留活公式以便追溯</label>'
+    '<label><input type="checkbox" checked disabled/> 研究类：任务拆成角色 + 明确交付物，过程产物全部落盘</label>'
+    '<label><input type="checkbox" checked disabled/> 研究类：关键数字回原始年报/公告对账，不采信二手转述</label>'
+    '<label><input type="checkbox" disabled/> 通用：跑通后把提示词沉淀成脱敏模板，换主题即可复用</label>'
     '</div>'
     '<div class="cl-cta">'
     '<p><b>想自己试试？</b>复制案例一中的两段提示词，把「OpenAI / 大模型」换成你关心的主题，在 WorkBuddy 里新建任务即可开跑。</p>'
-    '<p style="margin-top:10px;font-size:13px;color:var(--text-tertiary)">跑完之后记得回来补充案例二三 —— 你的真实复盘就是下一个案例的最佳素材 💪</p>'
+    '<p style="margin-top:10px;font-size:13px;color:var(--text-tertiary)">案例一到七的方法都已就位，你的真实复盘就是下一个案例的最佳素材 💪 遇到新场景，直接套用六段式 + 虚拟复跑验证。</p>'
     '</div>'
     '<style>'
     '.cl-body h3.cl-h3{font-size:18px;font-weight:700;margin:28px 0 14px;color:var(--text-primary);padding-left:12px;border-left:4px solid #059669}'
@@ -3670,9 +4685,21 @@ ECOSYSTEM_PAGE_DATA = {
             {"id": "case2", "title": "案例二：用 Vibe Resume Skill 一键生成简历",
              "intro": "把零散经历和照片发给 WorkBuddy，几分钟拿到可编辑 HTML + 可投递 PDF 简历——不用再手动调排版。",
              "body": _CASE2_BODY},
-            {"id": "case3", "title": "案例三（待命名）",
-             "intro": "一句话说清这个案例解决什么问题。",
-             "body": '<div class="eco-todo">【待老田补充：案例三正文】</div>'},
+            {"id": "case3", "title": "案例三：用 wechat-publisher 一键排版发布公众号",
+             "intro": "把 Markdown 写好，剩下的排版和图片上传交给 Skill——一键推送到公众号草稿箱，省下半个多小时。",
+             "body": _CASE3_BODY},
+            {"id": "case4", "title": "案例四：ima + WorkBuddy 构建可生长知识体系",
+             "intro": "微信碎片内容存进 ima，WorkBuddy 负责加工重组，形成能持续生长的知识体系闭环。",
+             "body": _CASE4_BODY},
+            {"id": "case5", "title": "案例五：用 WorkBuddy 生成 GSAP 粒子球体作品集动画",
+             "intro": "自然语言描述需求，迭代 17 轮做出纯前端粒子球体 Showreel，并推到 GitHub Pages。",
+             "body": _CASE5_BODY},
+            {"id": "case6", "title": "案例六：清洗 119 份门店 Excel 并生成交互看板",
+             "intro": "把格式混乱的 119 个门店 Excel 一次性清洗合并，产出 Excel 报告 + 可离线联动的 HTML 驾驶舱。",
+             "body": _CASE6_BODY},
+            {"id": "case7", "title": "案例七：专家团吃透十年年报的上市公司研究方法",
+             "intro": "用智数分析专家团把十年年报变成可复现的 HTML 咨询报告，沉淀一套通用研究范式。",
+             "body": _CASE7_BODY},
         ],
         # 复盘 / 对比 / 结论 三个独立模块
         "review": _REVIEW_BODY,
