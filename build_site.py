@@ -48,7 +48,7 @@ SECTIONS = [
     ("首页",   "index.html",              "🏠", "",         "", None),
     ("新闻动态", "index.html#news",       "📰", C_WB,      "", None),
     ("笔记类别", "index.html#notebooks",  "📝", "#10B981",  "", None),
-    ("AI生态专栏", "index.html#ecosystem", "🌐", C_TOOLS,   "", None),
+    ("AI案例", "ai-agent-cases.html", "⚡", C_AGENT,  "", None),
     ("Skills", "skills.html",             "🧩", "#A855F7", "", None),
     ("交流",   "community.html",          "💬", "#64748B", "", None),
 ]
@@ -2679,7 +2679,15 @@ CASE_READER_CSS = """
 .case-indicator{font-size:14px;font-weight:800;color:#7A4A00;text-align:center;flex:1;background:rgba(255,255,255,.7);padding:7px 16px;border-radius:9px;box-shadow:inset 0 1px 3px rgba(245,158,11,.2)}
 .case-reader-content{padding:26px 30px;min-height:48vh}
 .case-title{font-family:var(--font-xbs);font-size:21px;font-weight:400;color:var(--doc-ink);margin:0 0 16px;letter-spacing:.5px;border-left:4px solid var(--accent);padding-left:14px}
-@media(max-width:640px){.case-reader-bar{flex-direction:column;align-items:stretch}.case-nav-btn{width:100%}.case-reader-content{padding:18px 16px}}
+.case-toc{margin-top:18px;margin-bottom:6px}
+.case-toc h4{font-size:14px;color:var(--text-secondary);margin-bottom:10px;font-family:var(--font-hei)}
+.case-toc-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:8px}
+.case-toc-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);text-decoration:none;transition:.2s;cursor:pointer}
+.case-toc-item:hover{border-color:var(--accent);background:var(--accent-soft);transform:translateY(-1px)}
+.case-toc-item.active{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 2px 10px rgba(0,0,0,.07)}
+.case-toc-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--font-hei)}
+.case-toc-title{font-size:13px;color:var(--text-primary);font-weight:600;line-height:1.4}
+@media(max-width:640px){.case-reader-bar{flex-direction:column;align-items:stretch}.case-nav-btn{width:100%}.case-reader-content{padding:18px 16px}.case-toc-list{grid-template-columns:1fr}}
 """
 
 CASE_READER_JS = r"""
@@ -2716,6 +2724,9 @@ CASE_READER_JS = r"""
     if (location.hash !== '#case-' + (idx + 1)){
       history.pushState({idx: idx}, '', '#case-' + (idx + 1));
     }
+    // 更新目录高亮
+    var tocItems = document.querySelectorAll('.case-toc-item');
+    tocItems.forEach(function(el, i){ el.classList.toggle('active', i === idx); });
   }
 
   function go(idx){
@@ -2725,6 +2736,15 @@ CASE_READER_JS = r"""
 
   prevBtn.onclick = function(){ var i = getIdxFromHash(); if (i > 0) go(i - 1); };
   nextBtn.onclick = function(){ var i = getIdxFromHash(); if (i < total - 1) go(i + 1); };
+  // 案例目录点击：直达指定案例
+  var tocLinks = document.querySelectorAll('.case-toc-item');
+  tocLinks.forEach(function(el){
+    el.addEventListener('click', function(e){
+      e.preventDefault();
+      var idx = parseInt(el.getAttribute('data-case-idx'), 10);
+      go(idx);
+    });
+  });
   window.addEventListener('popstate', function(){ render(getIdxFromHash()); });
   render(getIdxFromHash());
 })();
@@ -4990,7 +5010,7 @@ def build_ecosystem_page(key):
     hero = ('<section class="eco-hero"><span class="eco-badge" style="background:' + color + '1a;color:' + color + '">'
             + ico + ' ' + title + '</span><h1>' + title + '</h1><p>' + tagline + '</p></section>')
     body = hero + '<div class="eco-layout">' + toc + '<div class="eco-main">' + main + compare + conclusion + cta + '</div></div>'
-    html = wrap_page(title, body, active="AI生态专栏")
+    html = wrap_page(title, body, active="")
     with open(d["fname"], "w", encoding="utf-8") as f:
         f.write(html)
     print("生成:", d["fname"])
@@ -5010,12 +5030,28 @@ def build_agent_cases_page(d):
     cases_json = json.dumps(
         [{"id": c["id"], "title": c["title"], "html": c["body"]} for c in cases],
         ensure_ascii=False, separators=(',', ':'))
+    # 案例目录：列出所有案例标题，点击直达
+    case_toc_items = ""
+    for i, c in enumerate(cases):
+        case_toc_items += (
+            '<a href="#case-' + str(i + 1) + '" class="case-toc-item" data-case-idx="' + str(i) + '">'
+            '<span class="case-toc-num">' + str(i + 1) + '</span>'
+            '<span class="case-toc-title">' + c["title"] + '</span></a>'
+        )
+    case_toc = (
+        '<div class="case-toc">'
+        '<h4>📑 案例目录 · 点击直达</h4>'
+        '<div class="case-toc-list">' + case_toc_items + '</div>'
+        '</div>'
+    )
+
     cases_module = (
         '<section class="eco-section" id="cases">'
         '<div class="eco-section-head"><span class="si">⚡</span><h2>实战案例</h2></div>'
         '<p class="intro">每个案例统一按「背景 → 目标 → 工具选型 → 执行步骤 → 验收 → 复盘」六段式展开。'
-        '点击「下一案例」翻页，逐一看完每个真实项目。</p>'
+        '下方目录可点击直达任意案例，或用「下一案例」逐个翻看。</p>'
         + d["cases_tpl"] +
+        case_toc +
         '<div class="case-reader">'
         '<div class="case-reader-bar">'
         '<button id="case-prev" class="case-nav-btn" type="button">← 上一案例</button>'
@@ -5043,7 +5079,7 @@ def build_agent_cases_page(d):
     reader_js = CASE_READER_JS.replace('__CASES__', cases_json)
     body = hero + '<div class="eco-layout">' + toc + '<div class="eco-main">' + cases_module + review + compare + conclusion + cta + '</div></div>'
     body += '<style>' + reader_css + '</style>'
-    html = wrap_page(title, body, active="AI生态专栏")
+    html = wrap_page(title, body, active="AI案例")
     html = html.replace('</body>', '<script>' + reader_js + '</script></body>')  # 翻页器脚本（仅本页 #case-content 触发）
     with open(d["fname"], "w", encoding="utf-8") as f:
         f.write(html)
