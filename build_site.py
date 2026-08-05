@@ -2687,7 +2687,9 @@ CASE_READER_CSS = """
 .case-toc-item.active{border-color:var(--accent);background:var(--accent-soft);box-shadow:0 2px 10px rgba(0,0,0,.07)}
 .case-toc-num{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;font-family:var(--font-hei)}
 .case-toc-title{font-size:13px;color:var(--text-primary);font-weight:600;line-height:1.4}
-@media(max-width:640px){.case-reader-bar{flex-direction:column;align-items:stretch}.case-nav-btn{width:100%}.case-reader-content{padding:18px 16px}.case-toc-list{grid-template-columns:1fr}}
+.case-reader-bar-bottom{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 22px;border-top:1px solid var(--border);background:var(--bg-card)}
+.case-reader-bar-bottom .case-indicator{background:transparent;box-shadow:none;color:var(--text-secondary);font-size:13px}
+@media(max-width:640px){.case-reader-bar{flex-direction:column;align-items:stretch}.case-nav-btn{width:100%}.case-reader-content{padding:18px 16px}.case-toc-list{grid-template-columns:1fr}.case-reader-bar-bottom{flex-direction:column;align-items:stretch}}
 """
 
 CASE_READER_JS = r"""
@@ -2699,6 +2701,9 @@ CASE_READER_JS = r"""
   var indicator = document.getElementById('case-indicator');
   var prevBtn = document.getElementById('case-prev');
   var nextBtn = document.getElementById('case-next');
+  var prevBtnB = document.getElementById('case-prev-bottom');
+  var nextBtnB = document.getElementById('case-next-bottom');
+  var indicatorB = document.getElementById('case-indicator-bottom');
   var casesSec = document.getElementById('cases');
 
   function getIdxFromHash(){
@@ -2721,6 +2726,17 @@ CASE_READER_JS = r"""
     } else {
       nextBtn.disabled = true;
     }
+    // 底部按钮同步
+    if (prevBtnB) prevBtnB.disabled = (idx <= 0);
+    if (nextBtnB){
+      if (idx < total - 1){
+        nextBtnB.disabled = false;
+        nextBtnB.textContent = '下一案例：' + cases[idx + 1].title.slice(0, 10) + '… →';
+      } else {
+        nextBtnB.disabled = true;
+      }
+    }
+    if (indicatorB) indicatorB.textContent = '案例 ' + (idx + 1) + ' / ' + total;
     if (location.hash !== '#case-' + (idx + 1)){
       history.pushState({idx: idx}, '', '#case-' + (idx + 1));
     }
@@ -2736,6 +2752,8 @@ CASE_READER_JS = r"""
 
   prevBtn.onclick = function(){ var i = getIdxFromHash(); if (i > 0) go(i - 1); };
   nextBtn.onclick = function(){ var i = getIdxFromHash(); if (i < total - 1) go(i + 1); };
+  if (prevBtnB) prevBtnB.onclick = function(){ var i = getIdxFromHash(); if (i > 0) go(i - 1); };
+  if (nextBtnB) nextBtnB.onclick = function(){ var i = getIdxFromHash(); if (i < total - 1) go(i + 1); };
   // 案例目录点击：直达指定案例
   var tocLinks = document.querySelectorAll('.case-toc-item');
   tocLinks.forEach(function(el){
@@ -5059,6 +5077,11 @@ def build_agent_cases_page(d):
         '<button id="case-next" class="case-nav-btn" type="button">下一案例 →</button>'
         '</div>'
         '<div class="case-reader-content" id="case-content"></div>'
+        '<div class="case-reader-bar case-reader-bar-bottom">'
+        '<button id="case-prev-bottom" class="case-nav-btn" type="button">← 上一案例</button>'
+        '<span id="case-indicator-bottom" class="case-indicator"></span>'
+        '<button id="case-next-bottom" class="case-nav-btn" type="button">下一案例 →</button>'
+        '</div>'
         '</div>'
         '</section>')
 
