@@ -2,6 +2,7 @@
 """
 生成「老田的 AI 实战笔记」静态知识库站点。
 单文件自包含：每个 HTML 内联 CSS + JS，零外部依赖，可直接双击打开或部署 GitHub Pages。
+Build: 2026-08-06 community product-intro module.
 
 分区策略（2026-07-29 调整）：
 - 使用手册、案例篇 按产品分区：企业微信 / WorkBuddy 各一套（共 4 个页面）
