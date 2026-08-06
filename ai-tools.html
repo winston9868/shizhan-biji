@@ -588,6 +588,72 @@ td{color:var(--text-secondary)}
 .eco-cta a.ghost{background:var(--bg-card);color:var(--accent);border:1px solid var(--accent)}
 @media(max-width:768px){.eco-layout{grid-template-columns:1fr;padding:24px 16px}.eco-toc{display:none}
   .pc{grid-template-columns:1fr}}
+
+/* === 产品介绍模块（社区页） === */
+.pi-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;padding:6px;
+  background:var(--bg-card);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)}
+.pi-tab{padding:10px 22px;border-radius:var(--radius-md);font-size:14px;font-weight:500;
+  cursor:pointer;border:none;background:transparent;color:var(--text-secondary);
+  font-family:var(--font-hei);transition:all .2s;white-space:nowrap}
+.pi-tab:hover{background:rgba(16,185,129,.08);color:var(--c-teal)}
+.pi-tab.active{background:var(--c-teal);color:#fff}
+.pi-tab-content{display:none;animation:piFadeIn .4s ease}
+.pi-tab-content.active{display:block}
+@keyframes piFadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.pi-heading{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:14px;
+  border-bottom:2px solid var(--border)}
+.pi-heading .pi-icon{font-size:26px}
+.pi-heading h3{font-size:20px;font-weight:600;color:var(--text-primary);font-family:var(--font-xbs)}
+.pi-heading .pi-badge{margin-left:auto;padding:4px 12px;background:rgba(16,185,129,.1);
+  color:var(--c-teal);border-radius:20px;font-size:12px;font-weight:500}
+/* content-block */
+.pi-block{margin-bottom:28px}
+.pi-block h4{font-size:16px;font-weight:600;color:var(--text-primary);margin-bottom:10px;
+  padding-left:12px;border-left:3px solid var(--c-teal);font-family:var(--font-hei)}
+.pi-block p{color:var(--text-secondary);margin-bottom:10px;line-height:1.85;font-size:14px}
+/* scenario-grid */
+.pi-sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:20px}
+.pi-si{background:var(--bg-card);border-radius:var(--radius-md);padding:18px;
+  border:1px solid var(--border);transition:all .3s}
+.pi-si:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.pi-si .pi-si-ico{font-size:26px;margin-bottom:6px}
+.pi-si h5{font-size:14px;font-weight:600;margin-bottom:4px;font-family:var(--font-hei)}
+.pi-si p{font-size:12px;color:var(--text-secondary);line-height:1.65}
+.pi-si .pi-metric{margin-top:8px;padding:3px 10px;border-radius:8px;
+  background:rgba(16,185,129,.1);color:var(--c-teal);font-size:12px;font-weight:600;display:inline-block}
+/* stat-grid */
+.pi-stat-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin:18px 0}
+.pi-stat{background:var(--bg-card);border-radius:var(--radius-md);padding:20px 14px;
+  text-align:center;border:1px solid var(--border)}
+.pi-stat .pi-stat-n{font-family:var(--font-serif);font-size:28px;font-weight:700;color:var(--c-teal);margin-bottom:2px}
+.pi-stat .pi-stat-l{font-size:12px;color:var(--text-tertiary)}
+/* timeline */
+.pi-tl{position:relative;padding-left:30px;margin:20px 0}
+.pi-tl::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--border)}
+.pi-tl-i{position:relative;margin-bottom:20px}
+.pi-tl-i::before{content:'';position:absolute;left:-26px;top:6px;width:10px;height:10px;
+  border-radius:50%;background:var(--c-teal);border:2px solid #fff;box-shadow:0 0 0 2px var(--c-teal)}
+.pi-tl-y{font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--c-teal);margin-bottom:4px}
+.pi-tl-c{font-size:13px;color:var(--text-secondary);line-height:1.7}
+/* compare-table */
+.pi-tbl{width:100%;border-collapse:collapse;margin:14px 0;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm)}
+.pi-tbl th{background:var(--c-teal);color:#fff;padding:10px 14px;text-align:left;font-size:13px;font-weight:600;font-family:var(--font-hei)}
+.pi-tbl td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text-secondary);line-height:1.7}
+.pi-tbl tr:last-child td{border-bottom:none}
+.pi-tbl tr:nth-child(even) td{background:var(--bg-soft)}
+/* callout */
+.pi-call{padding:14px 18px;border-radius:var(--radius-md);margin:14px 0;font-size:13px;line-height:1.8}
+.pi-call-i{background:var(--bg-soft);border-left:4px solid var(--c-blue);color:var(--text-secondary)}
+.pi-call-s{background:rgba(16,185,129,.06);border-left:4px solid var(--c-teal);color:var(--text-secondary)}
+.pi-call-w{background:rgba(245,158,11,.06);border-left:4px solid var(--c-coral);color:var(--text-secondary)}
+.pi-call strong{color:var(--text-primary)}
+/* feature-list */
+.pi-fl{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.pi-fi{display:flex;align-items:flex-start;gap:8px;padding:10px 14px;
+  background:var(--bg-card);border-radius:var(--radius-sm);border:1px solid var(--border)}
+.pi-fi .pi-chk{color:var(--c-teal);font-size:15px;flex-shrink:0;margin-top:1px}
+.pi-fi span:last-child{font-size:12px;color:var(--text-secondary);line-height:1.65}
+@media(max-width:700px){.pi-fl{grid-template-columns:1fr}}
 </style></head><body><header class="topbar"><div class="topbar-inner"><a class="blog-logo" href="index.html"><span class="blog-logo-icon">TW</span>老田的 AI 实战笔记</a><button class="menu-btn" onclick="toggleMenu()">☰</button><nav class="topbar-nav"><a class="" href="index.html">首页</a><a class="" href="index.html#news"><span class="nav-dot" style="background:#10B981"></span>新闻动态</a><a class="" href="index.html#notebooks"><span class="nav-dot" style="background:#10B981"></span>笔记类别</a><a class="" href="ai-agent-cases.html"><span class="nav-dot" style="background:#F59E0B"></span>AI案例</a><a class="" href="skills.html"><span class="nav-dot" style="background:#A855F7"></span>Skills</a><a class="" href="community.html"><span class="nav-dot" style="background:#64748B"></span>交流</a></nav></div></header><section class="eco-hero"><span class="eco-badge" style="background:#06B6D41a;color:#06B6D4">🛠 AI 工具评测</span><h1>AI 工具评测</h1><p>6 款主流 AI 工具深度横评 —— 从对话写作、图像设计到办公效率，告诉你哪个真的好用、哪个是智商税。</p></section><div class="eco-layout"><nav class="eco-toc"><a href="#method">📐 评测方法论</a><a href="#chat">💬 对话与写作类</a><a href="#image">🎨 图像与设计类</a><a href="#office">🏢 办公与效率类</a><a href="#compare">📊 横向对比</a><a href="#conclusion">✅ 结论</a></nav><div class="eco-main"><section class="eco-section" id="method"><div class="eco-section-head"><span class="si">📐</span><h2>评测方法论</h2></div><p class="intro">先定标准再测工具，避免「凭感觉打分」。</p><div class="eco-todo">【待老田补充：评测维度（易用性 / 准确性 / 中文能力 / 价格 / 生态）、打分权重、测试任务清单】</div></section><section class="eco-section" id="chat"><div class="eco-section-head"><span class="si">💬</span><h2>对话与写作类</h2></div><p class="intro">日常用得最多的品类，重点看中文表达与长文能力。</p><div class="eco-subgrid"><div class="eco-subcard"><div class="eco-subhead"><h4>WorkBuddy</h4><span class="eco-tag">主力</span></div><p>腾讯出品，本地+云端双形态</p><div class="pc"><div class="pc-col pro"><span class="pc-h">✓ 优势</span><ul><li style="color:#B45309">待补充</li></ul></div><div class="pc-col con"><span class="pc-h">✗ 不足</span><ul><li style="color:#B45309">待补充</li></ul></div></div></div><div class="eco-subcard"><div class="eco-subhead"><h4>Kimi</h4><span class="eco-tag">长文本</span></div><p>超长上下文，论文/合同友好</p><div class="pc"><div class="pc-col pro"><span class="pc-h">✓ 优势</span><ul><li style="color:#B45309">待补充</li></ul></div><div class="pc-col con"><span class="pc-h">✗ 不足</span><ul><li style="color:#B45309">待补充</li></ul></div></div></div><div class="eco-subcard"><div class="eco-subhead"><h4>豆包</h4><span class="eco-tag">免费</span></div><p>字节系，日常问答够用</p><div class="pc"><div class="pc-col pro"><span class="pc-h">✓ 优势</span><ul><li style="color:#B45309">待补充</li></ul></div><div class="pc-col con"><span class="pc-h">✗ 不足</span><ul><li style="color:#B45309">待补充</li></ul></div></div></div><div class="eco-subcard"><div class="eco-subhead"><h4>文心一言</h4><span class="eco-tag">百度</span></div><p>中文知识问答</p><div class="pc"><div class="pc-col pro"><span class="pc-h">✓ 优势</span><ul><li style="color:#B45309">待补充</li></ul></div><div class="pc-col con"><span class="pc-h">✗ 不足</span><ul><li style="color:#B45309">待补充</li></ul></div></div></div></div></section><section class="eco-section" id="image"><div class="eco-section-head"><span class="si">🎨</span><h2>图像与设计类</h2></div><p class="intro">出图、做图、做海报，谁更稳。</p><div class="eco-subgrid"><div class="eco-subcard"><div class="eco-subhead"><h4>即梦</h4><span class="eco-tag">字节</span></div><p>中文 prompt 友好</p><div class="pc"><div class="pc-col pro"><span class="pc-h">✓ 优势</span><ul><li style="color:#B45309">待补充</li></ul></div><div class="pc-col con"><span class="pc-h">✗ 不足</span><ul><li style="color:#B45309">待补充</li></ul></div></div></div><div class="eco-subcard"><div class="eco-subhead"><h4>Midjourney</h4><span class="eco-tag">海外</span></div><p>质感天花板</p><div class="pc"><div class="pc-col pro"><span class="pc-h">✓ 优势</span><ul><li style="color:#B45309">待补充</li></ul></div><div class="pc-col con"><span class="pc-h">✗ 不足</span><ul><li style="color:#B45309">待补充</li></ul></div></div></div><div class="eco-subcard"><div class="eco-subhead"><h4>Canva AI</h4><span class="eco-tag">模板</span></div><p>套模板出图快</p><div class="pc"><div class="pc-col pro"><span class="pc-h">✓ 优势</span><ul><li style="color:#B45309">待补充</li></ul></div><div class="pc-col con"><span class="pc-h">✗ 不足</span><ul><li style="color:#B45309">待补充</li></ul></div></div></div></div></section><section class="eco-section" id="office"><div class="eco-section-head"><span class="si">🏢</span><h2>办公与效率类</h2></div><p class="intro">和微信 / 文档打通的才真省事。</p><div class="eco-subgrid"><div class="eco-subcard"><div class="eco-subhead"><h4>腾讯文档 AI</h4><span class="eco-tag">协作</span></div><p>人机双写</p><div class="pc"><div class="pc-col pro"><span class="pc-h">✓ 优势</span><ul><li style="color:#B45309">待补充</li></ul></div><div class="pc-col con"><span class="pc-h">✗ 不足</span><ul><li style="color:#B45309">待补充</li></ul></div></div></div><div class="eco-subcard"><div class="eco-subhead"><h4>飞书</h4><span class="eco-tag">字节</span></div><p>All-in-one</p><div class="pc"><div class="pc-col pro"><span class="pc-h">✓ 优势</span><ul><li style="color:#B45309">待补充</li></ul></div><div class="pc-col con"><span class="pc-h">✗ 不足</span><ul><li style="color:#B45309">待补充</li></ul></div></div></div><div class="eco-subcard"><div class="eco-subhead"><h4>Notion AI</h4><span class="eco-tag">海外</span></div><p>知识库强</p><div class="pc"><div class="pc-col pro"><span class="pc-h">✓ 优势</span><ul><li style="color:#B45309">待补充</li></ul></div><div class="pc-col con"><span class="pc-h">✗ 不足</span><ul><li style="color:#B45309">待补充</li></ul></div></div></div></div></section><section class="eco-section" id="compare"><div class="eco-section-head"><span class="si">📊</span><h2>横向对比总表</h2></div><table class="cmp"><thead><tr><th>工具</th><th>品类</th><th>中文能力</th><th>价格</th><th>一句话</th></tr></thead><tbody><tr><td>WorkBuddy</td><td>综合</td><td>优</td><td>待补充</td><td>本地+云端，商务场景强</td></tr><tr><td>Kimi</td><td>长文本</td><td>优</td><td>待补充</td><td>超长上下文</td></tr><tr><td>即梦</td><td>图像</td><td>优</td><td>待补充</td><td>中文出图首选</td></tr><tr><td>Midjourney</td><td>图像</td><td>中</td><td>待补充</td><td>质感强但英文为主</td></tr><tr><td>腾讯文档 AI</td><td>办公</td><td>优</td><td>待补充</td><td>协作流畅</td></tr><tr><td>Notion AI</td><td>知识库</td><td>中</td><td>待补充</td><td>结构化强</td></tr></tbody></table></section><section class="eco-section" id="conclusion"><div class="eco-section-head"><span class="si">✅</span><h2>结论与建议</h2></div><div class="eco-conclusion"><div class="eco-todo">【待老田补充：综合结论 + 按人群选型建议（商务顾问 / 学生 / 设计师）】</div></div></section><div class="eco-cta"><h3>看完想试试？+ 老田的一线经验</h3><a href="index.html">回到首页</a><a class="ghost" href="community.html">和我交流</a></div></div></div><footer class="footer"><div class="footer-inner"><span>© 2026 田伟 · 长沙 · 用 WorkBuddy 沉淀</span><div class="links"><a href="index.html">首页</a><a href="manual-wb.html">WB手册</a><a href="cases-wb.html">WB案例</a><a href="advanced.html">进阶篇</a><a href="industry.html">岗位与行业落地</a><a href="skills.html">Skills</a><a href="community.html">交流</a></div></div></footer><button id="backTop" onclick="goTop()" title="回到顶部">↑</button><script>
 function toggleSidebarPart(el){el.parentElement.classList.toggle('expanded');}
 function filterArticles(part){
