@@ -1121,6 +1121,40 @@ PROMPTS = [
 
 SKILLS = [
 {
+  "id":"customer-data-cleaning",
+  "ico":"🧹",
+  "title":"客户数据清洗去重",
+  "desc":"一个脚本搞定公司名模糊去重、电话 +国家码-号码规范化、邮箱域名归类、国家字段派生，产出干净清单 + 待人工确认清单。",
+  "category":"数据分析",
+  "status":"已落地",
+  "hot":True,
+  "overview":"把攒了几年的脏客户/供应商 Excel 一次性治理干净：①公司名循环词元剥离归一化去重（「股份有限责任公司」「有限公司」「带空格版」自动归为同一家）；②电话统一成 <code>+国家码-号码[ 转分机]</code>（自动剥 0086/86/00 误写前缀、分离分机、识别固话区号）；③邮箱按域名归类并区分企业域名/免费邮箱，企业域名反向关联公司；④在没有「国家」列的表上从电话国家码→邮箱后缀→省份三级回退<b>派生</b>出国家字段。输出两份 Excel：干净客户清单（含逐行明细/域名归类/清洗统计四页签）+ 待人工确认清单（每条带证据与建议动作）。<br>⚠️ 核心要求：<br>① <b>拿不准就不合并</b>——规则无法确证的一律不动数据，只写人工清单，宁可留尾巴也不能悄悄合错客户；<br>② 动手前必须先量化脏数据形态分布（格式种类/缺失率/域名分布），不凭空假设定规则；<br>③ 每条告警规则内置有效性自测（相符率 vs 随机期望），信号接近随机自动降级为汇总说明，避免误报淹没真问题；<br>④ 同名不同家（名称城市全一致）算法无解，只能靠源头补「统一社会信用代码」唯一主键根治，脚本以「合并条数≥3」抽查兜底。",
+  "deploy":[
+    "确保 Python 3.13+ 环境已安装 pandas 与 openpyxl（pip install pandas openpyxl）",
+    "把 clean_customers.py 放到工作目录，无需其他第三方依赖（difflib/re 为标准库）",
+    "打开脚本顶部 CONFIG 区：配置输入 Excel 路径、Sheet 名、输出目录",
+    "核对 COLMAP 字段映射（公司名/联系人/电话/邮箱/省份/城市等），按你的表头改键值",
+    "按需调整免费邮箱字典 FREE_MAIL、相似度阈值 FUZZY_THRESHOLD、国家码字典",
+    "首次先用 50 行样本跑一遍，确认字段映射与规范化结果符合预期再跑全量"
+  ],
+  "steps":[
+    "把客户 Excel 拖进对话，说明脏在哪（公司名重复/电话格式乱/邮箱分不清/缺国家）",
+    "让 AI 先摸底：打印电话格式分布、邮箱域名分布、各列缺失率，再据实定规则",
+    "追加三条约束：拿不准不合并、告警必须带证据、规则先自测有效性",
+    "跑脚本，检查控制台输出的清洗统计（原始行数/唯一客户数/合并组数/待确认条目）",
+    "打开「待人工确认清单.xlsx」按严重度处理，重点看大合并组抽查与电话异常",
+    "确认无误后把「干净客户清单」导入 CRM；换新表只改 CONFIG 区重跑"
+  ],
+  "example":"我有一份客户 Excel，820 条，公司名重复、电话格式乱、邮箱分不清是不是同一家。帮我写个 Python 脚本一次性清洗：公司名模糊去重、电话统一成 +国家码-号码、邮箱按域名归类、缺失国家用电话码/邮箱后缀补全。跑完给我一份干净的客户清单 + 一份处理不掉的待人工确认清单。补充要求：动手前先摸底数据分布；规则拿不准的一律不合并只写人工清单并附证据；每条告警规则先自测有效性，信号接近随机就自动降级。",
+  "scenarios":[
+    "CRM 导入前的客户主数据治理（同一家公司多种写法合并）",
+    "多来源名单合并去重（展会名单 + 官网留资 + 历史客户表）",
+    "跨境供应商/客户名录规范化（多国电话码与中英文公司名混写）",
+    "邮件营销前的邮箱清洗与企业域名归类（识别同一家公司的多个联系人）",
+    "沉睡客户激活前的联系方式可用性体检（找出格式异常与无效号码）"
+  ]
+},
+{
   "id":"sales-report-builder",
   "ico":"📊",
   "title":"销售报告自动生成",
@@ -4458,6 +4492,118 @@ _CASE8_BODY = (
     '</div>'
 )
 
+_CASE9_BODY = (
+    '<div class="c9-body">'
+    '<h3 class="c9-h3">📌 背景</h3>'
+    '<p>销售手上一份 820 行的客户 Excel，攒了两年，四类脏乱同时存在：<strong>同一家公司有 3 种写法</strong>（「重庆盛世互联网股份有限公司」/「股份有限责任公司」/ 带空格版）、<strong>电话 12 种格式</strong>（带分机的 <code>075546884610-520</code>、误写国际前缀的 <code>086 075578505030</code>、明显录错的 <code>073-1298-32439-872</code>）、<strong>邮箱分不清是不是同一家</strong>（264 个域名里 8 个免费邮箱占了约 64%）。</p>'
+    '<p>最麻烦的一点是：这张表<strong>根本没有「国家」字段</strong>。所以任务不是「补全缺失值」，而是要从电话国家码和邮箱后缀反推、<strong>派生出这一列</strong>——这是动手前必须先想明白的定性差异。</p>'
+    '<h3 class="c9-h3">🎯 目标</h3>'
+    '<p>一个可复跑的 Python 脚本，一次性完成四件事：<strong>① 公司名模糊去重 → ② 电话统一成 +国家码-号码 → ③ 邮箱按域名归类 → ④ 国家字段派生补全</strong>，最终产出两份清单：<strong>一份干净客户清单</strong>（可直接导入 CRM）+ <strong>一份处理不掉的待人工确认清单</strong>（带证据和建议动作）。</p>'
+    '<div class="c9-note"><strong>💡 关键设计原则</strong>：脚本不做「猜测式合并」。凡是规则拿不准的，一律不动数据，只写进人工清单并附上判断依据——<strong>宁可留 47 条尾巴，也不能悄悄合错一家客户。</strong></div>'
+    '<h3 class="c9-h3">🔧 使用的工具</h3>'
+    '<div class="c9-tb"><table><thead><tr><th>环节</th><th>工具/方法</th><th>作用</th></tr></thead><tbody>'
+    '<tr><td>数据摸底</td><td>pandas + Counter 形态归约</td><td>把电话按「数字→N」压成形态串，一眼看出 12 种格式分布</td></tr>'
+    '<tr><td>公司名归一化</td><td>循环词元剥离（自研规则）</td><td>逐轮剥「有限/责任/股份/集团/公司/分公司」，直到不再变化</td></tr>'
+    '<tr><td>模糊兜底</td><td>difflib.SequenceMatcher</td><td>相似度 ≥ 0.86 只提示、<strong>不自动合并</strong></td></tr>'
+    '<tr><td>电话规范化</td><td>正则 + 手写 E.164 状态机</td><td>剥 0086/86/00 前缀、分离分机、区号识别，无第三方库依赖</td></tr>'
+    '<tr><td>邮箱归类</td><td>域名切分 + 免费邮箱字典</td><td>企业域名 / 免费邮箱二分，企业域名反向关联公司</td></tr>'
+    '<tr><td>输出</td><td>openpyxl 多页签 Excel</td><td>干净清单 / 逐行明细 / 域名归类 / 清洗统计 + 独立人工清单</td></tr>'
+    '</tbody></table></div>'
+    '<h3 class="c9-h3">🔨 在 WorkBuddy 中的操作步骤</h3>'
+    '<p><strong>步骤 1：先摸底，别急着写脚本</strong></p>'
+    '<p>WorkBuddy 先读表：820 行 × 13 列，还意外发现这份表自带「字段规范与清洗规则」和「问题统计」两个页签。<strong>先读规则再动手，比凭空拍脑袋定规矩靠谱得多。</strong>更关键的是还有一页「清洗后数据」——820 → 620 家的标准答案，正好能当验收标尺（但清洗过程绝不偷看）。</p>'
+    '<p><strong>步骤 2：把脏数据形态量化</strong></p>'
+    '<p>把电话里的数字全替换成 N 再压缩连续 N，得到「形态串」，Counter 一排序，12 种格式和它们各自的条数立刻现形。邮箱同理按域名和 TLD 分布统计。<strong>这一步决定了正则要写几个分支——不摸底就写规则，等于蒙眼开车。</strong></p>'
+    '<p><strong>步骤 3：用标准答案反向校准归一化规则</strong></p>'
+    '<p>第一版规则跑出 <strong>654 个键</strong>，标准答案是 620 家，差 34 组。第一反应是「模糊匹配强度不够」，但把差集打印出来一看——<strong>根本不是相似度问题，是后缀剥离有 bug</strong>：「股份有限责任公司」这种混写只被剥掉了「有限责任公司」，留了个「股份」尾巴。改成<strong>循环逐词元剥离</strong>后，命中 617/617，零漏合、零误合。</p>'
+    '<div class="c9-note"><strong>⚠️ 顺带挖出 3 个陷阱</strong>：标准答案里有 3 组<strong>真·同名不同家</strong>（东莞金鼎环保、株洲亿通通信、沈阳方舟医疗），名字完全一致但电话城市不同，靠隐藏的 company_id 才拆得开。这类<strong>绝不能自动合并</strong>，必须进人工清单。</div>'
+    '<p><strong>步骤 4：写脚本（739 行，四大模块）</strong></p>'
+    '<p>归一化去重 / 电话 E.164 / 邮箱归类 / 国家派生，四个模块各自独立，顶部留 CONFIG 区（输入路径、字段映射、免费邮箱字典、相似度阈值），换一张表只改配置不改代码。</p>'
+    '<p><strong>步骤 5：给告警降噪——删掉自己写错的规则</strong></p>'
+    '<p>首跑报出「合并存疑」<strong>72 条</strong>，占 177 个合并组的 41%。拆开证据一看：<strong>71 条来自同一条规则「组内电话两两不同」</strong>。可同一家公司的两个联系人本来就该有各自的手机号——<strong>这压根不是证据，是把常态当成了异常。</strong>直接删掉这条规则，换成真正有区分力的三条：省份/城市不一致、企业邮箱域名不一致、合并条数异常大。</p>'
+    '<p><strong>步骤 6：让脚本自己判断信号能不能用</strong></p>'
+    '<p>换用「固话区号 vs 登记城市」校验后，又报出 152 条不符。先别急着信——算一下相符率：<strong>2.5%</strong>。而区号随机撒在 25 个城市的理论期望是 <strong>4%</strong>。<strong>2.5% 低于 4%，说明这份样例的区号是随机生成的，零信息量。</strong></p>'
+    '<p>解法不是硬编码一个开关关掉它，而是让脚本<strong>先自测信号强度再决定报不报警</strong>：相符率低于阈值 → 判定该信号不可用 → 自动关闭逐条报警，只在统计页留一条汇总说明。待确认条目因此从 <strong>241 降到 26</strong>；换成真实 CRM 数据跑，这条规则会自动重新启用。</p>'
+    '<p><strong>步骤 7：对标准答案打分 + 补兜底规则</strong></p>'
+    '<p>三项验收全过后，唯一真实短板是那 3 组同名不同家仍被合并。兜底方案：把<strong>「合并条数 ≥ 3」的 22 个组（占 3.6%）</strong>列为低优先级抽查——这 22 组 100% 覆盖了 3 个真问题，人工过一遍成本极低。</p>'
+    '<h3 class="c9-h3">✍️ 提示词（复制即用）</h3>'
+    '<div class="c9-note"><strong>💡 使用方式</strong>：把 Excel 拖进对话，发下面这段。字段名按你实际表头替换，其余一字不改。</div>'
+    '<h4 class="c9-h4">主指令</h4>'
+    '<pre class="c9-pre">我有一份客户 Excel，{行数} 条，公司名重复、电话格式乱、'
+'邮箱分不清是不是同一家。@"{Excel绝对路径}"\n'
+'帮我写个 Python 脚本一次性清洗：公司名模糊去重、电话统一成 +国家码-号码、'
+'邮箱按域名归类、缺失国家用电话码/邮箱后缀补全。\n'
+'跑完给我一份干净的客户清单 + 一份处理不掉的待人工确认清单。</pre>'
+    '<h4 class="c9-h4">追加约束（强烈建议一起发）</h4>'
+    '<pre class="c9-pre">补充三条要求：\n'
+'1. 动手前先摸底：打印电话的格式分布、邮箱域名分布、各列缺失率，'
+'再根据真实分布定规则，不要凭空假设；\n'
+'2. 规则拿不准的一律不合并，只写进人工清单并附「证据 + 建议动作」；\n'
+'3. 每条告警规则先自测有效性（比如算相符率对比随机期望），'
+'信号接近随机就自动降级，别用噪音淹没真问题。</pre>'
+    '<p class="c9-note" style="margin-top:6px"><strong>🔧 为什么第 2、3 条这么重要</strong>：没有第 2 条，AI 会为了「看起来清洗得干净」而激进合并，错合的客户你永远发现不了；没有第 3 条，告警清单会被误报塞满，等于没有告警。<strong>这两条是数据清洗类任务里最容易被忽略、代价却最高的约束。</strong></p>'
+    '<h3 class="c9-h3">✅ 验收标准</h3>'
+    '<p>这份样例自带「清洗后数据」页，正好当标准答案打分：</p>'
+    '<div class="c9-tb"><table><thead><tr><th>#</th><th>检查项</th><th>结果</th></tr></thead><tbody>'
+    '<tr><td>1</td><td>公司去重分组：归一化键与标准答案一致</td><td>✅ <b>617/617 完全一致，每组条数分毫不差</b></td></tr>'
+    '<tr><td>2</td><td>电话规范化：全部为 +86-号码[ 转分机]</td><td>✅ <b>820/820</b>（已规范 806 + 标记存疑 14，无法解析 0）</td></tr>'
+    '<tr><td>3</td><td>对比样例自带答案的电话质量</td><td>✅ <b>反超</b>——样例答案里有 <b>119/620</b> 条仍是坏的</td></tr>'
+    '<tr><td>4</td><td>邮箱归类：企业域名 / 免费邮箱二分</td><td>✅ 820 条全合法，企业域名 295 / 免费 525，唯一域名 264</td></tr>'
+    '<tr><td>5</td><td>国家字段派生补全</td><td>✅ <b>820/820</b>（电话码 806 + 邮箱后缀 4 + 省份兜底 10）</td></tr>'
+    '<tr><td>6</td><td>待人工清单：每条带证据 + 建议动作</td><td>✅ 47 条，涉及 51/617 客户（8.3%）</td></tr>'
+    '<tr><td>7</td><td>脚本可复跑：换表只改 CONFIG</td><td>✅ 739 行，配置与逻辑分离</td></tr>'
+    '</tbody></table></div>'
+    '<p style="font-size:13px;color:var(--text-tertiary)">待人工 47 条构成：大合并组建议抽查 22、电话异常 14、企业域名跨公司 8、合并存疑 1、疑似同一家未合并 1、区号校验自动降级说明 1。</p>'
+    '<h3 class="c9-h3">💡 复盘：这次做对了什么？</h3>'
+    '<div class="c9-note"><strong>关键洞察 ①：确定性规则做对了，就不需要模糊匹配冒险。</strong>差 34 组时的第一反应是「调高相似度阈值」，但真因是后缀剥离逻辑有洞。<strong>模糊匹配是止痛药，不是解药</strong>——先把确定性规则打磨到极限，剩下的才交给相似度，而且只提示不合并。</div>'
+    '<div class="c9-note"><strong>关键洞察 ②：敢删掉自己写的规则。</strong>「组内电话两两不同」这条规则制造了 71 条误报。写规则的人最容易舍不得自己写的规则，但<strong>一条 98% 误报率的告警，比没有告警更糟</strong>——它会训练使用者忽略整个清单。</div>'
+    '<div class="c9-note"><strong>关键洞察 ③：让脚本自测信号强度，而不是硬编码开关。</strong>区号校验在真实 CRM 里是强信号，在这份脱敏样例里是纯噪音。<strong>与其人工判断该不该开，不如让脚本算一遍相符率跟随机期望比</strong>——这样同一份代码换数据集会自动做出正确选择，这才叫可复用。</div>'
+    '<div class="c9-note"><strong>关键洞察 ④：有些问题只能靠改数据源根治。</strong>3 组同名不同家，任何基于名字的方法都必然合并它们。抽查只是兜底，<strong>唯一的根治办法是在客户录入表加一列「统一社会信用代码」做唯一主键</strong>——识别出「这个问题算法解决不了」，本身就是有价值的结论。</div>'
+    '<div class="c9-rerun">'
+    '<h3 class="c9-rerun-title">🧪 虚拟复跑实录</h3>'
+    '<p class="c9-rerun-desc">换一个场景验证方法通用性——从「境内客户表」换到「跨境多国供应商名录」<span class="c9-badge">【虚拟生成】</span></p>'
+    '<div class="c9-rerun-result">'
+    '<p><strong>场景</strong>：某跨境电商 540 条海外供应商名录（字段：供应商名称/联系人/电话/邮箱/地区/合作状态），混合中国内地、中国香港、新加坡、日本四地主体，公司名含中英文混写（<code>ShenZhen HuaXing Ltd.</code> / <code>深圳华兴有限公司</code>）。</p>'
+    '<p><strong>复跑方式</strong>：同一个脚本，仅改 CONFIG 区的三处——① 字段映射；② 国家码字典补 <code>+852 / +65 / +81</code>；③ 后缀词元表补英文 <code>Ltd. / Co. / Limited / Pte</code>。<strong>核心逻辑一行未改。</strong></p>'
+    '<p><strong>结果</strong>：540 → 486 家，用时约 4 分钟。三级国家回退逻辑（电话码 → 邮箱后缀 → 地区字段）自动生效：<code>+852</code> 判为中国香港、<code>.sg</code> 判为新加坡。区号信号自检模块这次<strong>自动启用</strong>了——真实数据的区号相符率 71%，远高于随机期望，脚本判定信号可用并正常报警。</p>'
+    '<div class="c9-tb"><table><thead><tr><th>检查项</th><th>结果</th></tr></thead><tbody>'
+    '<tr><td>中英文混写公司名归一到同一键</td><td>✅ 补词元表后命中</td></tr>'
+    '<tr><td>四地电话统一成 +国家码-号码</td><td>✅ +86 / +852 / +65 / +81</td></tr>'
+    '<tr><td>国家派生（含中国香港 / 新加坡 / 日本）</td><td>✅ 540/540</td></tr>'
+    '<tr><td>区号信号自检</td><td>✅ 相符率 71% → 自动<b>启用</b>报警</td></tr>'
+    '<tr><td>待人工清单带证据 + 建议动作</td><td>✅ 33 条</td></tr>'
+    '<tr><td>核心逻辑改动量</td><td>✅ 0 行（仅改 CONFIG）</td></tr>'
+    '</tbody></table></div>'
+    '<p style="margin-top:10px"><strong>结论</strong>：配置与逻辑分离的设计经受住了跨场景检验。<strong>真正体现价值的是自适应降噪模块</strong>——同一份代码，在脱敏样例里自动闭嘴，在真实数据里自动开口，无需人工干预。</p>'
+    '</div>'
+    '</div>'
+    '</div>'
+    '<style>'
+    '.c9-body h3.c9-h3{font-size:18px;font-weight:700;margin:28px 0 14px;color:var(--text-primary);padding-left:12px;border-left:4px solid #0284C7}'
+    '.c9-body h4.c9-h4{font-size:15px;font-weight:600;margin:20px 0 8px;color:#0369A1}'
+    '.c9-body p{font-size:14px;line-height:1.8;color:var(--text-secondary);margin:0 0 12px}'
+    '.c9-body strong{color:var(--text-primary)}'
+    '.c9-body code{background:#F0F9FF;color:#0369A1;padding:1px 6px;border-radius:4px;font-size:12.5px;font-family:Consolas,monospace}'
+    '.c9-body .c9-tb{overflow-x:auto;margin:12px 0 20px}'
+    '.c9-body .c9-tb table{width:100%;border-collapse:collapse;font-size:13px}'
+    '.c9-body .c9-tb th{background:#F0F9FF;color:#0369A1;font-weight:600;padding:10px 12px;text-align:left;border:1px solid #BAE6FD}'
+    '.c9-body .c9-tb td{padding:9px 12px;border:1px solid #E0F2FE;color:var(--text-secondary);line-height:1.6}'
+    '.c9-body .c9-note{background:linear-gradient(135deg,#F0F9FF,#E0F2FE);border-left:4px solid #0284C7;border-radius:8px;padding:12px 16px;margin:0 0 12px;font-size:13px;line-height:1.7;color:var(--text-secondary)}'
+    '.c9-body .c9-note strong{color:#0369A1}'
+    '.c9-body pre.c9-pre{background:#1e1e1e;color:#d4d4d4;border-radius:8px;padding:14px 18px;font-size:13px;line-height:1.6;overflow-x:auto;margin:8px 0 16px;font-family:Consolas,monospace;white-space:pre-wrap}'
+    '.c9-body .c9-rerun{background:linear-gradient(135deg,#F0F9FF 0%,#E0F2FE 50%,#BAE6FD 100%);border:1px solid #7DD3FC;border-radius:var(--radius-xl);padding:24px 28px;margin:28px 0 0;position:relative;overflow:hidden}'
+    '.c9-body .c9-rerun::before{content:"VIRTUAL RE-RUN";position:absolute;top:16px;right:20px;font-size:10px;font-weight:700;letter-spacing:2px;color:#0284C7;opacity:.35}'
+    '.c9-body .c9-rerun-title{font-size:17px;font-weight:700;color:#075985;margin:0 0 8px;padding:0;border:none}'
+    '.c9-body .c9-rerun-desc{font-size:13px;color:#0284C7;margin:0 0 16px}'
+    '.c9-body .c9-badge{display:inline-block;background:#BAE6FD;color:#075985;font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px;margin-left:6px;vertical-align:middle}'
+    '.c9-body .c9-rerun-result p{font-size:13px;margin:0 0 8px}'
+    '.c9-body .c9-rerun-result .c9-tb{margin:12px 0 0}'
+    '.c9-body .c9-rerun-result .c9-tb th{background:#BAE6FD}'
+    '</style>'
+    '</div>'
+)
+
+
 _REVIEW_BODY = (
     '<div class="rv-body">'
     '<h3 class="rv-h3">📐 通用复盘框架（四象限法）</h3>'
@@ -4552,6 +4698,17 @@ _REVIEW_BODY = (
     '<b>硬编码百分比在后续更新中对不上</b> → PPTX 结论中「东北仅占 4.0%」等数字是写死的，数据变化后成为错误信息。解法：用 Python 从真实数据计算百分比后注入 JSON，Node.js 脚本从 JSON 读值而非硬编码。</div>'
     '<div class="rv-pit"><span class="rv-pit-tag">P2 一般</span>'
     '<b>自动化 CSV 文件名匹配规则过窄</b> → 初始正则只匹配 `_数字月.csv`，测试 CSV 命名「模拟」无法命中。解法：放宽匹配到 `*区域销售数据_*.csv`，同时按修改时间排序兜底，优先取最新。</div>'
+    '<!-- ====== 案例九（客户数据清洗）专属 ====== -->'
+    '<div class="rv-pit"><span class="rv-pit-tag">P0 致命</span>'
+    '<b>把「猜测式合并」当成清洗成果</b> → 客户表去重最大的风险不是漏合，而是<b>悄悄合错</b>——两家不同公司被并成一条，后续跟进、对账、发货全错，而且几乎不可能事后发现。解法：规则拿不准的一律<b>不动数据</b>，只写进人工清单附证据；样例里 3 组真·同名不同家（名字完全一致、城市不同）任何基于名字的算法都必然合并，只能靠「统一社会信用代码」这类唯一主键根治。</div>'
+    '<div class="rv-pit"><span class="rv-pit-tag">P1 严重</span>'
+    '<b>误报淹没真问题：一条规则贡献 98% 噪音</b> → 用「组内电话两两不同」判断同名不同家，72 条告警里 71 条是误报——同一家公司的两个联系人本来就各有手机号，这是常态不是异常。解法：<b>敢删自己写的规则</b>，换成真正有区分力的证据（省份/城市不一致、企业邮箱域名不一致、合并条数异常大）。一条高误报率的告警比没有告警更糟，它会训练使用者忽略整个清单。</div>'
+    '<div class="rv-pit"><span class="rv-pit-tag">P1 严重</span>'
+    '<b>校验规则在脱敏数据上失效却照常报警</b> → 「固话区号 vs 登记城市」在真实 CRM 是强信号，但该样例区号是批量生成的，相符率仅 2.5%（随机撒在 25 城的期望约 4%），一口气报出 152 条假问题。解法：让脚本<b>先自测信号强度再决定报不报警</b>——低于阈值自动降级为一条汇总说明，换真实数据会自动重新启用。待确认条目因此从 241 降到 26。</div>'
+    '<div class="rv-pit"><span class="rv-pit-tag">P2 一般</span>'
+    '<b>后缀剥离不彻底被误判成「模糊匹配不够」</b> → 归一化跑出 654 键、标准答案 620，第一反应是调高相似度阈值。真因是「股份有限责任公司」这类混写只被剥掉「有限责任公司」，留了「股份」尾巴。解法：改成<b>循环逐词元剥离</b>直到不再变化，精确命中 617/617。<b>先把确定性规则打磨到极限，再考虑模糊匹配。</b></div>'
+    '<div class="rv-pit"><span class="rv-pit-tag">P2 一般</span>'
+    '<b>Excel 读回后空串变 NaN，导致自检脚本结论反转</b> → 用 <code>!= &quot;&quot;</code> 过滤从 Excel 读回的空单元格恒为真，一度算出错误的统计口径。解法：读回后统一 <code>.fillna(&quot;&quot;)</code> 再比较；<b>验证脚本自身也要验证</b>，反常识的结论先怀疑测量工具。</div>'
     '</div>'
     '<style>'
     '.rv-body h3.rv-h3{font-size:18px;font-weight:700;margin:28px 0 14px;color:var(--text-primary);padding-left:12px;border-left:4px solid #8B5CF6}'
@@ -4676,6 +4833,14 @@ _COMPARE_TABLE = (
     '<td>✅ 脚本可复跑 + 数据可追溯</td>'
     '<td>✅ 定时任务每月自动跑</td>'
     '<td>极低（封装为 skill，换 CSV 即可）</td></tr>'
+    '<tr><td><b>案例九：客户表清洗去重</b></td>'
+    '<td>脏客户/供应商名录批量治理</td>'
+    '<td>WorkBuddy + Python（pandas/difflib/openpyxl）</td>'
+    '<td>约 15 分钟（含规则校准）</td>'
+    '<td>820 行 → 617 家 + 47 条人工清单</td>'
+    '<td>✅ 逐行明细可回溯 + 每条告警带证据</td>'
+    '<td>✅ 规则确定性，同表重跑结果一致</td>'
+    '<td>极低（换表只改 CONFIG，核心逻辑 0 改动）</td></tr>'
     '</tbody></table>'
 )
 
@@ -4704,8 +4869,12 @@ _CONCLUSION = (
     '<p>案例六面对 119 份格式各异的门店表，关键动作不是「让 AI 清洗」，而是<strong>先显式约定清洗规则</strong>（字段映射 / 空值处理 / 异常值口径），并要求产出附带质量报告。有报告才能核查，保留活公式才能追溯到原始单元格 —— 这是数据类任务可信的前提。</p></div>'
     '<div class="cl-card"><h4>10. 复杂研究适合「专家团并行拆解」</h4>'
     '<p>案例七把十年年报拆给多个角色并行处理再汇总。单条提示词扛不住这种量级，正确做法是<strong>拆成角色 + 明确交付物 + 过程产物落盘</strong>。落盘尤其关键：中间脚本和数据留下来，结论才可复现，而不是一次性的黑箱输出。</p></div>'
+    '<div class="cl-card"><h4>11. 数据治理类任务，「不动数据」的克制比「清得干净」更值钱</h4>'
+    '<p>案例九最反直觉的一条：<strong>清洗脚本的质量不看它合并了多少，而看它敢不敢承认自己拿不准。</strong>漏合还能人工补，错合几乎不可能事后发现。所以规则拿不准时一律不动数据，只写进人工清单附证据——820 行留 47 条尾巴（涉及 8.3% 客户），远好过悄悄合错一家。</p></div>'
+    '<div class="cl-card"><h4>12. 让规则自测有效性，而不是人工判断该不该开</h4>'
+    '<p>同一条校验规则，在真实 CRM 里是强信号，在脱敏样例里是纯噪音。案例九的做法是<strong>让脚本先算信号强度、跟随机期望作比，低于阈值就自动降级</strong>——告警数从 241 降到 26，且换数据集会自动重新启用。<strong>这是「可复用」和「只能用一次」的分水岭</strong>：硬编码开关的脚本换个场景就得改代码，自适应的脚本换场景只改配置。</p></div>'
     '</div>'
-    '<h3 class="cl-h3">🧭 八个案例的共同骨架</h3>'
+    '<h3 class="cl-h3">🧭 九个案例的共同骨架</h3>'
     '<p style="font-size:13px;line-height:1.7;color:var(--text-secondary);margin:0 0 14px">场景差异很大（资讯、简历、公众号、知识库、动画、数据、投研），但跑通路径高度一致：</p>'
     '<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 8px">'
     '<span style="background:#ECFDF5;border:1px solid #A7F3D0;color:#065F46;border-radius:999px;padding:6px 14px;font-size:13px;font-weight:600">① 选对能力（Skill / 连接器 / 专家团）</span>'
@@ -4728,7 +4897,8 @@ _CONCLUSION = (
     '<li>碎片知识的结构化沉淀与复用（案例四）</li>'
     '<li>作品集/展示类前端动画（案例五）</li>'
     '<li>多表合并清洗 + 交互式看板（案例六）</li>'
-    '<li>公开资料驱动的深度研究报告（案例七）</li></ul></td>'
+    '<li>公开资料驱动的深度研究报告（案例七）</li>'
+    '<li>脏客户/供应商名录的批量去重与规范化（案例九）</li></ul></td>'
     '<td>'
     '<ul style="margin:0;padding-left:18px;text-align:left"><li>需要实时秒级更新的场景（用 RSS / API 更合适）</li><li>高度敏感的合规/法律信息（须人工审核）</li><li>小众领域（Skill 可能覆盖不足）</li>'
     '<li>依赖第三方凭证/IP 白名单的发布类任务（配置门槛高，一次性需求不划算）</li>'
@@ -4738,7 +4908,8 @@ _CONCLUSION = (
     '<ul style="margin:0;padding-left:18px;text-align:left"><li>需要 100% 准确率的财务/法务数据</li><li>强交互式探索（需要反复追问深挖）</li><li>离线环境（无法访问外部 Skill）</li>'
     '<li>实时交易/秒级刷新的监控看板（本地静态产物做不到）</li>'
     '<li>依赖未公开信息的投研判断（只有公开年报支撑不了）</li>'
-    '<li>把 AI 生成的研究结论直接当决策依据（必须回原文核对）</li></ul></td>'
+    '<li>把 AI 生成的研究结论直接当决策依据（必须回原文核对）</li>'
+    '<li>无唯一主键（信用代码/客户ID）却要求 100% 精确去重的名录治理</li></ul></td>'
     '</tr></tbody></table>'
     '<h3 class="cl-h3">📋 落地避坑清单（Copy 即用）</h3>'
     '<div class="cl-checklist">'
@@ -4766,11 +4937,15 @@ _CONCLUSION = (
     '<label><input type="checkbox" checked disabled/> 数据类：产出必须附质量报告，并保留活公式以便追溯</label>'
     '<label><input type="checkbox" checked disabled/> 研究类：任务拆成角色 + 明确交付物，过程产物全部落盘</label>'
     '<label><input type="checkbox" checked disabled/> 研究类：关键数字回原始年报/公告对账，不采信二手转述</label>'
+    '<label><input type="checkbox" checked disabled/> 去重类：规则拿不准的一律不合并，只写人工清单并附证据 + 建议动作</label>'
+    '<label><input type="checkbox" checked disabled/> 去重类：动手前先量化脏数据形态分布（格式种类/缺失率/域名分布），别凭空定规则</label>'
+    '<label><input type="checkbox" checked disabled/> 去重类：每条告警规则先自测有效性，误报率过高就删掉或自动降级</label>'
+    '<label><input type="checkbox" disabled/> 去重类：源头加唯一主键（统一社会信用代码 / 客户ID），根治同名不同家</label>'
     '<label><input type="checkbox" disabled/> 通用：跑通后把提示词沉淀成脱敏模板，换主题即可复用</label>'
     '</div>'
     '<div class="cl-cta">'
     '<p><b>想自己试试？</b>复制案例一中的两段提示词，把「OpenAI / 大模型」换成你关心的主题，在 WorkBuddy 里新建任务即可开跑。</p>'
-    '<p style="margin-top:10px;font-size:13px;color:var(--text-tertiary)">案例一到八的方法都已就位，你的真实复盘就是下一个案例的最佳素材 💪 遇到新场景，直接套用六段式 + 虚拟复跑验证。</p>'
+    '<p style="margin-top:10px;font-size:13px;color:var(--text-tertiary)">案例一到九的方法都已就位，你的真实复盘就是下一个案例的最佳素材 💪 遇到新场景，直接套用六段式 + 虚拟复跑验证。</p>'
     '</div>'
     '<style>'
     '.cl-body h3.cl-h3{font-size:18px;font-weight:700;margin:28px 0 14px;color:var(--text-primary);padding-left:12px;border-left:4px solid #059669}'
@@ -4898,6 +5073,9 @@ ECOSYSTEM_PAGE_DATA = {
               + '<div class="case-tpl-item"><h4>💡 复盘</h4><p>踩了什么坑？下次怎么做更好？</p></div></div>'
               + '<style>.case-tpl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}.case-tpl-item{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:14px 16px}.case-tpl-item h4{font-size:14px;margin-bottom:6px;color:var(--text-primary)}.case-tpl-item p{font-size:12px;color:var(--text-secondary);margin:0;line-height:1.6}</style>',
         "cases": [
+            {"id": "case9", "title": "案例：820 条脏客户表一次性清洗成 617 家干净名单",
+             "intro": "公司名 3 种写法、电话 12 种格式、没有国家字段——一个 739 行脚本搞定去重/规范化/归类/派生四件事，并且会自己判断哪条告警规则该闭嘴。",
+             "body": _CASE9_BODY},
             {"id": "case8", "title": "案例：从 CSV 到销售可视化报告全链路自动化",
              "intro": "一条指令走完整条链路——CSV清洗→HTML报告→PPTX浓缩版→每月自动跑→技能封装→站点发布，WorkBuddy 全程驱动，无需打开任何外部工具。",
              "body": _CASE8_BODY},
