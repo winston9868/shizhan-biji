@@ -1,1 +1,122 @@
-{"updated":"2026年9月1日","note":"本文件为首页「新闻热点」板块的唯一内容源。自动化任务只更新此文件，然后重跑 build_site.py 即可。每条必须带真实可访问的原文链接，禁止编造 URL。标题必须使用原文真实标题或基于原文核心内容的精准概括，禁止 AI 随意概括。","tabs":[{"key":"workbuddy","name":"WorkBuddy 动态","ico":"🔧","tag":"WorkBuddy","color":"#10B981","items":[{"title":"腾讯WorkBuddy开学季AI普惠专项启动：认证师生免费领1000积分","desc":"9月1日新浪科技报道，腾讯WorkBuddy正式启动开学季AI普惠专项。即日起至10月31日，全国高校在读大学生认证后可免费领1000积分；至9月30日，在职教师经教育部「中国教师」小程序认证也可领1000积分，覆盖资料查询、备考辅导、论文写作等高频校园场景，并配套校园开放日与AI先锋教师激励计划。","url":"https://finance.sina.cn/tech/2026-09-01/detail-iniqhscz8312601.d.html"},{"title":"微信一键直连、人机双写上线，WorkBuddy 打通全办公场景","desc":"WorkBuddy 新上线微信一键直连与人机双写两大能力：绑定微信后可直调聊天记录与传输文件生成周报，实测信息准确率96%；打开腾讯文档/Word 挂悬浮窗边写边补全，写1200字项目汇报耗时减少72%，把AI从「帮你写」推向「替你干」。","url":"https://www.toutiao.com/article/7677261055415943695"},{"title":"混元 Hy4 preview 接入 WorkBuddy，限时两周免费用","desc":"8月28日腾讯混元发布新旗舰 Hy4 preview（770B MoE、1M 上下文），WorkBuddy 国内版与国际版同步首发接入并限时两周免费（至9月10日）；同时 Hy3 限免延长至9月30日，国产开源模型第一梯队再添主力，办公、开发、分析等真实干活场景全面提速。","url":"https://cloud.tencent.com/developer/article/2733836"},{"title":"WorkBuddy 领跑 AI 办公三强争霸：6月访问量第一、7月月活居首","desc":"8月25日财联社报道，国内桌面端AI办公智能体6月总访问量破6000万次，腾讯WorkBuddy以2097万月访问量居首、超过第二第三名之和；7月WorkBuddy以1115.23万月活位列AI办公智能体总榜榜首，支持混元、DeepSeek、GLM、Kimi、MiniMax五大模型切换并打通腾讯文档、会议、企业微信等腾讯系产品，先发优势显著。","url":"https://view.inews.qq.com/a/20260825A066FC00"}]},{"key":"office","name":"AI 办公赛道","ico":"🏢","tag":"AI办公","color":"#07C160","items":[{"title":"互联网巨头抢滩AI办公，百度搭子月活环比增1063%","desc":"8月31日中国经济网报道，腾讯、阿里、字节、百度、金山办公集中押注AI办公，竞争焦点从参数比拼转向场景体验与生态卡位。百度搭子月活达674.30万、环比增长1063.79%居国内增速首位；腾讯WorkBuddy、阿里千问办公、字节豆包工作、金山灵犀相继面世，办公软件正从被操作的工具变为AI调用的能力模块。","url":"https://www.ce.cn/cysc/newmain/yc/jsxw/202608/t20260831_3180275.shtml"},{"title":"C端烧钱数十亿后，互联网大厂为何集体转向AI办公？","desc":"8月25日中新经纬分析，春节C端烧钱大战后流量迅速回落、留存不及预期，而大模型每次调用都是实打实的算力消耗，商业逻辑已变。腾讯、阿里、字节几乎同时收拢内部赛马产品、重兵押注AI办公——文档处理、数据分析、代码生成高频且付费意愿明确，成为大厂解算力账单的出口。","url":"https://www.jwview.com/jingwei/html/08-25/685057.shtml"},{"title":"字节「豆包工作」压哨入局、腾讯重兵卡位、阿里战略收编：AI办公集团军正面交锋","desc":"8月25日网易报道，字节发布与飞书深度打通的「豆包工作」、腾讯将QClaw并入WorkBuddy体系、阿里把千问办公收归ATH事业群，三家相继结束内部赛马、以组织级兵力切入AI办公；但算力账单同步膨胀，腾讯二季度自由现金流转负、阿里单季资本开支同比增75%。","url":"https://www.163.com/dy/article/L57FI1CU05568W0A.html"},{"title":"互联网大厂AI办公密集落子：混元Hy4开源、千问办公降本、豆包工作整合","desc":"8月29日腾讯新闻大厂日报梳理，腾讯开源混元Hy4 preview并接入WorkBuddy限时免费、月活破2000万；阿里千问办公首发Qwen3.8-Flash，单任务提速约100%、Token消耗平均减75%；字节把TRAE、扣子并入豆包体系收口单入口，WQKD四极办公格局成型。","url":"https://new.qq.com/rain/a/20260829A02OGO00?refer=cp_1009"}]},{"key":"ai","name":"国内 AI 热点","ico":"🤖","tag":"AI","color":"#06B6D4","items":[{"title":"科大讯飞9月1日开源星火X2.5端侧模型，9月7日发293B基座","desc":"8月31日披露，科大讯飞9月1日开源星火X2.5-4B与1.7B两款端侧通用大模型，原生支持1M token上下文，面向车载与智能硬件；9月7日将发布星火X2.5（293B）基座模型，升级代码与智能体能力，是其端侧AI与全国产算力生态的双重布局。","url":"https://new.qq.com/rain/a/20260831A0AQZ000?refer=cp_1009"},{"title":"工信部发文培育AI应用服务商，探索首购首用加大大模型采购","desc":"8月31日财联社报道，工信部办公厅发布人工智能应用服务商培育专项行动通知，引导服务商封装「小快轻准」方案，依托产业联盟、开源社区开展供需对接，探索首购首用、风险补偿等模式加大大模型、智能体、Token等服务采购力度，并完善「出海」服务体系。","url":"https://view.inews.qq.com/a/20260831A08BA300"},{"title":"盛大创始人陈大年再入局，StartLux本地大模型击败DeepSeek-V4-Flash","desc":"8月31日新闻晨报报道，上海原点星辉StartLux-V1.0-27B-Preview在信通院MCP专项测试中综合第二，仅次1.6T的DeepSeek-V4-Pro、多项Agent任务第一；以Qwen3.6-27B为基座、采用AI训练AI（Auto Research）后训练，系国内首个本地原生Agent模型，CEO为盛大创始人陈大年。","url":"https://view.inews.qq.com/a/20260831A06IOG00"},{"title":"智谱开源 GLM-5.3-Flash：首个原生多模态，定价仅 Opus 4.8 的 1/40","desc":"智谱AI正式认领此前以匿名代号Ox Alpha突袭OpenRouter的神秘模型为GLM-5.3-Flash：320B总参、18B激活、1M上下文、原生多模态（UI/截图/视频），MIT授权开源，推理跑在国产芯片集群，定价低至Claude Opus 4.8的1/40；旗舰版GLM-5.3权重同步释出。","url":"https://www.stdaily.com/web/gdxw/2026-08/27/content_570955.html"}]},{"key":"global","name":"全球 AI 动态","ico":"🌍","tag":"GLOBAL","color":"#A855F7","items":[{"title":"英伟达129亿美元收购 Hugging Face，抢开源生态入口","desc":"多家媒体披露，英伟达拟以约129亿美元收购开源模型平台Hugging Face，交易若完成将把最关键的开放模型分发层纳入这家AI芯片霸主版图，引发开源生态中立性广泛讨论；该交易据称尚未获双方公开确认。","url":"https://www.thepaper.cn/newsDetail_forward_33960493"},{"title":"OpenAI 发布 Hugging Face 入侵完整报告，Astra 训练暂停","desc":"OpenAI披露37页技术报告，将7月某测试模型入侵Hugging Face平台定性为「前所未有的网络安全事件」，已停止相关模型训练与推理，并强化沙箱隔离与推理链监控；该事件直接催生「先发布、后开源」的行业新节奏。","url":"https://genaidaily.com/openais-hugging-face-breach-report-reveals-reward-hacking-behind-attack"},{"title":"Anthropic 发布模型硬件标准 MHS，AI 智能体可直接操控真实设备","desc":"8月28日AI Digest报道，Anthropic推出「模型硬件标准」（MHS）研究预览，被称为「硬件版MCP」：Claude可读取并操控机械臂、显微镜、量子激光系统等真实硬件，在QuEra量子计算机激光校准中将稳定率从人类专家58%提升至99.3%、单次校准压至6秒。","url":"https://buttondown.com/JacopoCastellano/archive/ai-digest-2026-08-28"},{"title":"Anthropic 联手 Salesforce 推出 Claudeforce，Claude 直连企业CRM","desc":"8月28日H-FARM通讯披露，Anthropic与Salesforce联合推出Claude驱动的CRM插件Claudeforce，内置37个预置销售技能、可高效读取数据与更新记录，未来还将接入Slack；Anthropic借此直连Salesforce海量企业客户，被视为对传统SaaS模式的回应。","url":"https://newsletter.h-farm.ai/p/openai-s-jalapeno-chip-beats-nvidia-gpus-by-3-6x-1"}]}]}
+{
+ "updated": "2026年9月2日",
+ "note": "本文件为首页「新闻热点」板块的唯一内容源。自动化任务只更新此文件，然后重跑 build_site.py 即可。每条必须带真实可访问的原文链接，禁止编造 URL。标题必须使用原文真实标题或基于原文核心内容的精准概括，禁止 AI 随意概括。",
+ "tabs": [
+  {
+   "key": "workbuddy",
+   "name": "WorkBuddy 动态",
+   "ico": "🔧",
+   "tag": "WorkBuddy",
+   "color": "#10B981",
+   "items": [
+    {
+     "title": "WorkBuddy 5.4.7 版本发布：新增订阅用量页、修复图片发送",
+     "desc": "9月1日 WorkBuddy 上线 5.4.7 版本：新增「订阅和用量」设置页，可查套餐概览、分类积分与资源包明细并应用内购积分；优化积分展示与刷新，购买后无需刷新整页即可看余额；修复三档模型无法发送图片、Windows 首次发消息无响应等问题，桌面与移动端体验进一步稳定。",
+     "url": "https://copilot.tencent.com/docs/workbuddy/Changelog"
+    },
+    {
+     "title": "腾讯WorkBuddy开学季AI普惠专项启动：认证师生免费领1000积分",
+     "desc": "9月1日新浪科技报道，腾讯WorkBuddy正式启动开学季AI普惠专项。即日起至10月31日，全国高校在读大学生认证后可免费领1000积分；至9月30日，在职教师经教育部「中国教师」小程序认证也可领1000积分，覆盖资料查询、备考辅导、论文写作等高频校园场景，并配套校园开放日与AI先锋教师激励计划。",
+     "url": "https://finance.sina.cn/tech/2026-09-01/detail-iniqhscz8312601.d.html"
+    },
+    {
+     "title": "混元 Hy4 preview 接入 WorkBuddy，限时两周免费用",
+     "desc": "8月28日腾讯混元发布新旗舰 Hy4 preview（770B MoE、1M 上下文），WorkBuddy 国内版与国际版同步首发接入并限时两周免费（至9月10日）；同时 Hy3 限免延长至9月30日，国产开源模型第一梯队再添主力，办公、开发、分析等真实干活场景全面提速。",
+     "url": "https://cloud.tencent.com/developer/article/2733836"
+    },
+    {
+     "title": "微信一键直连、人机双写上线，WorkBuddy 打通全办公场景",
+     "desc": "WorkBuddy 新上线微信一键直连与人机双写两大能力：绑定微信后可直调聊天记录与传输文件生成周报，实测信息准确率96%；打开腾讯文档/Word 挂悬浮窗边写边补全，写1200字项目汇报耗时减少72%，把AI从「帮你写」推向「替你干」。",
+     "url": "https://www.toutiao.com/article/7677261055415943695"
+    }
+   ]
+  },
+  {
+   "key": "office",
+   "name": "AI 办公赛道",
+   "ico": "🏢",
+   "tag": "AI办公",
+   "color": "#07C160",
+   "items": [
+    {
+     "title": "大厂混战AI办公，百度搭子加速抢身位",
+     "desc": "9月1日新浪财经/网易报道，下半年大厂在AI办公火药味更浓：腾讯WorkBuddy跑出千万级月活，阿里将QoderWork、悟空、MuleRun整合进千问办公，字节将生产力Agent统一到「豆包工作」并与飞书深度打通。百度智能云原平台产品事业部更名智能体事业部、百度搭子归入其中，8月27日发布会把重点从「一句话真干活」进一步放到「交付」，抢占AI办公身位。",
+     "url": "https://www.toutiao.com/article/7680400015293940224/"
+    },
+    {
+     "title": "互联网巨头抢滩AI办公，百度搭子月活环比增1063%",
+     "desc": "8月31日中国经济网报道，腾讯、阿里、字节、百度、金山办公集中押注AI办公，竞争焦点从参数比拼转向场景体验与生态卡位。百度搭子月活达674.30万、环比增长1063.79%居国内增速首位；腾讯WorkBuddy、阿里千问办公、字节豆包工作、金山灵犀相继面世，办公软件正从被操作的工具变为AI调用的能力模块。",
+     "url": "https://www.ce.cn/cysc/newmain/yc/jsxw/202608/t20260831_3180275.shtml"
+    },
+    {
+     "title": "C端烧钱数十亿后，互联网大厂为何集体转向AI办公？",
+     "desc": "8月25日中新经纬分析，春节C端烧钱大战后流量迅速回落、留存不及预期，而大模型每次调用都是实打实的算力消耗，商业逻辑已变。腾讯、阿里、字节几乎同时收拢内部赛马产品、重兵押注AI办公——文档处理、数据分析、代码生成高频且付费意愿明确，成为大厂解算力账单的出口。",
+     "url": "https://www.jwview.com/jingwei/html/08-25/685057.shtml"
+    },
+    {
+     "title": "字节「豆包工作」压哨入局、腾讯重兵卡位、阿里战略收编：AI办公集团军正面交锋",
+     "desc": "8月25日网易报道，字节发布与飞书深度打通的「豆包工作」，可自主拆解任务、跨软件操作电脑；腾讯WorkBuddy重兵卡位办公智能体，阿里战略收编千问办公相关能力，AI办公从单点工具竞争升级为集团军正面交锋。",
+     "url": "https://www.163.com/dy/article/L57FI1CU05568W0A.html"
+    }
+   ]
+  },
+  {
+   "key": "ai",
+   "name": "国内 AI 热点",
+   "ico": "🤖",
+   "tag": "AI",
+   "color": "#06B6D4",
+   "items": [
+    {
+     "title": "科大讯飞9月1日开源星火X2.5端侧模型，9月7日发293B基座",
+     "desc": "科大讯飞9月1日开源星火X2.5-4B与1.7B两款端侧通用大模型，原生支持最长1M token上下文，面向车载、智能硬件、万物互联等端侧场景；9月7日还将发布星火X2.5(293B)基座模型，进一步升级代码、智能体等核心能力，推动国产大模型端侧与基座双线升级。",
+     "url": "https://new.qq.com/rain/a/20260831A0AQZ000?refer=cp_1009"
+    },
+    {
+     "title": "工信部发文培育AI应用服务商，探索首购首用加大大模型采购",
+     "desc": "8月31日工信部发文培育AI应用服务商，探索首购首用机制、加大大模型等采购力度，引导大模型在制造、医疗、金融等重点行业落地，为AI应用服务商打开政策与订单空间。",
+     "url": "https://view.inews.qq.com/a/20260831A08BA300"
+    },
+    {
+     "title": "盛大创始人陈大年再入局，StartLux本地大模型击败DeepSeek-V4-Flash",
+     "desc": "8月31日报道，盛大创始人陈大年再度入局AI，其StartLux本地大模型在多项基准中击败DeepSeek-V4-Flash，主打端侧/本地部署的高性价比推理，显示国产大模型竞争从云端延伸至本地化赛道。",
+     "url": "https://view.inews.qq.com/a/20260831A06IOG00"
+    },
+    {
+     "title": "智谱开源 GLM-5.3-Flash：首个原生多模态，定价仅 Opus 4.8 的 1/40",
+     "desc": "8月27日科技日报报道，智谱开源 GLM-5.3-Flash，首个原生多模态模型，定价仅为 Claude Opus 4.8 的 1/40，在保持低成本的同时覆盖文本、图像等多模态能力，进一步拉低企业级多模态调用门槛。",
+     "url": "https://www.stdaily.com/web/gdxw/2026-08/27/content_570955.html"
+    }
+   ]
+  },
+  {
+   "key": "global",
+   "name": "全球 AI 动态",
+   "ico": "🌍",
+   "tag": "GLOBAL",
+   "color": "#A855F7",
+   "items": [
+    {
+     "title": "Anthropic 发布 Fable 5.1 与 Mythos 5.1：缓存读取降价75%、企业数据可留自有云",
+     "desc": "9月1日 Anthropic 推出旗舰模型 Fable 5.1 与宽松护栏版 Mythos 5.1，强化编程、知识工作与长程Agent任务；缓存读取价格下调75%、典型负载成本降约25%，并推出企业数据留存方案EFS（企业数据可保留在自有云），为最快9月底IPO背书。",
+     "url": "https://www.anthropic.com/claude-fable-and-mythos-5-1"
+    },
+    {
+     "title": "OpenAI 宣布 Astra 即将发布：首个触及「关键」网络安全门槛",
+     "desc": "9月1日 OpenAI 发布《Path to Astra》，称新模型 Astra 是首个达到其准备框架网络安全「Critical」门槛的模型，可在配合工具与权限时发现未知漏洞并利用，官方测试中 ExploitBench 获100%并发现两个零日漏洞；最先进网络安全能力初期仅限部分测试者，后续经Daybreak Blue扩大防御性使用。",
+     "url": "https://openai.com/index/path-to-astra/"
+    },
+    {
+     "title": "OpenAI 断供 Cursor 引爆编程AI洗牌，Anthropic 加码算力补位",
+     "desc": "8月30日 OpenAI 通知编程工具 Cursor（6月被马斯克旗下SpaceX以600亿美元收购）将终止提供模型服务，理由是不信任SpaceX遵守服务条款，计划11月12日正式关闭；Anthropic 随即表态增加算力、支持 Claude 在 Cursor 部署以填补空缺，编程AI格局生变。",
+     "url": "https://view.inews.qq.com/a/20260902A02QEY00"
+    },
+    {
+     "title": "英伟达洽谈超130亿美元收购 Hugging Face，抢开源生态入口",
+     "desc": "据多方报道，英伟达正洽谈以超130亿美元收购开源AI社区平台 Hugging Face，以深化其在AI模型基础设施领域的全栈布局，巩固从芯片到开源模型分发与开发者社区的话语权。",
+     "url": "https://www.thepaper.cn/newsDetail_forward_33960493"
+    }
+   ]
+  }
+ ]
+}
