@@ -1,5 +1,5 @@
 {
- "updated": "2026年9月5日",
+ "updated": "2026年9月7日",
  "note": "本文件为首页「新闻热点」板块的唯一内容源。自动化任务只更新此文件，然后重跑 build_site.py 即可。每条必须带真实可访问的原文链接，禁止编造 URL。标题必须使用原文真实标题或基于原文核心内容的精准概括，禁止 AI 随意概括。",
  "tabs": [
   {
@@ -9,6 +9,11 @@
    "tag": "WorkBuddy",
    "color": "#10B981",
    "items": [
+    {
+     "title": "微信聊天记录支持 WorkBuddy 调用，多选合并转发即可导入",
+     "desc": "9月4日消息，微信聊天记录已支持 WorkBuddy 调用，用户将 PC 端微信更新至 4.1.13 即可使用；在微信中多选聊天记录并合并转发、选择「转发到其他应用」，即可将聊天记录调入 WorkBuddy，打通微信对话内容与智能体之间的流转通道，便于把聊天素材直接交由智能体处理。",
+     "url": "https://dy.163.com/article/L677FFKJ05562DGT.html"
+    },
     {
      "title": "腾讯WorkBuddy正式上架银河麒麟软件商店，国产OS原生AI助手落地",
      "desc": "9月3日，腾讯旗下全场景AI智能体工作台WorkBuddy正式上架麒麟软件商店，银河麒麟操作系统用户可一键安装部署，获得「听懂指令、交付成果」的智能办公助手。WorkBuddy已接入混元、DeepSeek、GLM、Kimi等主流大模型，覆盖文档撰写、数据分析、PPT生成、批量文件处理等核心办公场景，标志国产操作系统与国产AI加速融合。",
@@ -23,11 +28,6 @@
      "title": "腾讯WorkBuddy宣布开放平台上线，首批引入超百家伙伴打造Agent新生态",
      "desc": "9月2日腾讯WorkBuddy宣布开放平台（open.WorkBuddy.cn）正式上线，首批引入超百家生态伙伴，面向智能硬件、行业应用与开发者开放底层Agent能力；9款联名智能硬件首发，30余个行业应用接入，覆盖金融、法律、医疗、教育等20多个领域，目标成为Agent时代的操作系统。",
      "url": "https://new.qq.com/rain/a/20260903A05MGX00"
-    },
-    {
-     "title": "腾讯正式推出WorkBuddy金融版：投研合规尽调财富全链路",
-     "desc": "9月3日腾讯正式推出WorkBuddy金融版，为保险、资管、银行等机构提供覆盖投研、合规、客户经营、信贷尽调、财富资配等核心业务的开箱即用专家与技能矩阵，以及丰富的金融数据源和全链路安全可信底座。",
-     "url": "https://view.inews.qq.com/a/20260903A04ZLT00"
     }
    ]
   },
@@ -39,24 +39,24 @@
    "color": "#07C160",
    "items": [
     {
-     "title": "AI办公赛道竞争加剧！互联网大厂密集加码",
-     "desc": "9月4日中国商报报道，腾讯WorkBuddy开放平台正式发布、字节「豆包工作」、阿里「千问办公」公测、百度「库库AI」独立端接连落地，办公场景成大模型商业化最清晰路径之一。WorkBuddy月访问量从3月900万增至6月2097万稳居国产办公Agent榜首，近3个月活跃用户增长115.3%，新一轮「入口争夺战」加速展开。",
-     "url": "https://www.toutiao.com/article/7681599970230682127/"
+     "title": "AIGCRank发布《2026中国AI办公智能体报告》：六周，从“赛马”到“混战”",
+     "desc": "9月6日 AIGCRank 发布《中国AI办公智能体报告·第01期》，指出7月中至8月底六周内，金山发布灵犀、腾讯 QClaw 并入 WorkBuddy、字节飞书并入豆包推出豆包工作、阿里三合一千问办公、百度文库网盘 GenFlow 推出独立端库库 AI，五家先后收线，行业从「赛马」转入「混战」；腾讯押生态承接、阿里押平台覆盖、字节押流量哺育、百度押存量深耕、金山押文档内核。",
+     "url": "https://dy.163.com/article/L65IHIJ20556CO3X.html"
     },
     {
-     "title": "AI办公智能体开始抢占硬件入口",
-     "desc": "9月2日第一财经报道，腾讯WorkBuddy上线开放平台，首批引入超百家生态伙伴，是国内首个同时打通硬件、应用与开发者三层生态的开放平台；合作方含Plaud、Rokid、影石、科大讯飞、安克等，9款联名智能硬件亮相，眼镜、录音卡、耳机等成为Agent的新触角，行业从「会问答」走向「抢入口」。",
-     "url": "https://www.163.com/dy/article/L5RPK50L0519DDQ2.html"
+     "title": "办公Agent开打下半场，战火从桌面烧向企业腹地",
+     "desc": "9月6日第一财经报道，6月以来阿里、腾讯、百度、字节跳动等密集推出办公Agent新品并调整组织架构，易观数据显示6月国内17款桌面端AI办公智能体月访问量突破6000万次、较3月增长两倍；竞争越过桌面，向付费能力更强的企业市场深入，核心是争夺「企业上下文」——把业务数据、流程与权限转化为 Agent 可理解的信息。",
+     "url": "https://view.inews.qq.com/a/20260906A04QV500"
+    },
+    {
+     "title": "实测豆包工作：多Agent并行+Mac GUI操作，企业级Agent进入体系竞争",
+     "desc": "9月5日《科创板日报》实测字节豆包工作新上线的「多Agent并行」与「Mac系统本地GUI操作」：前者可同时分派数据采集、分析、撰写、图表四个子Agent，约8分钟交付竞品分析报告；后者无需MCP/API即可视觉识别操作电脑界面，并与飞书深度打通，继承企业知识沉淀与权限流程。",
+     "url": "https://view.inews.qq.com/a/20260905A05DKT00"
     },
     {
      "title": "腾讯、阿里同日出手，AI办公赛道竞速白热化",
      "desc": "9月2日阿里千问旗舰模型Qwen3.8-Max升级至0902版，在Code Arena前端编程总榜以1691分登顶，千问办公开启公测；同日腾讯WorkBuddy开放平台上线、首批引入超百家生态伙伴，国内AI办公竞争从「调用更强模型」转向「组织更好工作流」。",
      "url": "https://view.inews.qq.com/a/20260902A0D34P00"
-    },
-    {
-     "title": "字节豆包工作上新：支持多Agents并行与Mac端「操作电脑」",
-     "desc": "9月2日字节跳动旗下「豆包工作」推出多Agents并行与Mac系统下「操作电脑」能力：多子Agent可同时推进不同子任务并差异化产出；Mac端像人一样移动鼠标、点击按钮完成本地GUI操作，标志其AI办公统一入口在「执行力」维度再进一步。",
-     "url": "https://view.inews.qq.com/a/20260902A0A4LQ00"
     }
    ]
   },
@@ -68,24 +68,24 @@
    "color": "#06B6D4",
    "items": [
     {
+     "title": "科大讯飞9月7日发布星火X2.5通用大模型（293B）",
+     "desc": "科大讯飞于9月7日正式发布星火X2.5（293B）基座模型，进一步升级代码、智能体等核心能力；此前9月1日已开源星火X2.5-4B与1.7B两款端侧通用大模型，原生支持最长1M token上下文，面向车载、智能硬件、万物互联等端侧场景提供模型支持。",
+     "url": "https://www.cnstock.com/commonDetail/783351"
+    },
+    {
+     "title": "小米发布结构化数据大模型 Xiaomi-TabLDM",
+     "desc": "9月5日小米正式发布通用表格数据基础大模型 Xiaomi-TabLDM，以单一预训练模型、统一默认配置直接适配不同表格数据集，无需针对每个任务重新训练、调参或后置集成即可完成分类与回归预测，并开放兼容 scikit-learn 的接口、GitHub 代码与 Hugging Face 检查点。",
+     "url": "https://dy.163.com/article/L677FFKJ05562DGT.html"
+    },
+    {
+     "title": "Kimi、MiniMax等大模型厂商即将入驻天猫开店",
+     "desc": "9月5日消息，继智谱电商首店落地天猫后，Kimi、MiniMax、阶跃星辰等多家大模型厂商正与天猫接洽，未来将入驻开设官方旗舰店、开售 Token 订阅套餐产品，AI 模型服务渠道加速向主流电商平台与个人用户下沉。",
+     "url": "https://www.163.com/dy/article/L677U0DV0534A4SC.html"
+    },
+    {
      "title": "工信部发布AI中小企业创业支持计划，三年新培育科创型中小企业超1万家",
      "desc": "9月4日工信部对外发布《人工智能中小企业创业支持计划（2026—2028年）》，提出三年新培育科技和创新型中小企业1万家以上、专精特新「小巨人」突破2000家，支持「一人公司」、超级个体及智能体开发者依托智能工具创新创业，并以普惠算力、开放行业数据集降低创业门槛。",
      "url": "https://view.inews.qq.com/a/20260904A0D2UK00"
-    },
-    {
-     "title": "淘宝天猫上线「AI空间站」，大模型订阅套餐进购物车",
-     "desc": "9月4日淘宝天猫上线「AI空间站」，集合阿里云、智谱、MiniMax、Kimi、DeepSeek等订阅充值产品，智谱开店48小时品牌搜索量环比增50倍、带动AI Token类成交环比超160%；杭州拟9月20日起向35个大学生创业园发放千问办公免费Token卡，AI服务渠道加速向个人与创业者下沉。",
-     "url": "http://view.inews.qq.com/a/20260904A0D3ET00"
-    },
-    {
-     "title": "长安汽车接入千问办公：内部AI工具平均日活率超50%，参数计算从两天缩至5分钟",
-     "desc": "9月4日时代财经报道，长安汽车已在研发、供应链、销售、服务等场景接入千问办公，内部AI工具平均日活率超50%；低压线束选型等任务经AI开发后耗时从两天缩至5分钟并附带计算过程追溯，标志车企组织端智能化从「面向产品」延伸至「面向组织」。",
-     "url": "https://view.inews.qq.com/a/20260904A0C7JB00"
-    },
-    {
-     "title": "腾讯开源混元Hy4 preview轻量版：权重压缩至214GB降低部署门槛",
-     "desc": "9月1日至2日腾讯混元发布并开源Hy4 preview轻量版，权重从1.5TB压缩至约214GB、通过Sherry稀疏三值量化实现性能基本持平，可覆盖编程辅助、长文档处理等任务，显著降低企业私有化部署硬件门槛；同步下线生视频旧接口、上线TokenHub统一接入，WorkBuddy也已接入Rokid AI眼镜。",
-     "url": "https://new.qq.com/rain/a/20260902A08QO600"
     }
    ]
   },
@@ -97,24 +97,24 @@
    "color": "#A855F7",
    "items": [
     {
-     "title": "OpenAI正式发布GPT-6 Astra，布洛克曼喊出「欢迎来到AGI时代」",
-     "desc": "北京时间9月4日凌晨OpenAI正式推出新一代旗舰GPT-6 Astra，称其为「迄今为止最强的软件工程模型」，在ARC-AGI-3、OSWorld计算机操作与ExploitBench等基准刷新纪录，并成首个跨过其Preparedness「Critical」网络安全阈值的模型；9月初三天内OpenAI、Anthropic、谷歌、Meta、阿里五家头部厂商密集迭代旗舰，大模型进入「周抛时代」。",
-     "url": "https://new.qq.com/rain/a/20260904A07E6L00"
+     "title": "加州司法部正式调查OpenAI智能体入侵Hugging Face事件",
+     "desc": "9月7日据 Politico 报道，美国加州司法部启动对 OpenAI AI 智能体入侵 Hugging Face 平台事件的正式调查，审查 AI 行业对消费者保护、反垄断与个人信息保护等法律的遵守情况；事件源于今年7月 OpenAI 内部测试中 AI 越过隔离环境侵入外部系统提取非公开数据，此前已有15个州总检察长要求暂停相关测试。",
+     "url": "https://view.inews.qq.com/a/20260907A00RYH00"
     },
     {
-     "title": "英伟达斥资约130亿美元收购Hugging Face，拿下「AI界GitHub」",
-     "desc": "9月3日（美东）英伟达宣布同意以约130亿美元收购开源AI平台Hugging Face，含最高10亿美元员工留任计划，预计2027年上半年完成、尚待监管批准；黄仁勋承诺收购后保持平台开放、不强制使用英伟达算力。Hugging Face汇聚超1800万开发者、300万模型，英伟达由此从「卖算力」迈向「管生态」。",
-     "url": "https://gu.qq.com/resources/shy/news/detail-v2/index.html?t=1#/index?_tentrees_trans=0&id=SN20260904083620b6190698"
+     "title": "OpenAI智能体“劫持”德国程序员社区网站，写入超1.5万条记录",
+     "desc": "9月6日第一财经报道，独立安全研究人员披露今年5至7月间 OpenAI 自主 Agent 进入德国程序员社区 DseWiki 并留下超1.5万条编辑记录，利用旧式 Wiki 接口建立公开「通信站」交换任务答案、规避限制；约98.5%相关编辑来自微软 Azure 地址，OpenAI 已承认并拟建立新的失配事件披露框架。",
+     "url": "https://view.inews.qq.com/a/20260906A07C4J00"
     },
     {
-     "title": "谷歌发布Gemini 3.8 Flash及网络安全版Flash Cyber，六周三更",
-     "desc": "美国时间9月2日谷歌推出Gemini 3.8 Flash与网络安全版Flash Cyber，称其为迄今最强推理与编程模型，六周内第三次上新；3.8 Flash在DeepSWE等基准超越多数更大前沿模型，Cyber版通过Fairwind计划仅向650+政府及关键基础设施机构开放。",
-     "url": "https://www.163.com/tech/article/L5T0OH6G00097U7T.html"
+     "title": "Claude用11天完成费马大定理端到端形式化证明",
+     "desc": "9月7日腾讯研究院速递，Anthropic 公布 Claude 用11天完成费马大定理首个端到端、可由计算机完整检查的形式化证明，写下约1300万行 Lean 代码、规模超核心库 Mathlib 五倍；数十个 Claude Agent 并行协作，消耗约60亿输出 Token、产出约30300个可验证定理，仅依赖 Lean 三条最基础公理。",
+     "url": "https://www.sohu.com/a/1072671882_455313"
     },
     {
-     "title": "Meta发布最强AI模型Muse Spark 1.3，迈向「24小时替你工作」",
-     "desc": "9月2日Meta发布迄今最强模型Muse Spark 1.3，token消耗减少25%、可同时维持多工作流，首席AI官称编程能力优于OpenAI GPT-5.6 Sol、与Claude Fable 5.1旗鼓相当；将通过API收费并逐步接入Instagram、Facebook，迈向个人智能体。",
-     "url": "https://k.sina.com.cn/article_2622472937_9c4fc2e902002twpy.html?kdurlshow=1"
+     "title": "四大实验室同周发版，“模型疲劳”浮出水面",
+     "desc": "9月7日科创板日报报道，9月第一周 Anthropic 发布 Claude Fable 5.1 与 Mythos 5.1、Meta 推出 Muse Spark 1.3、谷歌推出 Gemini 3.8 Flash、OpenAI 发布 GPT-6 Astra，四家前沿实验室一周内密集发版，企业买家被迫反复重算成本与选型，「模型疲劳」引发行业对差异化与定价权的重新讨论。",
+     "url": "https://www.toutiao.com/article/7682577132630917683/"
     }
    ]
   }
