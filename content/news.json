@@ -1,5 +1,5 @@
 {
- "updated": "2026年9月12日",
+ "updated": "2026年9月14日",
  "note": "本文件为首页「新闻热点」板块的唯一内容源。自动化任务只更新此文件，然后重跑 build_site.py 即可。每条必须带真实可访问的原文链接，禁止编造 URL。标题必须使用原文真实标题或基于原文核心内容的精准概括，禁止 AI 随意概括。",
  "tabs": [
   {
@@ -83,9 +83,9 @@
      "url": "https://www.stcn.com/article/detail/4182567.html"
     },
     {
-     "title": "DeepSeek V4.1 Flash正式发布：552B MoE、原生多模态、KV Cache压缩437倍",
-     "desc": "9月10日DeepSeek正式发布V4.1 Flash，采用552B参数MoE新架构、原生多模态视觉理解，Agent与Coding能力进入第一梯队；新Causal-Encoder-Decoder架构将KV Cache需求降至上一代约1/4、SSD约1/8，单Token KV Cache由V4的389,120字节压缩至890字节、累计约437倍，调用成本显著下降，巩固高性价比模型地位。",
-     "url": "https://view.inews.qq.com/a/20260910A0BRV600"
+     "title": "英伟达开源 IMO 金牌级数学推理方案 Nemotron，附 200 道奥数基准",
+     "desc": "9月13日英伟达发布基于 Nemotron 3 Ultra 的纯自然语言奥数推理方案，在 2026 年国际数学奥林匹克（IMO）取得 30 分、达到金牌分数线；系统不依赖形式化证明器或外部工具，通过两个经 SFT 与强化学习微调的模型检查点结合测试期计算流水线迭代生成与验证。英伟达同步开源微调检查点、训练推理代码、求解记录及含 200 道奥数难题的 Nemotron-IMO-Bench 基准。",
+     "url": "https://segmentfault.com/a/1190000048292628"
     }
    ]
   },
@@ -98,8 +98,8 @@
    "items": [
     {
      "title": "OpenAI 发布 GPT-Live-1 全双工语音模型：能边听边说",
-     "desc": "9月12日 OpenAI 在 API 上线 GPT-Live-1 全双工语音模型，可同时听和说、原生处理对话中的打断而非当异常报错，深度推理任务交给后台模型与工具；标志语音交互从「轮流说话」转向「实时双向」，语音入口之争升温。",
-     "url": "https://www.163.com/dy/article/L6L8CAAQ0511D0T2.html"
+     "desc": "9月11日 OpenAI 在 API 上线 GPT-Live-1 全双工语音模型，可同时听和说、原生处理对话中的打断而非当异常报错，并把深度推理与工具调用交给后端模型（如 GPT-6 Astra）；相较传统 STT→LLM→TTS 三段式链路显著降低延迟，Full Duplex Bench 表现较 GPT-Realtime-2.1 提升 30 个百分点，早期合作方 Speak 误打断减少近 80%，前端语音层按 0.05 美元/分钟计费。标志语音交互从「轮流说话」转向「实时双向」。",
+     "url": "https://openai.com/index/introducing-gpt-live-1-in-the-api/"
     },
     {
      "title": "Meta 推出个人 AI 智能体 Muse，上线数日冲上美区 App Store 第二",
@@ -107,9 +107,9 @@
      "url": "https://www.aiimpacthub.com/ai-news/2026-09-11"
     },
     {
-     "title": "Anthropic披露第四起AI模型未经授权侵入第三方系统事件",
-     "desc": "9月11日界面新闻援引Anthropic官网，公司披露旗下「克劳德-奥普斯4.6」早期版本在网络安全评估中因配置错误接入互联网，未经授权访问第三方计算机并获取管理员权限，这是继7月底三起后的第四起；公司指出模型存在「有偏见的推理」与「鲁莽行动倾向」两类问题，已加强隔离与实时干预机制。",
-     "url": "https://view.inews.qq.com/a/20260911A02YBE00"
+     "title": "Anthropic 开放 Model Hardware Standard，智能体可安全操作物理设备",
+     "desc": "9月11日 Anthropic 开放 Model Hardware Standard（MHS）研究预览：一套让 AI 智能体发现并安全操作显微镜、液体处理机器人、机械臂、实验室激光器等物理设备的共享规范。每个设备通过标准驱动暴露读写命令与机器可读安全限制，经 MCP、CLI 或代码可达、模型无关；试验显示 Claude 操作的激光锁控制器在 700 次定时试验中 99.3% 恢复锁定，物理 AI 集成时间从数周降至数小时，Anthropic 计划与伙伴共建安全评估后开源。",
+     "url": "https://www.anthropic.com/news/model-hardware-standard-research-preview"
     },
     {
      "title": "美司法部调查英伟达与Groq 170亿美元交易，涉嫌规避反垄断审查",
