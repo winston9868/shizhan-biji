@@ -1,5 +1,5 @@
 {
- "updated": "2026年9月16日",
+ "updated": "2026年9月17日",
  "note": "本文件为首页「新闻热点」板块的唯一内容源。自动化任务只更新此文件，然后重跑 build_site.py 即可。每条必须带真实可访问的原文链接，禁止编造 URL。标题必须使用原文真实标题或基于原文核心内容的精准概括，禁止 AI 随意概括。",
  "tabs": [
   {
@@ -10,13 +10,13 @@
    "color": "#10B981",
    "items": [
     {
-     "title": "WorkBuddy 开放平台上线：腾讯把桌面 AI 助手从产品做成生态平台",
-     "desc": "9月上旬腾讯面向第三方开发者、硬件厂商与企业客户开放 WorkBuddy，构建硬件（9款联名语音设备）、行业应用（金融/法务/医疗工作空间）、开发者（Skills/Experts/Connectors API）三层开放能力；据财新与 AIincider 报道，这标志 WorkBuddy 从单点产品转向办公桌面生态平台，目标是把企业工作流锁进自身体系。",
-     "url": "https://aiincider.com/tencent-workbuddy-open-platform-china-agents"
+     "title": "WorkBuddy 下场做实体 AI 办公硬件，从软件订阅跨界制造业",
+     "desc": "9月16日今日头条「止戈见闻」报道，WorkBuddy 不再局限于纯软件订阅，正式推出实体 AI 办公硬件设备（带麦克风、摄像头与专属按键），用物理留存建立用户黏性、抵御套壳同质化带来的低迁移成本困局；文章也直言供应链开模、良品率、库存是真实硬仗。这标志 WorkBuddy 从「桌面 Agent」向「AI 伴随人」的实体入口延伸。",
+     "url": "https://www.toutiao.com/article/7686017421542457865/"
     },
     {
      "title": "WorkBuddy 5.5.6 发布：新增创意设计能力、自动化任务重试优化",
-     "desc": "9月10日WorkBuddy连发 5.5.5 与 5.5.6 两个版本：5.5.5 新增创意设计能力（图片生成、视频生成、品牌设计），后台任务支持查看详情与终端输出、企业微信转发聊天记录可自动读取文档/微盘/日程/待办；5.5.6 优化自动化任务重试（失败后可在当前会话继续、避免重复会话），并提升连接器/专家推荐主动性。",
+     "desc": "9月10日 WorkBuddy 连发 5.5.5 与 5.5.6：5.5.5 新增创意设计（图片/视频/品牌设计生成）、企业微信转发聊天记录可自动读取文档/微盘/日程/待办；5.5.6 优化自动化任务重试（失败后可在当前会话继续、避免重复会话），并提升连接器/专家推荐主动性。",
      "url": "https://www.workbuddy.cn/docs/workbuddy/Changelog"
     },
     {
@@ -39,24 +39,24 @@
    "color": "#07C160",
    "items": [
     {
-     "title": "豆包工作打出「团队Agent」牌，飞书8.0与豆包工作伙伴亮相",
-     "desc": "9月15日2026飞书未来无限大会，飞书8.0完成面向Agent的全平台重构，国内首个团队级智能体「豆包工作伙伴」同步亮相：拥有独立账号、权限与记忆，可像同事一样加入群聊、参会、读写授权文档，AI从个人工具升级为组织级数字同事。文章同时对比 WorkBuddy（打通企微）、千问（嵌入钉钉）三条路径。",
+     "title": "飞书aily与豆包工作深度融合，将按 token 实际消耗大幅降价",
+     "desc": "9月16日极新早报，豆包工作与飞书aily已实现深度融合，未来将完全按实际 token 消耗额度计费，新产品预计大幅降低售卖价格；二者数据与生态互相打通、共用一套账号体系，用户可在豆包工作和飞书互相调用。这延续了字节把飞书团队并入豆包后「组织+入口」一体化的路线。",
+     "url": "https://www.163.com/dy/article/L70VG9H105562DGT.html"
+    },
+    {
+     "title": "豆包大模型2.1 Pro 0915版：强化 Agent 交付与多模态编码",
+     "desc": "9月16日火山引擎宣布豆包大模型2.1 Pro 迎来 0915 版本升级、API 全量上线，重点强化 Agent 任务交付能力（证据溯源、权威信源检索、数据核验以减少幻觉），并增强跨文件长程编程、读懂设计稿与工程图纸转前端代码、视频推理精准定位证据；图像与视频推理 Token 消耗减少 30% 以上。",
+     "url": "https://www.aitop100.cn/ai-daily-2026-09-16"
+    },
+    {
+     "title": "飞书8.0与豆包工作伙伴亮相，国内首个团队级智能体发布",
+     "desc": "9月15日 2026 飞书未来无限大会，飞书8.0完成面向Agent的全平台重构，国内首个团队级智能体「豆包工作伙伴」同步亮相：拥有独立账号、权限与记忆，可像同事一样加入群聊、参会、读写授权文档，AI 从个人工具升级为组织级数字同事；文章同时对比 WorkBuddy（打通企微）、千问（嵌入钉钉）三条路径。",
      "url": "https://www.jiemian.com/article/15102024.html"
-    },
-    {
-     "title": "腾讯、阿里、字节加码办公智能体：企业桌面成了大模型下一战场",
-     "desc": "9月14日东方财富报道，2026年8—9月国内大模型竞争从「聊天榜」切到「办公工作流」：腾讯 WorkBuddy 9/2 上线开放平台引入超百家生态伙伴，阿里「千问办公」30天用户破3000万、企业占比过半，字节把飞书团队并入豆包推出「豆包工作」。三家路径不同但目标一致——抢占「企业默认 AI 工作台」，办公智能体正从「润色总结」走向「拆任务、调系统、交成果」。",
-     "url": "https://caifuhao.eastmoney.com/news/20260914070817553871360"
-    },
-    {
-     "title": "「豆包工作」上新：本地Office无感编辑、浏览器录制回放",
-     "desc": "9月14日北青网报道，字节「豆包工作」推出三项新功能：本地Office支持在豆包界面内直接对话、浏览并同步编辑本地PPT与Excel，无需反复下载上传；本地/云端环境自由切换；浏览器录制与回放让用户录屏演示复杂操作、模型「看中学」沉淀为可复用 Skill。本地文件无感编辑显著降低AI办公使用摩擦。",
-     "url": "https://www.toutiao.com/article/7685161546519003688"
     },
     {
      "title": "AI办公迈入深水区：混合架构与底层开源基建成两大主线",
      "desc": "9月11日每日经济新闻报道，2026年被视为桌面 Agent 规模化落地元年，字节、腾讯、阿里普遍采用「开源底座+自研产品」混合架构快速扩容；腾讯 WorkBuddy 国内 PC 端 AI 原生办公智能体 6 月单月访问量破 2000 万、居市场第一，赛道竞争核心从模型比拼转向底层架构自主权与长期落地能力。",
-     "url": "https://so.html5.qq.com/page/real/search_news?docid=70000021_4526aa4078e33252"
+     "url": "https://www.toutiao.com/article/7684273708638241343/"
     }
    ]
   },
@@ -68,24 +68,24 @@
    "color": "#06B6D4",
    "items": [
     {
-     "title": "阶跃星辰发布语音大模型 StepAudio 3 系列，补齐多模态语音栈",
-     "desc": "9月15日阶跃星辰发布 StepAudio 3 系列，含 Realtime/ASR/TTS/Gen/Music 五款模型，覆盖真人级语音生成、实时语音交互、复杂场景语音理解与音乐创作，意在一次性搭完整语音能力栈、补全自身多模态版图。",
-     "url": "https://www.toutiao.com/article/7685901574245286419/"
+     "title": "阿里Qwen3.8全家桶上线，27B开源版登顶Hugging Face史上最受欢迎",
+     "desc": "9月16—17日掘金科技AI资讯日报，阿里 Qwen3.8 家族上线：旗舰 Max 总参数 2.4 万亿、激活 95B、百万 token 上下文；27B 稠密版以 Apache 2.0 开源，被海外誉为「本地 Opus」，登顶 Hugging Face 历史最受欢迎开源模型，阿里累计开源 460+ 模型、全球下载 30 亿+。",
+     "url": "https://juejin.cn/post/7686040694948167689"
     },
     {
-     "title": "腾讯混元开源4款端侧模型（0.5B–7B，256k上下文）",
-     "desc": "9月16日腾讯混元开源4款端侧模型，参数跨度0.5B–7B、支持256k上下文，采用 Apache 2.0 协议、毫秒级响应，适配 vLLM/TensorRT-LLM 及 Arm/高通/Intel，已落地腾讯会议与微信读书，把大模型能力推向设备端。",
-     "url": "https://juejin.cn/post/7685648064544342062"
+     "title": "讯飞星火语音基座大模型Spark-Audio-1.0-Preview上线，基于全国产算力",
+     "desc": "9月16日极新早报，科大讯飞宣布 Spark-Audio-1.0-Preview 上线，采用 0.65B 音频编码器 + 30B-A3B MoE 大模型，基于纯国产算力集群、1300 万小时音频训练，支持 99 种语言与 202 种方言识别、语音转写/翻译/情感分析/音频问答，多项语音评测接近或超闭源大模型，地道国产语音基座。",
+     "url": "https://www.163.com/dy/article/L70VG9H105562DGT.html"
     },
     {
-     "title": "云知声发布U2-Flash新模型，Token消耗减少30%",
-     "desc": "9月15日界面新闻，云知声正式发布新一代高密度智能模型U2-Flash，采用稀疏混合专家架构，总参数约266B、单次推理激活约10B；DeepSWE v1.1编程榜以64.6分超过GLM5.3-Flash与DeepSeek-V4-Pro，已完成对主流国产算力平台系统性适配，Agent任务迭代步数减20%—30%、Token消耗减20%—30%，推动AI应用端商业化加速。",
-     "url": "https://www.163.com/dy/article/L6S1J60G0534A4SC.html"
+     "title": "蚂蚁开源大模型安全护栏SingProbe Infra，已适配29个主流开源模型",
+     "desc": "9月16日极新早报，蚂蚁 AI 安全实验室开源大模型内生式安全护栏 SingProbe，同步开放代码、模型与评测基准，已适配 29 个主流开源大模型；它像模型内的「安全探头」，在生成回答时同步识别不安全内容与编造风险，实测在 Ling-3.0-flash 解码阶段额外开销低于 0.5%，为开发者提供轻量防护。",
+     "url": "https://www.163.com/dy/article/L70VG9H105562DGT.html"
     },
     {
-     "title": "DeepSeek V4.1 Flash 上线千问平台，国产模型生态融合提速",
-     "desc": "9月14日艾媒网，阿里云宣布DeepSeek-V4.1-Flash正式上线千问AI平台，API服务与Token Plan同步开放，开发者可即刻接入。此次上线标志国产大模型生态进一步融合——DeepSeek借阿里云基础设施拓展渠道，千问平台通过引入第三方模型丰富矩阵，反映国内AI平台从单一模型竞争走向开放生态共建。",
-     "url": "https://www.iimedia.cn/c1088/116860.html"
+     "title": "努比亚NaviX Ultra搭载豆包手机助手上市，AI智能体手机迈入量产",
+     "desc": "9月16日 AITOP100 每日AI资讯，搭载豆包手机助手消费者版的努比亚 NaviX Ultra 正式上市（5999 元起/国补后 5499），标志 AI 智能体手机从工程样机迈入规模化量产；支持全双工语音、随时打断与十余种方言，一句自然语言可自主规划完成数百步、持续数十分钟的长链路操作，并建个人记忆库。",
+     "url": "https://www.aitop100.cn/ai-daily-2026-09-16"
     }
    ]
   },
@@ -97,24 +97,24 @@
    "color": "#A855F7",
    "items": [
     {
-     "title": "OpenAI、Anthropic、谷歌DeepMind联手研究AI安全，无需反垄断豁免",
-     "desc": "9月15日IT之家/彭博报道，OpenAI全球政策主管证实与Anthropic、谷歌围绕AI安全已协调数周，认为无需反垄断豁免即可合作；三方讨论自建标准机构、对模型做测试与审计，背景是Anthropic CEO阿莫迪呼吁放缓前沿AI研发、奥特曼与马斯克表示支持。",
-     "url": "https://www.toutiao.com/article/7685773824364773942/"
+     "title": "Google发布Gemini 3.8 Live双语音模型，语音指数82.6登顶",
+     "desc": "9月16日 ai0.news 日报，Google 推出 Gemini 3.8 Live 与 3.8 Live Extended Thinking 两款实时语音模型，支持端到端实时语音、并行后台推理、97 种语言无缝切换，在 Artificial Analysis 语音对语音质量指数以 82.6% 登顶，对话定价低至 0.84 美元/小时，微弱超越 OpenAI GPT-Live-1 Astra（81.5%）。",
+     "url": "https://ai0.news/posts/2026-09-16-daily-digest"
     },
     {
-     "title": "马斯克倡议AI巨头模型发布前相互交叉测试，推动同行评审",
-     "desc": "9月15日All-In峰会，马斯克提议头部AI公司模型发布前相互开放API、由竞争对手用各自安全工具交叉测试，以发现生武/核武/欺骗等风险，并强调「中国也应参与」；该机制无需等新立法，已有2025年OpenAI×Anthropic联合评估先例。",
-     "url": "https://www.toutiao.com/article/7685912107669324329/"
+     "title": "Anthropic合并Claude Chat与Cowork，新增Docs/Slides收敛为工作台",
+     "desc": "9月17日掘金科技AI资讯日报，Anthropic 将 Chat、Cowork、Artifacts 整合进统一界面，系统自动判断「聊天还是执行」；Claude Docs/Slides 可生成可编辑文档与演示、导出 Word/PPT/PDF，Claude 从问答助手收敛为「工作台」，正与 OpenAI、Google 的 Agent 化路线同频。",
+     "url": "https://juejin.cn/post/7686040694948167689"
     },
     {
-     "title": "四大AI实验室罕见共识：呼吁为前沿AI「定速」并引入第三方审计",
-     "desc": "9月14日The Verge，OpenAI山姆·奥特曼、Anthropic达里奥·阿莫代伊、谷歌DeepMind哈萨比斯、xAI马斯克就放缓前沿AI发展达成松散共识，呼应阿莫代伊《我们必须把控前沿发展节奏》一文，主张引入METR、Apollo、Redwood等第三方审计进驻实验室。协议无强制机制、无时间表、无量化算力上限，被部分批评者指为「安全作秀」以排挤开源与中小对手。",
-     "url": "https://www.theverge.com/ai-artificial-intelligence/995141/ai-executives-politicians-safety-regulation-anthropic-dario-amodei"
+     "title": "OpenAI GPT-6 Sol曝光，OpenRouter付费份额两年来首超Claude",
+     "desc": "9月17日掘金科技AI资讯日报，开发者在 OpenRouter 请求 GPT-5.6 Sol 时返回模型 ID 变为 GPT-6 Sol，定位略低于 Astra、主打极致性价比，瞄准 Claude 统治的编码/Agent 场景；OpenAI 凭「高端卖钱、低端走量」双轨结束 Anthropic 两年半的统治。",
+     "url": "https://juejin.cn/post/7686040694948167689"
     },
     {
-     "title": "特朗普驳斥AI减速论，称数据中心重要性「超过互联网」",
-     "desc": "9月15日财联社，特朗普发文直斥业界安全警告是炒作，称AI所需唯一护栏是「一位强悍而聪明的总统」，并将数据中心比作「未来二三十年的石油」、重要性超过互联网；副总统万斯称AI公司主动求监管像「特洛伊木马」，黄仁勋当场表态「不会让（AI放缓）发生」，两党在AI监管路径上的裂痕加深。",
-     "url": "https://news.qq.com/rain/a/20260915A039GK00"
+     "title": "Salesforce与NVIDIA联合发布Koa推理模型，直指前沿实验室企业收入",
+     "desc": "9月16日 ai0.news 日报，Salesforce 与 NVIDIA 联合发布 Koa——基于 NVIDIA 开放权重 Nemotron、面向销售/营销/客服微调的推理模型，主打不摄取客户数据、低 Token 消耗、内置合规、不依赖 Claude 或 GPT，被视为对前沿实验室企业营收的直接侵蚀。",
+     "url": "https://ai0.news/posts/2026-09-16-daily-digest"
     }
    ]
   }
